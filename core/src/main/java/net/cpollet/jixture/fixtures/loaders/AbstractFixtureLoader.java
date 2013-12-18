@@ -26,6 +26,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -76,7 +77,21 @@ public abstract class AbstractFixtureLoader<T extends Fixture> implements Fixtur
 		return transactionTemplates.get(mode);
 	}
 
-	protected interface Executable {
-		void execute();
+	protected abstract class Executable {
+		public abstract void execute();
+
+		protected void deleteEntitiesOfClass(Iterator<Class> it) {
+			while (it.hasNext()) {
+				Class clazz = it.next();
+				logger.info("Deleting {}", clazz.getName());
+				unitDaoFactory.getUnitDao().deleteAll(clazz);
+			}
+		}
+
+		protected void saveEntities(Iterator<?> it) {
+			while (it.hasNext()) {
+				unitDaoFactory.getUnitDao().save(it.next());
+			}
+		}
 	}
 }

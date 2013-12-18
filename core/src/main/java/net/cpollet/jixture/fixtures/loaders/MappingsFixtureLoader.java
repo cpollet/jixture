@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
@@ -47,24 +46,8 @@ public class MappingsFixtureLoader extends AbstractFixtureLoader<MappingFixture>
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {
-				deleteEntities();
-				saveEntities();
-			}
-
-			private void deleteEntities() {
-				Iterator<Class> it = getClassesToDelete(mappingFixture).descendingIterator();
-
-				while (it.hasNext()) {
-					Class clazz = it.next();
-					logger.info("Deleting {}", clazz.getName());
-					unitDaoFactory.getUnitDao().deleteAll(clazz);
-				}
-			}
-
-			private void saveEntities() {
-				for (final Object object : mappingFixture.getObjects()) {
-					unitDaoFactory.getUnitDao().save(object);
-				}
+				deleteEntitiesOfClass(getClassesToDelete(mappingFixture).descendingIterator());
+				saveEntities(mappingFixture.getObjects().iterator());
 			}
 		});
 	}

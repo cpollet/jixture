@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Christophe Pollet
@@ -48,24 +49,18 @@ public class SpringFixtureLoader extends AbstractFixtureLoader<SpringFixture> {
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {
-				deleteEntities();
+				deleteEntitiesOfClass(getClassesToDelete(springFixture).descendingIterator());
 				saveEntities();
-			}
-
-			private void deleteEntities() {
-				Iterator<Class> it = getClassesToDelete(springFixture).descendingIterator();
-
-				while (it.hasNext()) {
-					Class clazz = it.next();
-					logger.info("Deleting {}", clazz.getName());
-					unitDaoFactory.getUnitDao().deleteAll(clazz);
-				}
 			}
 
 			private void saveEntities() {
 				for (Class<?> clazz : springFixture.getClasses()) {
 					saveBeansOfClass(context, clazz);
 				}
+			}
+
+			private void saveBeansOfClass(ApplicationContext context, Class<?> clazz) {
+				super.saveEntities(context.getBeansOfType(clazz).values().iterator());
 			}
 		});
 	}
@@ -80,12 +75,6 @@ public class SpringFixtureLoader extends AbstractFixtureLoader<SpringFixture> {
 		}
 		catch (Exception e) {
 			throw ExceptionUtils.wrapInRuntimeException(e);
-		}
-	}
-
-	private void saveBeansOfClass(ApplicationContext context, Class<?> clazz) {
-		for (Object object : context.getBeansOfType(clazz).values()) {
-			unitDaoFactory.getUnitDao().save(object);
 		}
 	}
 }
