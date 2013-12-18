@@ -26,7 +26,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
-import java.security.InvalidParameterException;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,7 +58,7 @@ public abstract class AbstractFixtureLoader<T extends Fixture> implements Fixtur
 
 	protected T assertCanLoadAndCast(Fixture fixture) {
 		if (!canLoad(fixture)) {
-			throw new InvalidParameterException("Unable to load fixture of type " + fixture.getClass());
+			throw new IllegalArgumentException("Unable to load fixture of type " + fixture.getClass());
 		}
 
 		return (T) fixture;
