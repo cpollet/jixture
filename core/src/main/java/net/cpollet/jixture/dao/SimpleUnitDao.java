@@ -23,6 +23,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Christophe Pollet
+ */
 public class SimpleUnitDao implements UnitDao {
 	private Session session;
 

@@ -19,6 +19,9 @@ package net.cpollet.jixture.fixtures;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Christophe Pollet
+ */
 public class SpringFixture implements Fixture {
 	String context;
 	List<Class<?>> classes;

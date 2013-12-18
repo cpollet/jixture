@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.loaders;
 
-import java.util.Arrays;
-import java.util.List;
+import net.cpollet.jixture.fixtures.Fixture;
 
 /**
  * @author Christophe Pollet
  */
-public class MappingFixture implements Fixture {
-	List<Object> objects;
-
-	public MappingFixture(Object... objects) {
-		this.objects = Arrays.asList(objects);
+public interface FixtureLoader {
+	enum Mode {
+		COMMIT, NO_COMMIT
 	}
 
-	public List<Object> getObjects() {
-		return objects;
-	}
+	Class<? extends Fixture> getLoadableFixture();
 
+	boolean canLoad(Fixture fixture);
+
+	void load(Fixture fixture, Mode mode);
+
+	void reset();
 }
