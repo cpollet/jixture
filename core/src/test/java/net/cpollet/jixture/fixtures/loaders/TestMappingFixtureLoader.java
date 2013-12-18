@@ -72,7 +72,7 @@ public class TestMappingFixtureLoader extends AbstractTestFixtureLoader {
 
 		// WHEN
 		InOrder inOrder = Mockito.inOrder(unitDao);
-		inOrder.verify(unitDao).deleteAll(user.getClass());
+		inOrder.verify(unitDao).deleteAll(User.class);
 		inOrder.verify(unitDao).save(user);
 	}
 }

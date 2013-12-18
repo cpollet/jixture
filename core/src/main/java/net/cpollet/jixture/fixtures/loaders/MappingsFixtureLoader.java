@@ -51,17 +51,19 @@ public class MappingsFixtureLoader extends AbstractFixtureLoader<MappingFixture>
 				saveEntities();
 			}
 
-			private void saveEntities() {
-				for (final Object object : mappingFixture.getObjects()) {
-					unitDaoFactory.getUnitDao().save(object);
-				}
-			}
-
 			private void deleteEntities() {
 				Iterator<Class> it = getClassesToDelete(mappingFixture).descendingIterator();
 
 				while (it.hasNext()) {
-					unitDaoFactory.getUnitDao().deleteAll(it.next());
+					Class clazz = it.next();
+					logger.info("Deleting {}", clazz.getName());
+					unitDaoFactory.getUnitDao().deleteAll(clazz);
+				}
+			}
+
+			private void saveEntities() {
+				for (final Object object : mappingFixture.getObjects()) {
+					unitDaoFactory.getUnitDao().save(object);
 				}
 			}
 		});

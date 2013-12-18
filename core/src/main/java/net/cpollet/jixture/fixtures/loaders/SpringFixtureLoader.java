@@ -25,6 +25,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 /**
  * @author Christophe Pollet
  */
@@ -45,12 +48,30 @@ public class SpringFixtureLoader extends AbstractFixtureLoader<SpringFixture> {
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {
+				deleteEntities();
+				saveEntities();
+			}
+
+			private void deleteEntities() {
+				Iterator<Class> it = getClassesToDelete(springFixture).descendingIterator();
+
+				while (it.hasNext()) {
+					Class clazz = it.next();
+					logger.info("Deleting {}", clazz.getName());
+					unitDaoFactory.getUnitDao().deleteAll(clazz);
+				}
+			}
+
+			private void saveEntities() {
 				for (Class<?> clazz : springFixture.getClasses()) {
-					cleanEntityIfNeeded(clazz);
 					saveBeansOfClass(context, clazz);
 				}
 			}
 		});
+	}
+
+	private LinkedList<Class> getClassesToDelete(SpringFixture springFixture) {
+		return new LinkedList<Class>(springFixture.getClasses());
 	}
 
 	private ApplicationContext getApplicationContext(SpringFixture springFixture) {

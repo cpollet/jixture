@@ -44,13 +44,6 @@ public abstract class AbstractFixtureLoader<T extends Fixture> implements Fixtur
 	@Resource(name = "transactionTemplatesByMode")
 	private Map<Class, TransactionTemplate> transactionTemplates;
 
-	protected void cleanEntityIfNeeded(Class clazz) {
-		logger.info("Destroying entities of class " + clazz.getName());
-
-		unitDaoFactory.getUnitDao().deleteAll(clazz);
-		cleanedEntities.add(clazz);
-	}
-
 	@Override
 	public boolean canLoad(Fixture fixture) {
 		return getLoadableFixture().isAssignableFrom(fixture.getClass());
