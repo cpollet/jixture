@@ -46,13 +46,21 @@ public class User {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		User user = (User) o;
 
-		if (password != null ? !password.equals(user.password) : user.password != null) return false;
-		if (username != null ? !username.equals(user.username) : user.username != null) return false;
+		if (password != null ? !password.equals(user.password) : user.password != null) {
+			return false;
+		}
+		if (username != null ? !username.equals(user.username) : user.username != null) {
+			return false;
+		}
 
 		return true;
 	}

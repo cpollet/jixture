@@ -57,7 +57,8 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 			for (String className : classNames) {
 				try {
 					annotatedClasses.add(getClass().getClassLoader().loadClass(className));
-				} catch (ClassNotFoundException e) {
+				}
+				catch (ClassNotFoundException e) {
 					ExceptionUtils.wrapInRuntimeException(e);
 				}
 			}
@@ -106,8 +107,8 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		Field field = fieldByTableAndColumnName.get(formatColumnName(tableName, columnName));
 
 		if (field == null) {
-			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "
-					+ getMappingByTableName(tableName).getName() + " for " + tableName) ;
+			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "//
+					+ getMappingByTableName(tableName).getName() + " for " + tableName);
 		}
 
 		return field;
@@ -171,7 +172,8 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	private BeanInfo getBeanInfo(Field field) {
 		try {
 			return Introspector.getBeanInfo(field.getDeclaringClass());
-		} catch (IntrospectionException e) {
+		}
+		catch (IntrospectionException e) {
 			throw ExceptionUtils.wrapInRuntimeException(e);
 		}
 	}

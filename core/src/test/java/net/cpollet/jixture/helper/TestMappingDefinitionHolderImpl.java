@@ -19,7 +19,6 @@ package net.cpollet.jixture.helper;
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
-
 import net.cpollet.jixture.tests.mappings.Client;
 import net.cpollet.jixture.tests.mappings.User;
 import net.cpollet.jixture.utils.ExceptionUtils;
@@ -68,7 +67,8 @@ public class TestMappingDefinitionHolderImpl {
 
 		try {
 			mappingDefinitionHolder.afterPropertiesSet();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			ExceptionUtils.wrapInRuntimeException(e);
 		}
 	}
@@ -83,18 +83,17 @@ public class TestMappingDefinitionHolderImpl {
 		Collection<Class> mappings = mappingDefinitionHolder.getMappings();
 
 		// THEN
-		assertThat(mappings)
-				.hasSize(1)
+		assertThat(mappings)//
+				.hasSize(1)//
 				.contains(User.class);
 	}
 
 	@Test
 	public void getMappingByTableNameReturnsCorrectMappingClass() {
 		// GIVEN
-		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(
-				User.class.getName(),
-				Client.class.getName()
-		));
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName(),//
+				Client.class.getName()));
 		setProperties();
 
 		// WHEN
@@ -121,10 +120,9 @@ public class TestMappingDefinitionHolderImpl {
 	@Test
 	public void getFieldByTableAndColumnNamesReturnsCorrectFieldWhenAnnotationOnAttribute() throws NoSuchFieldException {
 		// GIVEN
-		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(
-				User.class.getName(),
-				Client.class.getName()
-		));
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName(),//
+				Client.class.getName()));
 		setProperties();
 
 		// WHEN
@@ -137,10 +135,9 @@ public class TestMappingDefinitionHolderImpl {
 	@Test
 	public void getFieldByTableAndColumnNamesReturnsCorrectFieldWhenAnnotationOnGetter() throws NoSuchFieldException {
 		// GIVEN
-		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(
-				User.class.getName(),
-				Client.class.getName()
-		));
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName(),//
+				Client.class.getName()));
 		setProperties();
 
 		// WHEN
@@ -153,10 +150,9 @@ public class TestMappingDefinitionHolderImpl {
 	@Test
 	public void getFieldByTableAndColumnNamesReturnsCorrectFieldWhenNoAnnotation() throws NoSuchFieldException {
 		// GIVEN
-		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(
-				User.class.getName(),
-				Client.class.getName()
-		));
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName(),//
+				Client.class.getName()));
 		setProperties();
 
 		// WHEN
@@ -182,10 +178,9 @@ public class TestMappingDefinitionHolderImpl {
 	@Test
 	public void getFieldByTableAndColumnNamesThrowsExceptionWhenFieldNotFound() {
 		// GIVEN
-		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(
-				User.class.getName(),
-				Client.class.getName()
-		));
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName(),//
+				Client.class.getName()));
 		setProperties();
 
 		// THEN

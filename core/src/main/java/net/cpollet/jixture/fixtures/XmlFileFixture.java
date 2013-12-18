@@ -34,7 +34,8 @@ public class XmlFileFixture implements TransformableFixture {
 	public XmlFileFixture(String filePath, FixtureTransformer fixtureTransformer) {
 		if (filePath.startsWith(CLASSPATH_MARKER)) {
 			fileInputStream = openFileFromClasspath(filePath);
-		} else {
+		}
+		else {
 			fileInputStream = openFileFromPath(filePath);
 		}
 
@@ -44,7 +45,8 @@ public class XmlFileFixture implements TransformableFixture {
 	private InputStream openFileFromPath(String filePath) {
 		try {
 			return new FileInputStream(filePath);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			throw ExceptionUtils.wrapInRuntimeException(e);
 		}
 	}

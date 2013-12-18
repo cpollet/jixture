@@ -54,14 +54,13 @@ public class TestXmlFileToMappingFixtureTransformer {
 		GenericConversionService genericConversionService = new GenericConversionService();
 
 		genericConversionService.addConverter(new Converter<String, Integer>() {
-				public Integer convert(String source) {
-					if (source.length() == 0) {
-						return null;
-					}
-					return NumberUtils.parseNumber(source, Integer.class);
+			public Integer convert(String source) {
+				if (source.length() == 0) {
+					return null;
 				}
+				return NumberUtils.parseNumber(source, Integer.class);
 			}
-		);
+		});
 
 		Mockito.when(conversionServiceFactoryBean.getObject()).thenReturn(genericConversionService);
 	}
@@ -79,15 +78,12 @@ public class TestXmlFileToMappingFixtureTransformer {
 		Fixture transformedFixture = xmlFileToMappingFixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
-		assertThat(transformedFixture)
-				.isInstanceOf(MappingFixture.class);
+		assertThat(transformedFixture).isInstanceOf(MappingFixture.class);
 
 		MappingFixture mappingFixture = (MappingFixture) transformedFixture;
 
-		assertThat(mappingFixture.getObjects())
-				.hasSize(1);
-		assertThat(mappingFixture.getObjects().get(0))
-				.isInstanceOf(User.class);
+		assertThat(mappingFixture.getObjects()).hasSize(1);
+		assertThat(mappingFixture.getObjects().get(0)).isInstanceOf(User.class);
 
 		User actualUser = (User) mappingFixture.getObjects().get(0);
 

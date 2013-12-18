@@ -54,8 +54,8 @@ public class TestSpringFixture {
 		List<Class<?>> classList = springFixture.getClasses();
 
 		// THEN
-		assertThat(classList)
-				.hasSize(2)
+		assertThat(classList)//
+				.hasSize(2)//
 				.containsSequence(String.class, Integer.class);
 	}
 
@@ -68,8 +68,8 @@ public class TestSpringFixture {
 		List<Class<?>> classList = springFixture.getClasses();
 
 		// THEN
-		assertThat(classList)
-				.hasSize(2)
+		assertThat(classList)//
+				.hasSize(2)//
 				.containsSequence(String.class, Integer.class);
 	}
 }

@@ -129,8 +129,8 @@ public class TestUnitDaoFactory {
 	@Test
 	public void getUnitDaoReturnsAUnitDaoContainingAnOpen() throws Exception {
 		// GIVEN
-		Mockito.when(sessionFactory.getCurrentSession())
-				.thenReturn(session1)
+		Mockito.when(sessionFactory.getCurrentSession())//
+				.thenReturn(session1)//
 				.thenReturn(session2);
 
 		Mockito.when(session1.isOpen()).thenReturn(false);

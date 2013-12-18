@@ -61,9 +61,9 @@ public class UnitDaoFactory implements InitializingBean {
 		Assert.notNull(transactionManager, "transactionManager must be set");
 
 		if (unitDao == null) {
-			logger.info("No {} instance provided, will create one instance of {} for you", new String[] {
-				UnitDao.class.getName(), SimpleUnitDao.class.getName()
-			});
+			logger.info("No {} instance provided, will create one instance of {} for you", new String[]{//
+					UnitDao.class.getName(),//
+					SimpleUnitDao.class.getName()});
 			unitDao = new SimpleUnitDao();
 		}
 	}

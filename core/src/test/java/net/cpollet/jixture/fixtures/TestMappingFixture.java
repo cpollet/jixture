@@ -37,8 +37,8 @@ public class TestMappingFixture {
 
 		// THEN
 		List<Object> fixtures = mappingFixture.getObjects();
-		assertThat(fixtures)
-				.hasSize(2)
+		assertThat(fixtures)//
+				.hasSize(2)//
 				.containsSequence(fixture1, fixture2);
 	}
 }

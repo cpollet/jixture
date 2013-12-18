@@ -63,7 +63,8 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 
 		try {
 			parser.parse(inputStream, handler);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw ExceptionUtils.wrapInRuntimeException(e);
 		}
 
@@ -71,10 +72,11 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 	}
 
 	private SAXParser createSaxParser() {
-			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 		try {
 			return parserFactor.newSAXParser();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw ExceptionUtils.wrapInRuntimeException(e);
 		}
 	}
@@ -117,7 +119,8 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 		private Object createInstanceOfClass(Class type) {
 			try {
 				return type.newInstance();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw ExceptionUtils.wrapInRuntimeException(e);
 			}
 		}
@@ -139,7 +142,8 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 				field.setAccessible(true);
 				field.set(currentObject, fieldValue);
 				field.setAccessible(false);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw ExceptionUtils.wrapInRuntimeException(e);
 			}
 		}

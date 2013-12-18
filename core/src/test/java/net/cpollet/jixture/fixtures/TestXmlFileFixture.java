@@ -88,7 +88,8 @@ public class TestXmlFileFixture {
 	@Test
 	public void getTransformedFixtureReturnsTransformedFixture() {
 		// GIVEN
-		Fixture expectedTransformedFixture = new Fixture() {};
+		Fixture expectedTransformedFixture = new Fixture() {
+		};
 
 		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/spring-fixture.xml", fixtureTransformer);
 		Mockito.when(fixtureTransformer.transform(xmlFileFixture)).thenReturn(expectedTransformedFixture);

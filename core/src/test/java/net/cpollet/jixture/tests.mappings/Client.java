@@ -33,12 +33,18 @@ public class Client {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Client client = (Client) o;
 
-		if (name != null ? !name.equals(client.name) : client.name != null) return false;
+		if (name != null ? !name.equals(client.name) : client.name != null) {
+			return false;
+		}
 
 		return true;
 	}
