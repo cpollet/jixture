@@ -19,8 +19,9 @@ package net.cpollet.jixture.fixtures.transformers;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
+import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
-import net.cpollet.jixture.tests.mappings.User;
+import net.cpollet.jixture.tests.mappings.CartEntry;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,9 +71,15 @@ public class TestXmlFileToMappingFixtureTransformer {
 		// GIVEN
 		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml", null);
 
-		Mockito.when(mappingDefinitionHolder.getMappingByTableName("users")).thenReturn(User.class);
-		Mockito.when(mappingDefinitionHolder.getFieldByTableAndColumnNames("users", "username")).thenReturn(User.class.getDeclaredField("username"));
-		Mockito.when(mappingDefinitionHolder.getFieldByTableAndColumnNames("users", "connections_count")).thenReturn(User.class.getDeclaredField("connectionsCount"));
+		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("cart_entry")).thenReturn(CartEntry.class);
+
+		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "client_id"))//
+				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("pk"), CartEntry.CartEntryPk.class.getDeclaredField("clientId")));
+		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "product_id"))//
+				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("pk"), CartEntry.CartEntryPk.class.getDeclaredField("productId")));
+		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "count"))//
+				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("count")));
+
 
 		// WHEN
 		Fixture transformedFixture = xmlFileToMappingFixtureTransformer.transform(xmlFileFixture);
@@ -83,14 +90,16 @@ public class TestXmlFileToMappingFixtureTransformer {
 		MappingFixture mappingFixture = (MappingFixture) transformedFixture;
 
 		assertThat(mappingFixture.getObjects()).hasSize(1);
-		assertThat(mappingFixture.getObjects().get(0)).isInstanceOf(User.class);
+		assertThat(mappingFixture.getObjects().get(0)).isInstanceOf(CartEntry.class);
 
-		User actualUser = (User) mappingFixture.getObjects().get(0);
+		CartEntry actualCartEntry = (CartEntry) mappingFixture.getObjects().get(0);
 
-		User expectedUser = new User();
-		expectedUser.setUsername("username");
-		expectedUser.setConnectionsCount(1);
+		CartEntry expectedCartEntry = new CartEntry();
+		expectedCartEntry.setPk(new CartEntry.CartEntryPk());
+		expectedCartEntry.getPk().setClientId(1);
+		expectedCartEntry.getPk().setProductId(2);
+		expectedCartEntry.setCount(10);
 
-		assertThat(actualUser).isEqualTo(expectedUser);
+		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
 	}
 }

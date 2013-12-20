@@ -16,16 +16,15 @@
 
 package net.cpollet.jixture.helper;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 
 /**
  * @author Christophe Pollet
  */
 public interface MappingDefinitionHolder {
-	Collection<Class> getMappings();
+	Collection<Class> getMappingClasses();
 
-	Field getFieldByTableAndColumnNames(String tableName, String columnName);
+	MappingField getMappingFieldByTableAndColumnNames(String tableName, String columnName);
 
-	Class getMappingByTableName(String tableName);
+	Class getMappingClassByTableName(String tableName);
 }

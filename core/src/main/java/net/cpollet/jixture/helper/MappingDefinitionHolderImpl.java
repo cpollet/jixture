@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Table;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -46,10 +47,10 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 
 	public Collection<Class> annotatedClasses;
 	private Map<String, Class> classByTableName;
-	private Map<String, Field> fieldByTableAndColumnName;
+	private Map<String, MappingField> fieldByTableAndColumnName;
 
 	@Override
-	public Collection<Class> getMappings() {
+	public Collection<Class> getMappingClasses() {
 		if (annotatedClasses == null) {
 			Set<String> classNames = unitDaoFactory.getUnitDao().getKnownMappings();
 			annotatedClasses = new ArrayList<Class>(classNames.size());
@@ -68,7 +69,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	@Override
-	public Class getMappingByTableName(String tableName) {
+	public Class getMappingClassByTableName(String tableName) {
 		initMappingsIfNeeded();
 
 		Class result = classByTableName.get(tableName);
@@ -86,9 +87,9 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		}
 
 		classByTableName = new HashMap<String, Class>();
-		fieldByTableAndColumnName = new HashMap<String, Field>();
+		fieldByTableAndColumnName = new HashMap<String, MappingField>();
 
-		for (Class mapping : getMappings()) {
+		for (Class mapping : getMappingClasses()) {
 			String tableName = getLowercaseTableNameFromMapping(mapping);
 			classByTableName.put(tableName, mapping);
 
@@ -101,17 +102,17 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	@Override
-	public Field getFieldByTableAndColumnNames(String tableName, String columnName) {
+	public MappingField getMappingFieldByTableAndColumnNames(String tableName, String columnName) {
 		initMappingsIfNeeded();
 
-		Field field = fieldByTableAndColumnName.get(formatColumnName(tableName, columnName));
+		MappingField mappingField = fieldByTableAndColumnName.get(formatColumnName(tableName, columnName));
 
-		if (field == null) {
+		if (mappingField == null) {
 			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "//
-					+ getMappingByTableName(tableName).getName() + " for " + tableName);
+					+ getMappingClassByTableName(tableName).getName() + " for " + tableName);
 		}
 
-		return field;
+		return mappingField;
 	}
 
 	@Override
@@ -130,7 +131,10 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 			String columnName = getLowercaseColumnNameFromMapping(field);
 
 			if (columnName != null) {
-				fieldByTableAndColumnName.put(formatColumnName(tableName, columnName), field);
+				fieldByTableAndColumnName.put(formatColumnName(tableName, columnName), new MappingField(field));
+			}
+			else {
+				createColumnToEmbeddedFieldMapping(tableName, field);
 			}
 		}
 	}
@@ -143,7 +147,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		Column column = field.getAnnotation(Column.class);
 
 		if (column == null) {
-			column = getColumnFromGetter(field, column);
+			column = getColumnFromGetter(field);
 		}
 
 		if (column == null) {
@@ -157,7 +161,18 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		return column.name().toLowerCase();
 	}
 
-	private Column getColumnFromGetter(Field field, Column column) {
+	private void createColumnToEmbeddedFieldMapping(String tableName, Field field) {
+		EmbeddedId embeddedId = field.getAnnotation(EmbeddedId.class);
+
+		if (embeddedId != null) {
+			for (Field embeddedField : field.getType().getDeclaredFields()) {
+				String embeddedColumnName = getLowercaseColumnNameFromMapping(embeddedField);
+				fieldByTableAndColumnName.put(formatColumnName(tableName, embeddedColumnName), new MappingField(field, embeddedField));
+			}
+		}
+	}
+
+	private Column getColumnFromGetter(Field field) {
 		BeanInfo beanInfo = getBeanInfo(field);
 
 		for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {

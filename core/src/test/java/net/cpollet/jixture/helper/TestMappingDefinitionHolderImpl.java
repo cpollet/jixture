@@ -19,6 +19,7 @@ package net.cpollet.jixture.helper;
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.tests.mappings.CartEntry;
 import net.cpollet.jixture.tests.mappings.Client;
 import net.cpollet.jixture.tests.mappings.User;
 import net.cpollet.jixture.utils.ExceptionUtils;
@@ -32,7 +33,6 @@ import org.mockito.Mockito;
 import org.mockito.internal.util.collections.Sets;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -80,7 +80,7 @@ public class TestMappingDefinitionHolderImpl {
 		setProperties();
 
 		// WHEN
-		Collection<Class> mappings = mappingDefinitionHolder.getMappings();
+		Collection<Class> mappings = mappingDefinitionHolder.getMappingClasses();
 
 		// THEN
 		assertThat(mappings)//
@@ -97,7 +97,7 @@ public class TestMappingDefinitionHolderImpl {
 		setProperties();
 
 		// WHEN
-		Class mapping = mappingDefinitionHolder.getMappingByTableName("clients");
+		Class mapping = mappingDefinitionHolder.getMappingClassByTableName("clients");
 
 		// THEN
 		assertThat(mapping).isEqualTo(Client.class);
@@ -114,7 +114,7 @@ public class TestMappingDefinitionHolderImpl {
 		exception.expectMessage("Mapping for table clients not found");
 
 		// WHEN
-		mappingDefinitionHolder.getMappingByTableName("clients");
+		mappingDefinitionHolder.getMappingClassByTableName("clients");
 	}
 
 	@Test
@@ -126,10 +126,10 @@ public class TestMappingDefinitionHolderImpl {
 		setProperties();
 
 		// WHEN
-		Field field = mappingDefinitionHolder.getFieldByTableAndColumnNames("users", "username");
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("users", "username");
 
 		// THEN
-		assertThat(field).isEqualTo(User.class.getDeclaredField("username"));
+		assertThat(mappingField.getField()).isEqualTo(User.class.getDeclaredField("username"));
 	}
 
 	@Test
@@ -141,10 +141,10 @@ public class TestMappingDefinitionHolderImpl {
 		setProperties();
 
 		// WHEN
-		Field field = mappingDefinitionHolder.getFieldByTableAndColumnNames("clients", "name");
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("clients", "name");
 
 		// THEN
-		assertThat(field).isEqualTo(Client.class.getDeclaredField("name"));
+		assertThat(mappingField.getField()).isEqualTo(Client.class.getDeclaredField("name"));
 	}
 
 	@Test
@@ -156,10 +156,53 @@ public class TestMappingDefinitionHolderImpl {
 		setProperties();
 
 		// WHEN
-		Field field = mappingDefinitionHolder.getFieldByTableAndColumnNames("users", "password");
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("users", "password");
 
 		// THEN
-		assertThat(field).isEqualTo(User.class.getDeclaredField("password"));
+		assertThat(mappingField.getField()).isEqualTo(User.class.getDeclaredField("password"));
+	}
+
+	@Test
+	public void getFieldByTableAndColumnNameOnNonEmbeddedReturnsANonEmbeddedAttribute() {
+		// GIVEN
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName()));
+		setProperties();
+
+		// WHEN
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("users", "username");
+
+		// THEN
+		assertThat(mappingField.isEmbedded()).isFalse();
+	}
+
+	@Test
+	public void getFieldByTableAndColumnNameOfEmbeddedIdReturnsAnEmbeddedAttribute() {
+		// GIVEN
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				CartEntry.class.getName()));
+		setProperties();
+
+		// WHEN
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "client_id");
+
+		// THEN
+		assertThat(mappingField.isEmbedded()).isTrue();
+	}
+
+	@Test
+	public void getFieldByTableAndColumnNameOfEmbeddedIdReturnsAnAttributeContainingBothEmbeddableAndField() throws NoSuchFieldException {
+		// GIVEN
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				CartEntry.class.getName()));
+		setProperties();
+
+		// WHEN
+		MappingField mappingField = mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "client_id");
+
+		// THEN
+		assertThat(mappingField.getField()).isEqualTo(CartEntry.class.getDeclaredField("pk"));
+		assertThat(mappingField.getEmbeddableField()).isEqualTo(CartEntry.CartEntryPk.class.getDeclaredField("clientId"));
 	}
 
 	@Test
@@ -172,7 +215,7 @@ public class TestMappingDefinitionHolderImpl {
 		exception.expectMessage("Mapping for table clients not found");
 
 		// WHEN
-		mappingDefinitionHolder.getFieldByTableAndColumnNames("clients", "name");
+		mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("clients", "name");
 	}
 
 	@Test
@@ -188,6 +231,6 @@ public class TestMappingDefinitionHolderImpl {
 		exception.expectMessage("Column birthdate not mapped in mapping class " + Client.class.getName() + " for clients");
 
 		// WHEN
-		mappingDefinitionHolder.getFieldByTableAndColumnNames("clients", "birthdate");
+		mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("clients", "birthdate");
 	}
 }

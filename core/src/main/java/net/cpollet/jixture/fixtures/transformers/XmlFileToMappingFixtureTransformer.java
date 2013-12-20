@@ -20,6 +20,7 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.FixtureTransformer;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
+import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.utils.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,11 +110,45 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 
 			for (int i = 0; i < attributes.getLength(); i++) {
 				String xmlColumnName = attributes.getQName(i);
-				Field field = getFieldForTableAndColumn(xmlTableName, xmlColumnName);
 
-				Object fieldValue = convertValueToFieldType(attributes.getValue(i), field);
-				setFieldValue(field, fieldValue);
+				MappingField mappingField = getMappingFieldForTableAndColumn(xmlTableName, xmlColumnName);
+
+				if (mappingField.isEmbedded()) {
+					handleEmbeddedAttribute(mappingField, attributes.getValue(i));
+				}
+				else {
+					handleAttribute(mappingField, attributes.getValue(i));
+				}
 			}
+		}
+
+		private void handleAttribute(MappingField mappingField, Object value) {
+			Field field = mappingField.getField();
+
+			Object fieldValue = convertValueToFieldType(value, field);
+
+			setFieldValue(currentObject, field, fieldValue);
+		}
+
+		private void handleEmbeddedAttribute(MappingField mappingField, Object value) {
+			Field field = mappingField.getField();
+			Field embeddedField = mappingField.getEmbeddableField();
+
+			Object fieldValue = convertValueToFieldType(value, embeddedField);
+			Object embeddedFieldValue = getEmbeddedFieldValue(currentObject, field);
+
+			setFieldValue(embeddedFieldValue, embeddedField, fieldValue);
+		}
+
+		private Object getEmbeddedFieldValue(Object object, Field field) {
+			Object value = getFieldValue(object, field);
+
+			if (value == null) {
+				value = createInstanceOfClass(field.getType());
+				setFieldValue(object, field, value);
+			}
+
+			return value;
 		}
 
 		private Object createInstanceOfClass(Class type) {
@@ -126,25 +161,42 @@ public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<Xm
 		}
 
 		private Class getMappingClassForTable(String tableName) {
-			return mappingDefinitionHolder.getMappingByTableName(tableName.toLowerCase());
+			return mappingDefinitionHolder.getMappingClassByTableName(tableName.toLowerCase());
 		}
 
-		private Field getFieldForTableAndColumn(String xmlLowercaseTableName, String xmlLowercaseColumnName) {
-			return mappingDefinitionHolder.getFieldByTableAndColumnNames(xmlLowercaseTableName.toLowerCase(), xmlLowercaseColumnName.toLowerCase());
+		private MappingField getMappingFieldForTableAndColumn(String xmlLowercaseTableName, String xmlLowercaseColumnName) {
+			return mappingDefinitionHolder.getMappingFieldByTableAndColumnNames(xmlLowercaseTableName.toLowerCase(), xmlLowercaseColumnName.toLowerCase());
 		}
 
 		private Object convertValueToFieldType(Object value, Field field) {
 			return conversionService.convert(value, field.getType());
 		}
 
-		private void setFieldValue(Field field, Object fieldValue) {
+		private void setFieldValue(Object object, Field field, Object fieldValue) {
+			field.setAccessible(true);
+
 			try {
-				field.setAccessible(true);
-				field.set(currentObject, fieldValue);
-				field.setAccessible(false);
+				field.set(object, fieldValue);
 			}
 			catch (Exception e) {
 				throw ExceptionUtils.wrapInRuntimeException(e);
+			}
+			finally {
+				field.setAccessible(false);
+			}
+		}
+
+		private Object getFieldValue(Object object, Field field) {
+			field.setAccessible(true);
+
+			try {
+				return field.get(object);
+			}
+			catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				field.setAccessible(false);
 			}
 		}
 
