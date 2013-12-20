@@ -25,9 +25,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Christophe Pollet
