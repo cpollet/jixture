@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public class SpringFixture implements Fixture {
+public class SpringFixture implements TransformableFixture {
 	String context;
 	List<Class<?>> classes;
 
@@ -43,5 +43,4 @@ public class SpringFixture implements Fixture {
 	public List<Class<?>> getClasses() {
 		return classes;
 	}
-
 }

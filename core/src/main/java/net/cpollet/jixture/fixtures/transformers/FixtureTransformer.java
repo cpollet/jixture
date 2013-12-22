@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.loaders;
+package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.TransformableFixture;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Christophe Pollet
  */
-@Component
-public class TransformableFixtureLoader extends AbstractFixtureLoader<TransformableFixture> implements FixtureLoader {
-	@Autowired
-	FixtureLoaderChain fixtureLoaderChain;
+public interface FixtureTransformer<From> {
+	Class getFromType();
 
-	@Override
-	public Class<? extends Fixture> getLoadableFixture() {
-		return TransformableFixture.class;
-	}
-
-	@Override
-	public void load(Fixture fixture, Mode mode) {
-		fixtureLoaderChain.load(assertCanLoadAndCast(fixture).getTransformedFixture(), mode);
-	}
+	Fixture transform(From fixture);
 }

@@ -18,7 +18,7 @@ package net.cpollet.jixture.support;
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.loaders.FixtureLoaderChain;
+import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public interface DatabaseTestSupport {
 
 	Collection<Fixture> getFixtures();
 
-	void setFixtureLoaderChain(FixtureLoaderChain fixtureLoaderChain);
+	void setFixtureLoader(FixtureLoader fixtureLoaderChain);
 
 	void afterTest();
 

@@ -19,8 +19,8 @@ package net.cpollet.jixture.fixtures.transformers;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
-import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
+import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.tests.mappings.CartEntry;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 	private MappingDefinitionHolder mappingDefinitionHolder;
 
 	@InjectMocks
-	private XmlFileToMappingFixtureTransformer xmlFileToMappingFixtureTransformer;
+	private XmlFileFixtureTransformer xmlFileFixtureTransformer;
 
 	@Before
 	public void setUp() {
@@ -67,9 +67,20 @@ public class TestXmlFileToMappingFixtureTransformer {
 	}
 
 	@Test
+	public void getFromTypeReturnXmlFileFixture() {
+		// GIVEN
+
+		// WHEN
+		Class fromType = xmlFileFixtureTransformer.getFromType();
+
+		// THEN
+		assertThat(fromType).isEqualTo(XmlFileFixture.class);
+	}
+
+	@Test
 	public void testTransform() throws NoSuchFieldException {
 		// GIVEN
-		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml", null);
+		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml");
 
 		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("cart_entry")).thenReturn(CartEntry.class);
 
@@ -80,19 +91,16 @@ public class TestXmlFileToMappingFixtureTransformer {
 		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "count"))//
 				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("count")));
 
-
 		// WHEN
-		Fixture transformedFixture = xmlFileToMappingFixtureTransformer.transform(xmlFileFixture);
+		Fixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
-		assertThat(transformedFixture).isInstanceOf(MappingFixture.class);
+		assertThat(transformedFixture).isInstanceOf(Fixture.class);
 
-		MappingFixture mappingFixture = (MappingFixture) transformedFixture;
+		assertThat(transformedFixture.getObjects()).hasSize(1);
+		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(CartEntry.class);
 
-		assertThat(mappingFixture.getObjects()).hasSize(1);
-		assertThat(mappingFixture.getObjects().get(0)).isInstanceOf(CartEntry.class);
-
-		CartEntry actualCartEntry = (CartEntry) mappingFixture.getObjects().get(0);
+		CartEntry actualCartEntry = (CartEntry) transformedFixture.getObjects().get(0);
 
 		CartEntry expectedCartEntry = new CartEntry();
 		expectedCartEntry.setPk(new CartEntry.CartEntryPk());

@@ -29,17 +29,14 @@ public class XmlFileFixture implements TransformableFixture {
 	private static final String CLASSPATH_MARKER = "classpath:";
 
 	private InputStream fileInputStream;
-	private FixtureTransformer fixtureTransformer;
 
-	public XmlFileFixture(String filePath, FixtureTransformer fixtureTransformer) {
+	public XmlFileFixture(String filePath) {
 		if (filePath.startsWith(CLASSPATH_MARKER)) {
 			fileInputStream = openFileFromClasspath(filePath);
 		}
 		else {
 			fileInputStream = openFileFromPath(filePath);
 		}
-
-		this.fixtureTransformer = fixtureTransformer;
 	}
 
 	private InputStream openFileFromPath(String filePath) {
@@ -67,9 +64,5 @@ public class XmlFileFixture implements TransformableFixture {
 
 	public InputStream getInputStream() {
 		return fileInputStream;
-	}
-
-	public Fixture getTransformedFixture() {
-		return fixtureTransformer.transform(this);
 	}
 }

@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -46,7 +48,7 @@ public class TestXmlFileFixture {
 	@Test
 	public void getInputStreamReturnsInputStreamFromClasspathResource() throws IOException {
 		// GIVEN
-		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/spring-fixture.xml", fixtureTransformer);
+		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/spring-fixture.xml");
 
 		// WHEN
 		InputStream actualInputStream = xmlFileFixture.getInputStream();
@@ -75,7 +77,7 @@ public class TestXmlFileFixture {
 		FileUtils.writeStringToFile(file, "someContent");
 
 		String filePath = file.getAbsoluteFile().getAbsolutePath();
-		XmlFileFixture xmlFileFixture = new XmlFileFixture(filePath, fixtureTransformer);
+		XmlFileFixture xmlFileFixture = new XmlFileFixture(filePath);
 
 		// WHEN
 		InputStream actualInputStream = xmlFileFixture.getInputStream();
@@ -89,13 +91,22 @@ public class TestXmlFileFixture {
 	public void getTransformedFixtureReturnsTransformedFixture() {
 		// GIVEN
 		Fixture expectedTransformedFixture = new Fixture() {
+			@Override
+			public Fixture addObjects(Object... objects) {
+				return this;
+			}
+
+			@Override
+			public List<Object> getObjects() {
+				return null;
+			}
 		};
 
-		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/spring-fixture.xml", fixtureTransformer);
+		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/spring-fixture.xml");
 		Mockito.when(fixtureTransformer.transform(xmlFileFixture)).thenReturn(expectedTransformedFixture);
 
 		// WHEN
-		Fixture actualTransformedFixture = xmlFileFixture.getTransformedFixture();
+		Fixture actualTransformedFixture = fixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
 		assertThat(actualTransformedFixture).isSameAs(expectedTransformedFixture);

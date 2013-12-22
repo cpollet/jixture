@@ -16,8 +16,13 @@
 
 package net.cpollet.jixture.fixtures;
 
+import java.util.List;
+
 /**
  * @author Christophe Pollet
  */
 public interface Fixture {
+	Fixture addObjects(Object... objects);
+
+	List<Object> getObjects();
 }

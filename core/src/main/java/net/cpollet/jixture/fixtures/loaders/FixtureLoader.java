@@ -17,6 +17,7 @@
 package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.TransformableFixture;
 
 /**
  * @author Christophe Pollet
@@ -26,9 +27,7 @@ public interface FixtureLoader {
 		COMMIT, NO_COMMIT
 	}
 
-	Class<? extends Fixture> getLoadableFixture();
-
-	boolean canLoad(Fixture fixture);
+	void load(TransformableFixture fixture, Mode mode);
 
 	void load(Fixture fixture, Mode mode);
 

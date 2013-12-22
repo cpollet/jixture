@@ -17,11 +17,10 @@
 package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.FixtureTransformer;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
-import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
+import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.utils.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,13 +42,18 @@ import java.util.List;
  * @author Christophe Pollet
  */
 @Component
-public class XmlFileToMappingFixtureTransformer implements FixtureTransformer<XmlFileFixture> {
+public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixture> {
 	@Autowired
 	@Qualifier("mappingConversionServiceFactoryBean")
 	private ConversionServiceFactoryBean conversionServiceFactoryBean;
 
 	@Autowired
 	private MappingDefinitionHolder mappingDefinitionHolder;
+
+	@Override
+	public Class getFromType() {
+		return XmlFileFixture.class;
+	}
 
 	@Override
 	public Fixture transform(XmlFileFixture fixture) {

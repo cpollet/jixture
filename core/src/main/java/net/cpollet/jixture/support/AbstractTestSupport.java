@@ -19,8 +19,7 @@ package net.cpollet.jixture.support;
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.loaders.AbstractFixtureLoader;
-import net.cpollet.jixture.fixtures.loaders.FixtureLoaderChain;
+import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
@@ -39,25 +38,25 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	protected UnitDaoFactory unitDaoFactory;
 
 	@Autowired
-	protected FixtureLoaderChain fixtureLoaderChain;
+	protected FixtureLoader fixtureLoader;
 
 	public AbstractTestSupport() {
 		fixtures = Collections.emptyList();
 	}
 
-	protected abstract AbstractFixtureLoader.Mode getCommitMode();
+	protected abstract FixtureLoader.Mode getCommitMode();
 
 	@Override
 	public void beforeTest() {
 		for (Fixture fixture : getFixtures()) {
-			fixtureLoaderChain.load(fixture, getCommitMode());
+			fixtureLoader.load(fixture, getCommitMode());
 		}
 	}
 
 	@Override
 	public void afterTest() {
-		if (fixtureLoaderChain != null) {
-			fixtureLoaderChain.resetLoaders();
+		if (fixtureLoader != null) {
+			fixtureLoader.reset();
 		}
 	}
 
@@ -72,8 +71,8 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	}
 
 	@Override
-	public void setFixtureLoaderChain(FixtureLoaderChain fixtureLoaderChain) {
-		this.fixtureLoaderChain = fixtureLoaderChain;
+	public void setFixtureLoader(FixtureLoader fixtureLoader) {
+		this.fixtureLoader = fixtureLoader;
 	}
 
 	@Override
@@ -92,7 +91,7 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 		Assert.notNull(unitDaoFactory, "unitDaoFactory must be set");
 
 		if (!getFixtures().isEmpty()) {
-			Assert.notNull(fixtureLoaderChain, "fixturesLoaderChain must be set when getFixtures() does not return an empty Collection");
+			Assert.notNull(fixtureLoader, "fixturesLoaderChain must be set when getFixtures() does not return an empty Collection");
 		}
 	}
 }

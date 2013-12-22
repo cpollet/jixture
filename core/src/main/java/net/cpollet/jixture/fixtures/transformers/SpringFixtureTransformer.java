@@ -14,57 +14,37 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.loaders;
+package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.utils.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.util.LinkedList;
 
 /**
  * @author Christophe Pollet
  */
 @Component
-public class SpringFixtureLoader extends AbstractFixtureLoader<SpringFixture> {
-	private static final Logger logger = LoggerFactory.getLogger(SpringFixtureLoader.class);
-
+public class SpringFixtureTransformer implements FixtureTransformer<SpringFixture> {
 	@Override
-	public Class<? extends Fixture> getLoadableFixture() {
+	public Class getFromType() {
 		return SpringFixture.class;
 	}
 
 	@Override
-	public void load(Fixture fixture, Mode mode) {
-		final SpringFixture springFixture = assertCanLoadAndCast(fixture);
+	public Fixture transform(SpringFixture springFixture) {
 		final ApplicationContext context = getApplicationContext(springFixture);
 
-		execute(mode, new Executable() {
-			@Override
-			public void execute() {
-				deleteEntitiesOfClass(getClassesToDelete(springFixture).descendingIterator());
-				saveEntities();
-			}
+		Fixture fixture = new MappingFixture();
 
-			private void saveEntities() {
-				for (Class<?> clazz : springFixture.getClasses()) {
-					saveBeansOfClass(context, clazz);
-				}
-			}
+		for (Class<?> clazz : springFixture.getClasses()) {
+			fixture.addObjects(context.getBeansOfType(clazz).values().toArray());
+		}
 
-			private void saveBeansOfClass(ApplicationContext context, Class<?> clazz) {
-				super.saveEntities(context.getBeansOfType(clazz).values().iterator());
-			}
-		});
-	}
-
-	private LinkedList<Class> getClassesToDelete(SpringFixture springFixture) {
-		return new LinkedList<Class>(springFixture.getClasses());
+		return fixture;
 	}
 
 	private ApplicationContext getApplicationContext(SpringFixture springFixture) {

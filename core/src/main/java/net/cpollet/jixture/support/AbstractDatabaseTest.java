@@ -28,11 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractDatabaseTest extends AbstractTestSupport implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 
+	@Override
 	@Before
 	public void beforeTest() {
 		super.beforeTest();
 	}
-
+	
+	@Override
 	@After
 	public void afterTest() {
 		super.afterTest();

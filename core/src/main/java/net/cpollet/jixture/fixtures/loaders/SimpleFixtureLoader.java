@@ -18,6 +18,8 @@ package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.TransformableFixture;
+import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +29,19 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Christophe Pollet
  */
-public abstract class AbstractFixtureLoader<T extends Fixture> implements FixtureLoader {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractFixtureLoader.class);
+public class SimpleFixtureLoader implements FixtureLoader {
+	private static final Logger logger = LoggerFactory.getLogger(SimpleFixtureLoader.class);
+
+	@Autowired
+	FixtureTransformerFactory fixtureTransformerFactory;
 
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
@@ -45,17 +52,33 @@ public abstract class AbstractFixtureLoader<T extends Fixture> implements Fixtur
 	@Resource(name = "transactionTemplatesByMode")
 	private Map<Class, TransactionTemplate> transactionTemplates;
 
-	@Override
-	public boolean canLoad(Fixture fixture) {
-		return getLoadableFixture().isAssignableFrom(fixture.getClass());
+	public void load(TransformableFixture fixture, Mode mode) {
+		load(transformToFixture(fixture), mode);
 	}
 
-	protected T assertCanLoadAndCast(Fixture fixture) {
-		if (!canLoad(fixture)) {
-			throw new IllegalArgumentException("Unable to load fixture of type " + fixture.getClass());
+	private Fixture transformToFixture(TransformableFixture fixture) {
+		return fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
+	}
+
+	@Override
+	public void load(final Fixture fixture, Mode mode) {
+		execute(mode, new SimpleFixtureLoader.Executable() {
+			@Override
+			public void execute() {
+				deleteEntitiesOfClass(getClassesToDelete(fixture).descendingIterator());
+				saveEntities(fixture.getObjects().iterator());
+			}
+		});
+	}
+
+	private LinkedList<Class> getClassesToDelete(Fixture mappingFixture) {
+		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
+
+		for (Object object : mappingFixture.getObjects()) {
+			classesToDelete.add(object.getClass());
 		}
 
-		return (T) fixture;
+		return new LinkedList<Class>(classesToDelete);
 	}
 
 	@Override

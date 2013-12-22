@@ -17,6 +17,8 @@
 package net.cpollet.jixture.fixtures;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,12 +27,21 @@ import java.util.List;
 public class MappingFixture implements Fixture {
 	List<Object> objects;
 
-	public MappingFixture(Object... objects) {
-		this.objects = Arrays.asList(objects);
+	public MappingFixture(Object... objectsToAdd) {
+		objects = new LinkedList<Object>();
+		addObjects(objectsToAdd);
+	}
+
+	@Override
+	public Fixture addObjects(Object... objectsToAdd) {
+		if (objectsToAdd.length > 0) {
+			Collections.addAll(objects, objectsToAdd);
+		}
+
+		return this;
 	}
 
 	public List<Object> getObjects() {
 		return objects;
 	}
-
 }
