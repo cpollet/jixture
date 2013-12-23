@@ -23,7 +23,7 @@ import net.cpollet.jixture.fixtures.TransformableFixture;
  * @author Christophe Pollet
  */
 public interface FixtureLoader {
-	enum Mode {
+	public enum Mode {
 		COMMIT, NO_COMMIT
 	}
 

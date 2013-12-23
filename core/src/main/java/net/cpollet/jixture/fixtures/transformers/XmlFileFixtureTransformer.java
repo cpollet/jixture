@@ -44,7 +44,7 @@ import java.util.List;
 @Component
 public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixture> {
 	@Autowired
-	@Qualifier("mappingConversionServiceFactoryBean")
+	@Qualifier("jixture.mappingConversionServiceFactoryBean")
 	private ConversionServiceFactoryBean conversionServiceFactoryBean;
 
 	@Autowired

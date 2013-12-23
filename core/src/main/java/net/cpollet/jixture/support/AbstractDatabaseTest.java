@@ -33,7 +33,7 @@ public abstract class AbstractDatabaseTest extends AbstractTestSupport implement
 	public void beforeTest() {
 		super.beforeTest();
 	}
-	
+
 	@Override
 	@After
 	public void afterTest() {

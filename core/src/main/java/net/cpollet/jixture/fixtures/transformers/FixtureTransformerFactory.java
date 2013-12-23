@@ -20,7 +20,6 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,6 @@ import java.util.Map;
 /**
  * @author Christophe Pollet
  */
-@Component
 public class FixtureTransformerFactory implements InitializingBean {
 	@Autowired
 	private List<FixtureTransformer> transformers;

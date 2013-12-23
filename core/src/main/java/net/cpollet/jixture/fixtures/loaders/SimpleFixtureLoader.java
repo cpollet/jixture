@@ -46,10 +46,10 @@ public class SimpleFixtureLoader implements FixtureLoader {
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
 
-	@Resource(name = "cleanedEntities")
+	@Resource(name = "jixture.cleanedEntities")
 	protected Set<Class> cleanedEntities;
 
-	@Resource(name = "transactionTemplatesByMode")
+	@Resource(name = "jixture.transactionTemplatesByMode")
 	private Map<Class, TransactionTemplate> transactionTemplates;
 
 	public void load(TransformableFixture fixture, Mode mode) {
