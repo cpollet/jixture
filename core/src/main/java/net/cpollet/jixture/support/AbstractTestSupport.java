@@ -32,7 +32,7 @@ import java.util.Collections;
  * @author Christophe Pollet
  */
 public abstract class AbstractTestSupport implements DatabaseTestSupport, InitializingBean {
-	private Collection<Fixture> fixtures;
+	private Collection<? extends Fixture> fixtures;
 
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
@@ -61,12 +61,12 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	}
 
 	@Override
-	public void setFixtures(Collection<Fixture> fixtures) {
+	public void setFixtures(Collection<? extends Fixture> fixtures) {
 		this.fixtures = fixtures;
 	}
 
 	@Override
-	public Collection<Fixture> getFixtures() {
+	public Collection<? extends Fixture> getFixtures() {
 		return fixtures;
 	}
 

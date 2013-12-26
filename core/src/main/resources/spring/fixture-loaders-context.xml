@@ -17,6 +17,7 @@
 	<bean id="jixture.fixtureLoader" class="net.cpollet.jixture.fixtures.loaders.SimpleFixtureLoader"/>
 	<bean id="jixture.mappingConversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
 	<bean id="jixture.cleanedEntities" class="java.util.HashSet"/>
+
 	<bean class="net.cpollet.jixture.dao.UnitDaoFactory"/>
 
 	<util:map id="jixture.transactionTemplatesByMode">
@@ -24,12 +25,14 @@
 			<bean class="org.springframework.transaction.support.TransactionTemplate">
 				<property name="transactionManager" ref="jixture.transactionManager"/>
 				<property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW"/>
+				<property name="name" value="PROPAGATION_REQUIRES_NEW"/>
 			</bean>
 		</entry>
 		<entry key="#{T(net.cpollet.jixture.fixtures.loaders.FixtureLoader$Mode).NO_COMMIT}">
 			<bean class="org.springframework.transaction.support.TransactionTemplate">
 				<property name="transactionManager" ref="jixture.transactionManager"/>
-				<property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW"/>
+				<property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
+				<property name="name" value="PROPAGATION_REQUIRED"/>
 			</bean>
 		</entry>
 	</util:map>

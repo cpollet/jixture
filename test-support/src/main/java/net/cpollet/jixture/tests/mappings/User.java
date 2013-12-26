@@ -17,13 +17,17 @@
 package net.cpollet.jixture.tests.mappings;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
  * @author Christophe Pollet
  */
 @Table(name = "users")
+@Entity
 public class User {
+	@Id
 	@Column(name = "username")
 	private String username;
 

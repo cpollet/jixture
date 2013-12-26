@@ -27,9 +27,9 @@ import java.util.Collection;
  * @author Christophe Pollet
  */
 public interface DatabaseTestSupport {
-	void setFixtures(Collection<Fixture> fixtures);
+	void setFixtures(Collection<? extends Fixture> fixtures);
 
-	Collection<Fixture> getFixtures();
+	Collection<? extends Fixture> getFixtures();
 
 	void setFixtureLoader(FixtureLoader fixtureLoaderChain);
 

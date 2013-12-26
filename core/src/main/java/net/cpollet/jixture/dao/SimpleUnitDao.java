@@ -18,6 +18,8 @@ package net.cpollet.jixture.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +29,8 @@ import java.util.Set;
  * @author Christophe Pollet
  */
 public class SimpleUnitDao implements UnitDao {
+	private static final Logger logger = LoggerFactory.getLogger(SimpleUnitDao.class);
+
 	private Session session;
 
 	@SuppressWarnings("unchecked")
@@ -54,13 +58,17 @@ public class SimpleUnitDao implements UnitDao {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteAll(Class clazz) {
+		logger.trace("> deleteAll({})", clazz.getName());
+		logger.debug("Deleting all {}", clazz.getName());
 		session.evict(clazz);
 		session.createQuery("delete from " + clazz.getName()).executeUpdate();
 		flush();
+		logger.trace("< deleteAll({})", clazz.getName());
 	}
 
 	@Override
 	public void flush() {
+		logger.debug("Flushing");
 		session.flush();
 	}
 
