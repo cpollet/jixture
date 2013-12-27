@@ -10,6 +10,7 @@
 	<modules>
 		<module>commons</module>
 		<module>mysql</module>
+		<module>oracle</module>
 	</modules>
 
 	<build>
