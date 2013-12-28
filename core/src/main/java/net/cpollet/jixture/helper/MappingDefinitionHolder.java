@@ -27,4 +27,6 @@ public interface MappingDefinitionHolder {
 	MappingField getMappingFieldByTableAndColumnNames(String tableName, String columnName);
 
 	Class getMappingClassByTableName(String tableName);
+
+	Collection<MappingField> getFieldsByMappingClass(Class mapping);
 }

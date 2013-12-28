@@ -54,8 +54,10 @@ public class FixtureTransformerFactory implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		transformersMap = new HashMap<Class, FixtureTransformer>();
 
-		for (FixtureTransformer fixtureTransformer : transformers) {
-			transformersMap.put(fixtureTransformer.getFromType(), fixtureTransformer);
+		if (transformers != null) {
+			for (FixtureTransformer fixtureTransformer : transformers) {
+				transformersMap.put(fixtureTransformer.getFromType(), fixtureTransformer);
+			}
 		}
 
 		transformersMap.put(FIXTURE_TRANSFORMER.getFromType(), FIXTURE_TRANSFORMER);

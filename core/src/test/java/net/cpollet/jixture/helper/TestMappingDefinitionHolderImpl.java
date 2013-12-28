@@ -33,6 +33,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.util.collections.Sets;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -212,7 +213,7 @@ public class TestMappingDefinitionHolderImpl {
 
 		// THEN
 		exception.expect(RuntimeException.class);
-		exception.expectMessage("Mapping for table clients not found");
+		exception.expectMessage("Mapping class not found for table clients");
 
 		// WHEN
 		mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("clients", "name");
@@ -232,5 +233,56 @@ public class TestMappingDefinitionHolderImpl {
 
 		// WHEN
 		mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("clients", "birthdate");
+	}
+
+	@Test
+	public void getFieldsByMappingClassReturnsCorrectListOfFields() throws NoSuchFieldException {
+		// GIVEN
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				User.class.getName()));
+		setProperties();
+
+		// WHEN
+		Collection<MappingField> mappingField = mappingDefinitionHolder.getFieldsByMappingClass(User.class);
+
+		// THEN
+		assertThat(mappingField).hasSize(2);
+		assertContains(mappingField, new MappingField(User.class.getDeclaredField("username")));
+		assertContains(mappingField, new MappingField(User.class.getDeclaredField("password")));
+	}
+
+	private void assertContains(Collection<MappingField> mappingFields, MappingField expectedMappingField) {
+		boolean found;
+
+		found = false;
+		for (MappingField actualMappingField : mappingFields) {
+			if (equals(actualMappingField.getField(), expectedMappingField.getField())) {
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			throw new AssertionError("Expected field " + expectedMappingField.getEmbeddableField() + " / " + expectedMappingField.getField() + " was not found in collection");
+		}
+
+		found = false;
+		for (MappingField actualMappingField : mappingFields) {
+			if (equals(actualMappingField.getEmbeddableField(), expectedMappingField.getEmbeddableField())) {
+				found = true;
+			}
+		}
+
+		if (!found) {
+			throw new AssertionError("Expected field " + expectedMappingField.getEmbeddableField() + " / " + expectedMappingField.getField() + " was not found in collection");
+		}
+	}
+
+	private boolean equals(Field field1, Field field2) {
+		if (field1 == null && field2 == null) {
+			return true;
+		}
+
+		return field1 != null && field1.equals(field2);
 	}
 }

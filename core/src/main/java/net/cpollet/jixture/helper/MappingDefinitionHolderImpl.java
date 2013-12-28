@@ -47,7 +47,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 
 	public Collection<Class> annotatedClasses;
 	private Map<String, Class> classByTableName;
-	private Map<String, MappingField> fieldByTableAndColumnName;
+	private Map<String, Map<String, MappingField>> fieldsByTableAndColumnName;
 
 	@Override
 	public Collection<Class> getMappingClasses() {
@@ -87,7 +87,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		}
 
 		classByTableName = new HashMap<String, Class>();
-		fieldByTableAndColumnName = new HashMap<String, MappingField>();
+		fieldsByTableAndColumnName = new HashMap<String, Map<String, MappingField>>();
 
 		for (Class mapping : getMappingClasses()) {
 			String tableName = getLowercaseTableNameFromMapping(mapping);
@@ -98,26 +98,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	private boolean mappingsAlreadyCreated() {
-		return classByTableName != null && fieldByTableAndColumnName != null;
-	}
-
-	@Override
-	public MappingField getMappingFieldByTableAndColumnNames(String tableName, String columnName) {
-		initMappingsIfNeeded();
-
-		MappingField mappingField = fieldByTableAndColumnName.get(formatColumnName(tableName, columnName));
-
-		if (mappingField == null) {
-			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "//
-					+ getMappingClassByTableName(tableName).getName() + " for " + tableName);
-		}
-
-		return mappingField;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(unitDaoFactory, "unitDaoFactory must be set");
+		return classByTableName != null && fieldsByTableAndColumnName != null;
 	}
 
 	private String getLowercaseTableNameFromMapping(Class mapping) {
@@ -131,16 +112,12 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 			String columnName = getLowercaseColumnNameFromMapping(field);
 
 			if (columnName != null) {
-				fieldByTableAndColumnName.put(formatColumnName(tableName, columnName), new MappingField(field));
+				getOrCreateFieldsByTableName(tableName).put(columnName, new MappingField(field));
 			}
 			else {
 				createColumnToEmbeddedFieldMapping(tableName, field);
 			}
 		}
-	}
-
-	private String formatColumnName(String tableName, String columnName) {
-		return tableName + "." + columnName;
 	}
 
 	private String getLowercaseColumnNameFromMapping(Field field) {
@@ -159,17 +136,6 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		}
 
 		return column.name().toLowerCase();
-	}
-
-	private void createColumnToEmbeddedFieldMapping(String tableName, Field field) {
-		EmbeddedId embeddedId = field.getAnnotation(EmbeddedId.class);
-
-		if (embeddedId != null) {
-			for (Field embeddedField : field.getType().getDeclaredFields()) {
-				String embeddedColumnName = getLowercaseColumnNameFromMapping(embeddedField);
-				fieldByTableAndColumnName.put(formatColumnName(tableName, embeddedColumnName), new MappingField(field, embeddedField));
-			}
-		}
 	}
 
 	private Column getColumnFromGetter(Field field) {
@@ -195,6 +161,66 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 
 	private boolean isGetterForField(PropertyDescriptor pd, Field field) {
 		return pd.getReadMethod() != null && pd.getName().equals(field.getName());
+	}
+
+	private Map<String, MappingField> getOrCreateFieldsByTableName(String tableName) {
+		if (!fieldsByTableAndColumnName.containsKey(tableName)) {
+			fieldsByTableAndColumnName.put(tableName, new HashMap<String, MappingField>());
+		}
+
+		return fieldsByTableAndColumnName.get(tableName);
+	}
+
+	private void createColumnToEmbeddedFieldMapping(String tableName, Field field) {
+		EmbeddedId embeddedId = field.getAnnotation(EmbeddedId.class);
+
+		if (embeddedId != null) {
+			for (Field embeddedField : field.getType().getDeclaredFields()) {
+				String embeddedColumnName = getLowercaseColumnNameFromMapping(embeddedField);
+				getOrCreateFieldsByTableName(tableName).put(embeddedColumnName, new MappingField(field, embeddedField));
+			}
+		}
+	}
+
+	@Override
+	public MappingField getMappingFieldByTableAndColumnNames(String tableName, String columnName) {
+		initMappingsIfNeeded();
+
+		Map<String, MappingField> mappingFields = getFieldsByTableName(tableName);
+
+		return getFieldByColumnName(tableName, columnName, mappingFields);
+	}
+
+	private Map<String, MappingField> getFieldsByTableName(String tableName) {
+		Map<String, MappingField> mappingFields = fieldsByTableAndColumnName.get(tableName);
+
+		if (mappingFields == null) {
+			throw new RuntimeException("Mapping class not found for table " + tableName);
+		}
+
+		return mappingFields;
+	}
+
+	private MappingField getFieldByColumnName(String tableName, String columnName, Map<String, MappingField> mappingFields) {
+		MappingField mappingField = mappingFields.get(columnName);
+
+		if (mappingField == null) {
+			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "//
+					+ getMappingClassByTableName(tableName).getName() + " for " + tableName);
+		}
+		return mappingField;
+	}
+
+	@Override
+	public Collection<MappingField> getFieldsByMappingClass(Class mapping) {
+		initMappingsIfNeeded();
+
+		return fieldsByTableAndColumnName.get(getLowercaseTableNameFromMapping(mapping)).values();
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(unitDaoFactory, "unitDaoFactory must be set");
 	}
 
 	public void setUnitDaoFactory(UnitDaoFactory unitDaoFactory) {
