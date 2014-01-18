@@ -22,6 +22,8 @@ import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.tests.mappings.CartEntry;
+import net.cpollet.jixture.tests.mappings.PersistentObject;
+import net.cpollet.jixture.tests.mappings.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -109,5 +111,33 @@ public class TestXmlFileToMappingFixtureTransformer {
 		expectedCartEntry.setCount(10);
 
 		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
+	}
+
+	@Test
+	public void transformHandlesMappingInheritance() throws NoSuchFieldException {
+		// GIVEN
+		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture-with-inheritance.xml");
+
+		// WHEN
+		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("product")).thenReturn(Product.class);
+
+		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "id"))//
+				.thenReturn(new MappingField(PersistentObject.class.getDeclaredField("id")));
+		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "name"))//
+				.thenReturn(new MappingField(Product.class.getDeclaredField("name")));
+
+		// WHEN
+		Fixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
+
+		// THEN
+		assertThat(transformedFixture).isInstanceOf(Fixture.class);
+
+		assertThat(transformedFixture.getObjects()).hasSize(1);
+		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(Product.class);
+
+		Product actualProduct = (Product) transformedFixture.getObjects().get(0);
+
+		assertThat(actualProduct.getId()).isEqualTo("id");
+		assertThat(actualProduct.getName()).isEqualTo("name");
 	}
 }
