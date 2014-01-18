@@ -21,6 +21,8 @@ import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.tests.mappings.CartEntry;
 import net.cpollet.jixture.tests.mappings.Client;
+import net.cpollet.jixture.tests.mappings.PersistentObject;
+import net.cpollet.jixture.tests.mappings.Product;
 import net.cpollet.jixture.tests.mappings.User;
 import net.cpollet.jixture.utils.ExceptionUtils;
 import org.junit.Before;
@@ -249,6 +251,21 @@ public class TestMappingDefinitionHolderImpl {
 		assertThat(mappingField).hasSize(2);
 		assertContains(mappingField, new MappingField(User.class.getDeclaredField("username")));
 		assertContains(mappingField, new MappingField(User.class.getDeclaredField("password")));
+	}
+
+	@Test
+	public void getFieldsByMappingClassWithMappedSuperclassReturnsFullListOfFields() throws NoSuchFieldException {
+		Mockito.when(unitDao.getKnownMappings()).thenReturn(Sets.newSet(//
+				Product.class.getName()));
+		setProperties();
+
+		// WHEN
+		Collection<MappingField> mappingField = mappingDefinitionHolder.getFieldsByMappingClass(Product.class);
+
+		// THEN
+		assertThat(mappingField).hasSize(2);
+		assertContains(mappingField, new MappingField(Product.class.getDeclaredField("name")));
+		assertContains(mappingField, new MappingField(PersistentObject.class.getDeclaredField("id")));
 	}
 
 	private void assertContains(Collection<MappingField> mappingFields, MappingField expectedMappingField) {

@@ -32,8 +32,10 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -108,7 +110,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	private void createColumnToFieldMapping(Class mapping, String tableName) {
-		for (Field field : mapping.getDeclaredFields()) {
+		for (Field field : getFieldsUpToObject(mapping)) {
 			String columnName = getLowercaseColumnNameFromMapping(field);
 
 			if (columnName != null) {
@@ -118,6 +120,20 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 				createColumnToEmbeddedFieldMapping(tableName, field);
 			}
 		}
+	}
+
+	public static Iterable<Field> getFieldsUpToObject(Class<?> startClass) {
+
+		List<Field> currentClassFields = new ArrayList<Field>();
+		currentClassFields.addAll(Arrays.asList(startClass.getDeclaredFields()));
+		Class<?> parentClass = startClass.getSuperclass();
+
+		if (parentClass != null) {
+			List<Field> parentClassFields = (List<Field>) getFieldsUpToObject(parentClass);
+			currentClassFields.addAll(parentClassFields);
+		}
+
+		return currentClassFields;
 	}
 
 	private String getLowercaseColumnNameFromMapping(Field field) {
