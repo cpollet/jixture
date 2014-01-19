@@ -28,9 +28,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -459,5 +463,26 @@ public class TestJixtureAssert {
 		JixtureAssert.assertThat(User.class).withoutConsideringColumns("password").containsExactly(mappingFixture);
 
 		// THEN
+	}
+
+	@Test
+	public void transactionTemplateIsUsedWhenSet() {
+		// GIVEN
+		Mockito.when(unitDao.getAll(User.class)).thenReturn(Collections.<User>emptyList());
+
+		final boolean[] transactionTemplatedUsed = {false};
+		TransactionTemplate transactionTemplate = new TransactionTemplate() {
+			@Override
+			public <T> T execute(TransactionCallback<T> action) throws TransactionException {
+				transactionTemplatedUsed[0] = true;
+				return action.doInTransaction(null);
+			}
+		};
+
+		// WHEN
+		JixtureAssert.assertThat(User.class).usingTransactionTemplate(transactionTemplate).isEmpty();
+
+		// THEN
+		assertThat(transactionTemplatedUsed[0]).isTrue();
 	}
 }

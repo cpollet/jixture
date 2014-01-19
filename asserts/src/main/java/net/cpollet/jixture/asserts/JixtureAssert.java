@@ -25,6 +25,9 @@ import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +42,7 @@ public class JixtureAssert<T> {
 
 	private Class mapping;
 	private String[] columnsToIgnore;
+	private TransactionTemplate transactionTemplate;
 
 	private List<T> entities;
 
@@ -70,6 +74,12 @@ public class JixtureAssert<T> {
 
 	public JixtureAssert withoutConsideringColumns(String... columns) {
 		this.columnsToIgnore = columns;
+
+		return this;
+	}
+
+	public JixtureAssert usingTransactionTemplate(TransactionTemplate transactonTemplate) {
+		this.transactionTemplate = transactonTemplate;
 
 		return this;
 	}
@@ -140,10 +150,32 @@ public class JixtureAssert<T> {
 
 	private List<T> loadAllEntities() {
 		if (entities == null) {
-			entities = unitDaoFactory.getUnitDao().getAll(mapping);
+			if (transactionTemplate != null) {
+				loadAllEntitiesWithTransactionTemplate();
+			}
+			else {
+				loadAllEntitiesWithoutTransactionTemplate();
+			}
 		}
 
 		return entities;
+	}
+
+	private void loadAllEntitiesWithoutTransactionTemplate() {
+		entities = getAllEntities();
+	}
+
+	private void loadAllEntitiesWithTransactionTemplate() {
+		entities = transactionTemplate.execute(new TransactionCallback<List<T>>() {
+			@Override
+			public List<T> doInTransaction(TransactionStatus status) {
+				return getAllEntities();
+			}
+		});
+	}
+
+	private List getAllEntities() {
+		return unitDaoFactory.getUnitDao().getAll(mapping);
 	}
 
 	public JixtureAssert containsAtMost(TransformableFixture transformableFixture) {
@@ -196,6 +228,4 @@ public class JixtureAssert<T> {
 		rowsCountIsAtLeast(1);
 		return this;
 	}
-
-
 }
