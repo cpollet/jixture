@@ -16,7 +16,6 @@
 	<bean id="jixture.transformerFactory" class="net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory"/>
 	<bean id="jixture.fixtureLoader" class="net.cpollet.jixture.fixtures.loaders.SimpleFixtureLoader"/>
 	<bean id="jixture.mappingConversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
-	<bean id="jixture.cleanedEntities" class="java.util.HashSet"/>
 
 	<bean class="net.cpollet.jixture.dao.UnitDaoFactory"/>
 

@@ -22,12 +22,15 @@ import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -37,7 +40,7 @@ import java.util.Set;
 /**
  * @author Christophe Pollet
  */
-public class SimpleFixtureLoader implements FixtureLoader {
+public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(SimpleFixtureLoader.class);
 
 	@Autowired
@@ -46,11 +49,10 @@ public class SimpleFixtureLoader implements FixtureLoader {
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
 
-	@Resource(name = "jixture.cleanedEntities")
 	protected Set<Class> cleanedEntities;
 
 	@Resource(name = "jixture.transactionTemplatesByMode")
-	private Map<Class, TransactionTemplate> transactionTemplates;
+	private Map<Mode, TransactionTemplate> transactionTemplates;
 
 	public void load(TransformableFixture fixture, Mode mode) {
 		load(transformToFixture(fixture), mode);
@@ -100,14 +102,24 @@ public class SimpleFixtureLoader implements FixtureLoader {
 		return transactionTemplates.get(mode);
 	}
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		cleanedEntities = new HashSet<Class>();
+	}
+
 	protected abstract class Executable {
 		public abstract void execute();
 
 		protected void deleteEntitiesOfClass(Iterator<Class> it) {
 			while (it.hasNext()) {
 				Class clazz = it.next();
-				logger.info("Deleting {}", clazz.getName());
-				unitDaoFactory.getUnitDao().deleteAll(clazz);
+
+				if (!cleanedEntities.contains(clazz)) {
+					logger.info("Deleting {}", clazz.getName());
+					unitDaoFactory.getUnitDao().deleteAll(clazz);
+
+					cleanedEntities.add(clazz);
+				}
 			}
 		}
 

@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.fixtures.loaders;
 
+import junit.framework.Assert;
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
@@ -37,6 +38,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,9 +52,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class TestSimpleFixtureLoader {
 	@Mock
 	private UnitDaoFactory unitDaoFactory;
-
-	@Mock
-	private Set<Class> cleanedEntities;
 
 	@Mock
 	private Map<Class, TransactionTemplate> transactionTemplates;
@@ -71,7 +70,7 @@ public class TestSimpleFixtureLoader {
 	private SimpleFixtureLoader simpleFixtureLoader;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		Mockito.when(unitDaoFactory.getUnitDao()).thenReturn(unitDao);
 
 		commitTransactionTemplate = new TransactionTemplateMock();
@@ -79,6 +78,8 @@ public class TestSimpleFixtureLoader {
 
 		Mockito.when(transactionTemplates.get(FixtureLoader.Mode.COMMIT)).thenReturn(commitTransactionTemplate);
 		Mockito.when(transactionTemplates.get(FixtureLoader.Mode.NO_COMMIT)).thenReturn(noCommitTransactionTemplate);
+
+		simpleFixtureLoader.afterPropertiesSet();
 	}
 
 	@Test
@@ -188,6 +189,33 @@ public class TestSimpleFixtureLoader {
 	}
 
 	@Test
+	public void loadDeletesOldEntitiesOnlyOnce() {
+		// GIVEN
+		User user = new User();
+
+		// WHEN
+		simpleFixtureLoader.load(new MappingFixture(user), FixtureLoader.Mode.COMMIT);
+		simpleFixtureLoader.load(new MappingFixture(user), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		Mockito.verify(unitDao, Mockito.times(1)).deleteAll(User.class);
+	}
+
+	@Test
+	public void resetAllowsLoadToDeleteOldEntitiesMultipleTimes() {
+		// GIVEN
+		User user = new User();
+
+		// WHEN
+		simpleFixtureLoader.load(new MappingFixture(user), FixtureLoader.Mode.COMMIT);
+		simpleFixtureLoader.reset();
+		simpleFixtureLoader.load(new MappingFixture(user), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		Mockito.verify(unitDao, Mockito.times(2)).deleteAll(User.class);
+	}
+
+	@Test
 	public void loadTransformableFixtureTransformsToFixtureBeforeLoading() {
 		// GIVEN
 		final Fixture expectedFixture = getLoadableFixture();
@@ -218,14 +246,5 @@ public class TestSimpleFixtureLoader {
 		};
 	}
 
-	@Test
-	public void resetClearsCleanedEntities() {
-		// GIVEN
 
-		// WHEN
-		simpleFixtureLoader.reset();
-
-		// THEN
-		Mockito.verify(cleanedEntities).clear();
-	}
 }
