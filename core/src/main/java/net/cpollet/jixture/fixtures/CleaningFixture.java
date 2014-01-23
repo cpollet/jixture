@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,33 +17,38 @@
 package net.cpollet.jixture.fixtures;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Christophe Pollet
  */
-public class MappingFixture extends AbstractFixture {
-	List<Object> objects;
+public class CleaningFixture implements Fixture<Class> {
+	Set<Class> classes;
 
-	public MappingFixture(Object... objectsToAdd) {
-		objects = new LinkedList<Object>();
+	public CleaningFixture(Class... objectsToAdd) {
+		classes = new LinkedHashSet<Class>();
 		addObjects(objectsToAdd);
 	}
 
 	@Override
-	public Fixture addObjects(Object... objectsToAdd) {
-		if (objectsToAdd.length > 0) {
-			Collections.addAll(objects, objectsToAdd);
+	public Fixture addObjects(Class... classesToDelete) {
+		if (classesToDelete.length > 0) {
+			Collections.addAll(classes, classesToDelete);
 		}
 
 		return this;
 	}
 
 	@Override
-	public List<Object> getObjects() {
-		return objects;
+	public List<Class> getObjects() {
+		return Collections.emptyList();
 	}
 
-
+	@Override
+	public LinkedList<Class> getClassesToDelete() {
+		return new LinkedList<Class>(classes);
+	}
 }

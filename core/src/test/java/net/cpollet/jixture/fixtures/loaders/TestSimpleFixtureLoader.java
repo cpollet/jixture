@@ -16,9 +16,9 @@
 
 package net.cpollet.jixture.fixtures.loaders;
 
-import junit.framework.Assert;
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.fixtures.AbstractFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
@@ -38,10 +38,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -95,7 +93,7 @@ public class TestSimpleFixtureLoader {
 	}
 
 	private Fixture getLoadableFixture() {
-		return new Fixture() {
+		return new AbstractFixture() {
 			Object object = new Object();
 
 			@Override

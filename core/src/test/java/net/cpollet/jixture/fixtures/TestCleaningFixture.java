@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,42 +18,28 @@ package net.cpollet.jixture.fixtures;
 
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public class TestMappingFixture {
+public class TestCleaningFixture {
 	@Test
-	public void getObjectsReturnsAListWhenConstructedWithVarargs() {
+	public void getObjectsReturnsAnEmptyList() {
 		// GIVEN
-		String fixture1 = "Fixture1";
-		String fixture2 = "Fixture1";
+		CleaningFixture fixture = new CleaningFixture(String.class, Integer.class);
 
-		// WHEN
-		MappingFixture mappingFixture = new MappingFixture(fixture1, fixture2);
-
-		// THEN
-		List<Object> fixtures = mappingFixture.getObjects();
-		assertThat(fixtures)//
-				.hasSize(2)//
-				.containsSequence(fixture1, fixture2);
+		// WHEN + THEN
+		assertThat(fixture.getObjects()).isEmpty();
 	}
 
 	@Test
-	public void getClassesToDeleteReturnsCorrectList() {
+	public void getClassesToDeleteReturnsClassListWithoutDuplicates() {
 		// GIVEN
-		String fixture1 = "Fixture1";
-		Integer fixture2 = 2;
+		CleaningFixture fixture = new CleaningFixture(String.class, Integer.class, String.class);
 
-		// WHEN
-		MappingFixture mappingFixture = new MappingFixture(fixture1, fixture2);
-
-		// THEN
-		List<Class> classesToDelete = mappingFixture.getClassesToDelete();
-		assertThat(classesToDelete)//
+		// WHEN + THEN
+		assertThat(fixture.getClassesToDelete())//
 				.hasSize(2)//
 				.containsSequence(String.class, Integer.class);
 	}

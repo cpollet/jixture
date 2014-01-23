@@ -67,20 +67,10 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		execute(mode, new SimpleFixtureLoader.Executable() {
 			@Override
 			public void execute() {
-				deleteEntitiesOfClass(getClassesToDelete(fixture).descendingIterator());
+				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
 				saveEntities(fixture.getObjects().iterator());
 			}
 		});
-	}
-
-	private LinkedList<Class> getClassesToDelete(Fixture mappingFixture) {
-		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
-
-		for (Object object : mappingFixture.getObjects()) {
-			classesToDelete.add(object.getClass());
-		}
-
-		return new LinkedList<Class>(classesToDelete);
 	}
 
 	@Override
