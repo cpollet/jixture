@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public interface Fixture<T> {
+public interface Fixture<T> extends TransformableFixture {
 	Fixture addObjects(T... objects);
 
 	List<T> getObjects();
