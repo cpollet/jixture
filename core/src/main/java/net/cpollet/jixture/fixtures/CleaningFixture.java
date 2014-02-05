@@ -28,9 +28,9 @@ import java.util.Set;
 public class CleaningFixture implements Fixture<Class> {
 	Set<Class> classes;
 
-	public CleaningFixture(Class... objectsToAdd) {
+	public CleaningFixture(Class... classesToDelete) {
 		classes = new LinkedHashSet<Class>();
-		addObjects(objectsToAdd);
+		addObjects(classesToDelete);
 	}
 
 	@Override

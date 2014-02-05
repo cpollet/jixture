@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,15 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.dao.UnitDaoFactory;
+
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Christophe Pollet
  */
-public interface Fixture<T> {
-	Fixture addObjects(T... objects);
-
-	List<T> getObjects();
-
+public interface RawFixture {
 	LinkedList<Class> getClassesToDelete();
+
+	public void load(UnitDaoFactory unitDaoFactory);
 }

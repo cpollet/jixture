@@ -21,6 +21,7 @@ import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.AbstractFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.SqlFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
@@ -244,5 +245,15 @@ public class TestSimpleFixtureLoader {
 		};
 	}
 
+	@Test
+	public void loadRawFixtureDeletesOldEntitiesBeforeSavingNewOnes() {
+		// WHEN
+		simpleFixtureLoader.load(new SqlFixture("classpath:tests/fixtures/sql-fixture.sql", User.class), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		InOrder inOrder = Mockito.inOrder(unitDao);
+		inOrder.verify(unitDao).deleteAll(User.class);
+		inOrder.verify(unitDao, Mockito.times(3)).execute(Mockito.anyString());
+	}
 
 }

@@ -67,6 +67,11 @@ public class SimpleUnitDao implements UnitDao {
 	}
 
 	@Override
+	public void execute(String sqlQuery) {
+		session.createSQLQuery(sqlQuery).executeUpdate();
+	}
+
+	@Override
 	public void flush() {
 		logger.debug("Flushing");
 		session.flush();

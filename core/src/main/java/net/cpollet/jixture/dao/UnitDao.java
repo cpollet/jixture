@@ -53,4 +53,6 @@ public interface UnitDao {
 	public SessionFactory getSessionFactory();
 
 	public Set<String> getKnownMappings();
+
+	void execute(String sqlQuery);
 }

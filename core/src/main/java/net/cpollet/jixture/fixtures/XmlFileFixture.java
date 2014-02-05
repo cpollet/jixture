@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.io.InputStreamUtils;
 import net.cpollet.jixture.utils.ExceptionUtils;
 
 import java.io.FileInputStream;
@@ -31,35 +32,7 @@ public class XmlFileFixture implements TransformableFixture {
 	private InputStream fileInputStream;
 
 	public XmlFileFixture(String filePath) {
-		if (filePath.startsWith(CLASSPATH_MARKER)) {
-			fileInputStream = openFileFromClasspath(filePath);
-		}
-		else {
-			fileInputStream = openFileFromPath(filePath);
-		}
-	}
-
-	private InputStream openFileFromPath(String filePath) {
-		try {
-			return new FileInputStream(filePath);
-		}
-		catch (FileNotFoundException e) {
-			throw ExceptionUtils.wrapInRuntimeException(e);
-		}
-	}
-
-	private InputStream openFileFromClasspath(String classpath) {
-		fileInputStream = getClass().getClassLoader().getResourceAsStream(removeClasspathMarker(classpath));
-
-		if (fileInputStream == null) {
-			throw new RuntimeException("Unable to load file " + classpath);
-		}
-
-		return fileInputStream;
-	}
-
-	private String removeClasspathMarker(String classpath) {
-		return classpath.replaceFirst(CLASSPATH_MARKER, "");
+		fileInputStream = InputStreamUtils.getInputStream(filePath);
 	}
 
 	public InputStream getInputStream() {
