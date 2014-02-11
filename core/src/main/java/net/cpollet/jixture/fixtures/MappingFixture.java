@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public class MappingFixture extends AbstractFixture {
+public class MappingFixture extends AbstractObjectFixture {
 	List<Object> objects;
 
 	public MappingFixture(Object... objectsToAdd) {

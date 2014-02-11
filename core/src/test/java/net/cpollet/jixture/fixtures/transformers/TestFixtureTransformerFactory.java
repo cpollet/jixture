@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.AbstractFixture;
+import net.cpollet.jixture.fixtures.AbstractObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import org.junit.Rule;
@@ -88,7 +88,7 @@ public class TestFixtureTransformerFactory {
 		// GIVEN
 		initializeTransformers();
 
-		Fixture fixture = new AbstractFixture() {
+		Fixture fixture = new AbstractObjectFixture() {
 			@Override
 			public Fixture addObjects(Object... objects) {
 				return this;

@@ -18,6 +18,7 @@ package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.helper.MappingField;
@@ -57,7 +58,7 @@ public class TestSpringFixtureTransformer {
 		SpringFixture springFixture = new SpringFixture("classpath:/tests/fixtures/spring-fixture.xml", User.class);
 
 		// WHEN
-		Fixture transformedFixture = springFixtureTransformer.transform(springFixture);
+		ObjectFixture transformedFixture = springFixtureTransformer.transform(springFixture);
 
 		// THEN
 		assertThat(transformedFixture).isInstanceOf(Fixture.class);

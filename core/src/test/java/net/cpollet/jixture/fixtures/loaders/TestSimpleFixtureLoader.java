@@ -18,9 +18,10 @@ package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.fixtures.AbstractFixture;
+import net.cpollet.jixture.fixtures.AbstractObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SqlFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
@@ -93,8 +94,8 @@ public class TestSimpleFixtureLoader {
 		assertThat(noCommitTransactionTemplate.isExecuted()).isFalse();
 	}
 
-	private Fixture getLoadableFixture() {
-		return new AbstractFixture() {
+	private ObjectFixture getLoadableFixture() {
+		return new AbstractObjectFixture() {
 			Object object = new Object();
 
 			@Override
@@ -217,16 +218,16 @@ public class TestSimpleFixtureLoader {
 	@Test
 	public void loadTransformableFixtureTransformsToFixtureBeforeLoading() {
 		// GIVEN
-		final Fixture expectedFixture = getLoadableFixture();
+		final ObjectFixture expectedFixture = getLoadableFixture();
 
-		FixtureTransformer fixtureTransformer = new FixtureTransformer() {
+		FixtureTransformer fixtureTransformer = new FixtureTransformer<Fixture, ObjectFixture>() {
 			@Override
 			public Class getFromType() {
 				return null;
 			}
 
 			@Override
-			public Fixture transform(Object fixture) {
+			public ObjectFixture transform(Fixture fixture) {
 				return expectedFixture;
 			}
 		};

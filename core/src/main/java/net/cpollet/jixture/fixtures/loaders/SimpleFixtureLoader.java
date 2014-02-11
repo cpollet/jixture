@@ -18,6 +18,7 @@ package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.RawFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
@@ -30,11 +31,8 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,7 +53,20 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 	@Resource(name = "jixture.transactionTemplatesByMode")
 	private Map<Mode, TransactionTemplate> transactionTemplates;
 
-	public void load(TransformableFixture fixture, Mode mode) {
+	@Override
+	public void load(final Fixture fixture, Mode mode) {
+		if (fixture instanceof ObjectFixture) {
+			load((ObjectFixture) fixture, mode);
+		}
+		else if (fixture instanceof RawFixture) {
+			load((RawFixture) fixture, mode);
+		}
+		else if (fixture instanceof TransformableFixture) {
+			load((TransformableFixture) fixture, mode);
+		}
+	}
+
+	private void load(TransformableFixture fixture, Mode mode) {
 		load(transformToFixture(fixture), mode);
 	}
 
@@ -63,8 +74,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		return fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
 	}
 
-	@Override
-	public void load(final Fixture fixture, Mode mode) {
+	private void load(final ObjectFixture fixture, Mode mode) {
 		execute(mode, new SimpleFixtureLoader.Executable() {
 			@Override
 			public void execute() {
@@ -74,7 +84,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		});
 	}
 
-	public void load(final RawFixture fixture, Mode mode) {
+	private void load(final RawFixture fixture, Mode mode) {
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {

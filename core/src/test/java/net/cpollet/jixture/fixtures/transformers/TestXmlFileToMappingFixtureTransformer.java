@@ -18,6 +18,7 @@ package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
@@ -94,7 +95,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("count")));
 
 		// WHEN
-		Fixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
+		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
 		assertThat(transformedFixture).isInstanceOf(Fixture.class);
@@ -127,7 +128,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 				.thenReturn(new MappingField(Product.class.getDeclaredField("name")));
 
 		// WHEN
-		Fixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
+		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
 		assertThat(transformedFixture).isInstanceOf(Fixture.class);

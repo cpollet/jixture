@@ -16,16 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Christophe Pollet
  */
-public interface Fixture<T> extends TransformableFixture {
-	Fixture addObjects(T... objects);
-
-	List<T> getObjects();
-
-	LinkedList<Class> getClassesToDelete();
+public interface Fixture {
 }

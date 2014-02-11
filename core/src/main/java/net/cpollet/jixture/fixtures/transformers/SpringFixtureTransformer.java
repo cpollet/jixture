@@ -16,8 +16,8 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.utils.ExceptionUtils;
 import org.springframework.context.ApplicationContext;
@@ -28,17 +28,17 @@ import org.springframework.stereotype.Component;
  * @author Christophe Pollet
  */
 @Component
-public class SpringFixtureTransformer implements FixtureTransformer<SpringFixture> {
+public class SpringFixtureTransformer implements FixtureTransformer<SpringFixture, ObjectFixture> {
 	@Override
 	public Class getFromType() {
 		return SpringFixture.class;
 	}
 
 	@Override
-	public Fixture transform(SpringFixture springFixture) {
+	public ObjectFixture transform(SpringFixture springFixture) {
 		final ApplicationContext context = getApplicationContext(springFixture);
 
-		Fixture fixture = new MappingFixture();
+		ObjectFixture fixture = new MappingFixture();
 
 		for (Class<?> clazz : springFixture.getClasses()) {
 			fixture.addObjects(context.getBeansOfType(clazz).values().toArray());

@@ -90,7 +90,7 @@ public class TestXmlFileFixture {
 	@Test
 	public void getTransformedFixtureReturnsTransformedFixture() {
 		// GIVEN
-		Fixture expectedTransformedFixture = new AbstractFixture() {
+		Fixture expectedTransformedFixture = new AbstractObjectFixture() {
 			@Override
 			public Fixture addObjects(Object... objects) {
 				return this;

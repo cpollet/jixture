@@ -16,21 +16,16 @@
 
 package net.cpollet.jixture.fixtures;
 
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Christophe Pollet
  */
-public abstract class AbstractFixture implements Fixture<Object> {
-	@Override
-	public LinkedList<Class> getClassesToDelete() {
-		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
+public interface ObjectFixture<T> extends Fixture {
+	Fixture addObjects(T... objects);
 
-		for (Object object : getObjects()) {
-			classesToDelete.add(object.getClass());
-		}
+	List<T> getObjects();
 
-		return new LinkedList<Class>(classesToDelete);
-	}
+	LinkedList<Class> getClassesToDelete();
 }

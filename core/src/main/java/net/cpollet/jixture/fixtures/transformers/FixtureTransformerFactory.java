@@ -63,7 +63,7 @@ public class FixtureTransformerFactory implements InitializingBean {
 		transformersMap.put(FIXTURE_TRANSFORMER.getFromType(), FIXTURE_TRANSFORMER);
 	}
 
-	private static final FixtureTransformer FIXTURE_TRANSFORMER = new FixtureTransformer<Fixture>() {
+	private static final FixtureTransformer FIXTURE_TRANSFORMER = new FixtureTransformer<Fixture, Fixture>() {
 		@Override
 		public Class getFromType() {
 			return Fixture.class;

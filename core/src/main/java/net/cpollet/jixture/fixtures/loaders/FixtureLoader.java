@@ -17,17 +17,16 @@
 package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.TransformableFixture;
 
 /**
  * @author Christophe Pollet
  */
 public interface FixtureLoader {
+
+
 	public enum Mode {
 		COMMIT, NO_COMMIT
 	}
-
-	void load(TransformableFixture fixture, Mode mode);
 
 	void load(Fixture fixture, Mode mode);
 

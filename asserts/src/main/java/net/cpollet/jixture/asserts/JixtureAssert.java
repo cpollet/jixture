@@ -19,6 +19,7 @@ package net.cpollet.jixture.asserts;
 import net.cpollet.jixture.asserts.helpers.MappingUtils;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
@@ -84,7 +85,7 @@ public class JixtureAssert<T> {
 		return this;
 	}
 
-	public JixtureAssert containsAtLeast(TransformableFixture transformableFixture) {
+	public JixtureAssert containsAtLeast(Fixture transformableFixture) {
 		List<Map<String, ? extends Object>> expectedMaps = getExpectedMaps(transformableFixture);
 		List<Map<String, ? extends Object>> actualMaps = getActualMaps();
 
@@ -122,10 +123,10 @@ public class JixtureAssert<T> {
 		}
 	}
 
-	private List<Map<String, ? extends Object>> getExpectedMaps(TransformableFixture transformableFixture) {
+	private List<Map<String, ? extends Object>> getExpectedMaps(Fixture transformableFixture) {
 		Collection<MappingField> fields = mappingDefinitionHolder.getFieldsByMappingClass(mapping);
 
-		Fixture fixture = transform(transformableFixture);
+		ObjectFixture fixture = transform(transformableFixture);
 
 		List<Map<String, ? extends Object>> expectedMaps = new ArrayList<Map<String, ? extends Object>>();
 
@@ -140,12 +141,16 @@ public class JixtureAssert<T> {
 		return expectedMaps;
 	}
 
-	private Fixture transform(TransformableFixture fixture) {
-		if (fixture instanceof Fixture) {
-			return (Fixture) fixture;
+	private ObjectFixture transform(Fixture fixture) {
+		while (fixture instanceof TransformableFixture) {
+			fixture = fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
 		}
 
-		return fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
+		if (fixture instanceof ObjectFixture) {
+			return (ObjectFixture) fixture;
+		}
+
+		throw new IllegalArgumentException("Fixture must be transformable into an " + ObjectFixture.class.getName());
 	}
 
 	private List<T> loadAllEntities() {
@@ -178,7 +183,7 @@ public class JixtureAssert<T> {
 		return unitDaoFactory.getUnitDao().getAll(mapping);
 	}
 
-	public JixtureAssert containsAtMost(TransformableFixture transformableFixture) {
+	public JixtureAssert containsAtMost(Fixture transformableFixture) {
 		List<Map<String, ? extends Object>> expectedMaps = getExpectedMaps(transformableFixture);
 		List<Map<String, ? extends Object>> actualMaps = getActualMaps();
 

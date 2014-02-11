@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * @author Christophe Pollet
  */
-public class CleaningFixture implements Fixture<Class> {
+public class CleaningFixture implements ObjectFixture<Class> {
 	Set<Class> classes;
 
 	public CleaningFixture(Class... classesToDelete) {

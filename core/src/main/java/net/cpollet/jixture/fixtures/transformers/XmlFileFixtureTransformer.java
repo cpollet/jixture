@@ -16,8 +16,8 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
+import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
@@ -42,7 +42,7 @@ import java.util.List;
  * @author Christophe Pollet
  */
 @Component
-public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixture> {
+public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixture, ObjectFixture> {
 	@Autowired
 	@Qualifier("jixture.mappingConversionServiceFactoryBean")
 	private ConversionServiceFactoryBean conversionServiceFactoryBean;
@@ -56,7 +56,7 @@ public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixt
 	}
 
 	@Override
-	public Fixture transform(XmlFileFixture fixture) {
+	public ObjectFixture transform(XmlFileFixture fixture) {
 		List<Object> objects = parse(fixture.getInputStream());
 
 		return new MappingFixture(objects.toArray());

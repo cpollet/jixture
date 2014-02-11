@@ -19,5 +19,5 @@ package net.cpollet.jixture.fixtures;
 /**
  * @author Christophe Pollet
  */
-public interface TransformableFixture {
+public interface TransformableFixture extends Fixture {
 }

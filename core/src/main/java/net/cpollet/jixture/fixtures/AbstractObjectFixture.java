@@ -16,15 +16,21 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.dao.UnitDaoFactory;
-
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 /**
  * @author Christophe Pollet
  */
-public interface RawFixture extends Fixture {
-	LinkedList<Class> getClassesToDelete();
+public abstract class AbstractObjectFixture implements ObjectFixture<Object> {
+	@Override
+	public LinkedList<Class> getClassesToDelete() {
+		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
 
-	public void load(UnitDaoFactory unitDaoFactory);
+		for (Object object : getObjects()) {
+			classesToDelete.add(object.getClass());
+		}
+
+		return new LinkedList<Class>(classesToDelete);
+	}
 }

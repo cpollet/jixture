@@ -21,8 +21,8 @@ import net.cpollet.jixture.fixtures.Fixture;
 /**
  * @author Christophe Pollet
  */
-public interface FixtureTransformer<From> {
+public interface FixtureTransformer<From extends Fixture, To extends Fixture> {
 	Class getFromType();
 
-	Fixture transform(From fixture);
+	To transform(From fixture);
 }
