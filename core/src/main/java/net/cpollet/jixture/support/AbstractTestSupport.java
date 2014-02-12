@@ -25,14 +25,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * @author Christophe Pollet
  */
 public abstract class AbstractTestSupport implements DatabaseTestSupport, InitializingBean {
-	private Collection<? extends Fixture> fixtures;
+	private Collection<Fixture> fixtures;
 
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
@@ -61,18 +63,36 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	}
 
 	@Override
-	public void setFixtures(Collection<? extends Fixture> fixtures) {
-		this.fixtures = fixtures;
+	public DatabaseTestSupport setFixtures(Fixture... fixtures) {
+		return setFixtures(Arrays.asList(fixtures));
 	}
 
 	@Override
-	public Collection<? extends Fixture> getFixtures() {
+	public DatabaseTestSupport setFixtures(Collection<Fixture> fixtures) {
+		this.fixtures = fixtures;
+		return this;
+	}
+
+	@Override
+	public DatabaseTestSupport addFixtures(Fixture... fixtures) {
+		return addFixtures(Arrays.asList(fixtures));
+	}
+
+	@Override
+	public DatabaseTestSupport addFixtures(Collection<Fixture> fixtures) {
+		this.fixtures.addAll(fixtures);
+		return this;
+	}
+
+	@Override
+	public Collection<Fixture> getFixtures() {
 		return fixtures;
 	}
 
 	@Override
-	public void setFixtureLoader(FixtureLoader fixtureLoader) {
+	public DatabaseTestSupport setFixtureLoader(FixtureLoader fixtureLoader) {
 		this.fixtureLoader = fixtureLoader;
+		return this;
 	}
 
 	@Override
