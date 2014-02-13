@@ -22,7 +22,7 @@ import net.cpollet.jixture.fixtures.AbstractObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
-import net.cpollet.jixture.fixtures.SqlFixture;
+import net.cpollet.jixture.fixtures.SqlFileFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
@@ -249,7 +249,7 @@ public class TestSimpleFixtureLoader {
 	@Test
 	public void loadRawFixtureDeletesOldEntitiesBeforeSavingNewOnes() {
 		// WHEN
-		simpleFixtureLoader.load(new SqlFixture("classpath:tests/fixtures/sql-fixture.sql", User.class), FixtureLoader.Mode.COMMIT);
+		simpleFixtureLoader.load(new SqlFileFixture("classpath:tests/fixtures/sql-fixture.sql", User.class), FixtureLoader.Mode.COMMIT);
 
 		// WHEN
 		InOrder inOrder = Mockito.inOrder(unitDao);

@@ -17,15 +17,7 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.io.InputStreamUtils;
-import net.cpollet.jixture.utils.ExceptionUtils;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -33,44 +25,16 @@ import java.util.LinkedList;
  */
 public class SqlFixture implements RawFixture {
 	private CleaningFixture cleaningFixture;
-	private InputStream fileInputStream;
+	private String[] queries;
 
-	public SqlFixture(String filePath) {
+	public SqlFixture(String[] queries) {
 		this.cleaningFixture = new CleaningFixture();
-		this.fileInputStream = InputStreamUtils.getInputStream(filePath);
+		this.queries = queries;
 	}
 
-	public SqlFixture(String filePath, Class... classes) {
+	public SqlFixture(String[] queries, Class... classes) {
 		this.cleaningFixture = new CleaningFixture(classes);
-		this.fileInputStream = InputStreamUtils.getInputStream(filePath);
-	}
-
-	@Override
-	public void load(UnitDaoFactory unitDaoFactory) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
-		BufferedReaderIterator iterator = new BufferedReaderIterator(reader);
-
-		StringBuilder currentQuery = new StringBuilder();
-		while (iterator.hasNext()) {
-			String line = iterator.next().trim();
-
-			if (!isCommentOrEmptyLine(line)) {
-				currentQuery.append(line).append(" ");
-			}
-
-			if (isEndOfQuery(line)) {
-				unitDaoFactory.getUnitDao().execute(currentQuery.toString());
-				currentQuery = new StringBuilder();
-			}
-		}
-	}
-
-	private boolean isCommentOrEmptyLine(String line) {
-		return line.length() == 0 || line.startsWith("--");
-	}
-
-	private boolean isEndOfQuery(String line) {
-		return line.endsWith(";");
+		this.queries = queries;
 	}
 
 	@Override
@@ -78,39 +42,10 @@ public class SqlFixture implements RawFixture {
 		return cleaningFixture.getClassesToDelete();
 	}
 
-	private class BufferedReaderIterator implements Iterator<String> {
-		private BufferedReader bufferedReader;
-		private String currentLine = null;
-
-		public BufferedReaderIterator(BufferedReader bufferedReader) {
-			this.bufferedReader = bufferedReader;
-			currentLine = readNextLine();
-		}
-
-		private String readNextLine() {
-			try {
-				return bufferedReader.readLine();
-			}
-			catch (IOException e) {
-				throw ExceptionUtils.wrapInRuntimeException(e);
-			}
-		}
-
-		@Override
-		public boolean hasNext() {
-			return currentLine != null;// && nextLine != null;
-		}
-
-		@Override
-		public String next() {
-			String currentLine = this.currentLine;
-			this.currentLine = readNextLine();
-			return currentLine;
-		}
-
-		@Override
-		public void remove() {
-			throw new NotImplementedException();
+	@Override
+	public void load(UnitDaoFactory unitDaoFactory) {
+		for (String query : queries) {
+			unitDaoFactory.getUnitDao().execute(query);
 		}
 	}
 }

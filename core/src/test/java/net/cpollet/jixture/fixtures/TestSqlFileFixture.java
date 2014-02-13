@@ -33,7 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestSqlFixture {
+public class TestSqlFileFixture {
 	@Mock
 	private UnitDaoFactory unitDaoFactory;
 
@@ -48,7 +48,7 @@ public class TestSqlFixture {
 	@Test
 	public void getClassesToDeleteReturnsEmptyListOfNotDefined() {
 		// GIVEN
-		SqlFixture fixture = new SqlFixture(new String[]{"query1", "query2"});
+		SqlFileFixture fixture = new SqlFileFixture("classpath:tests/fixtures/sql-fixture.sql");
 
 		// WHEN + THEN
 		assertThat(fixture.getClassesToDelete()).hasSize(0);
@@ -57,7 +57,7 @@ public class TestSqlFixture {
 	@Test
 	public void getClassesToDeleteReturnsCorrectSetIfDefined() {
 		// GIVEN
-		SqlFixture fixture = new SqlFixture(new String[]{"query1", "query2"}, User.class, Product.class);
+		SqlFileFixture fixture = new SqlFileFixture("classpath:tests/fixtures/sql-fixture.sql", User.class, Product.class);
 
 		// WHEN + THEN
 		assertThat(fixture.getClassesToDelete())//
@@ -66,15 +66,16 @@ public class TestSqlFixture {
 	}
 
 	@Test
-	public void loadExecutesQueries() {
+	public void loadExecutesQueriesLineByLine() {
 		// GIVEN
-		SqlFixture fixture = new SqlFixture(new String[]{"query1", "query2"}, User.class, Product.class);
+		SqlFileFixture fixture = new SqlFileFixture("classpath:tests/fixtures/sql-fixture.sql", User.class, Product.class);
 
 		// WHEN
 		fixture.load(unitDaoFactory);
 
 		// THEN
-		Mockito.verify(unitDao).execute("query1");
-		Mockito.verify(unitDao).execute("query2");
+		Mockito.verify(unitDao).execute("insert into users values ('username1', 0, 'password'); ");
+		Mockito.verify(unitDao).execute("insert into users values ('username2', 0, 'password'); ");
+		Mockito.verify(unitDao).execute("insert into users values ('username3', 0, 'password') ; ");
 	}
 }
