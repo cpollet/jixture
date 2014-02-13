@@ -18,6 +18,7 @@ package net.cpollet.jixture.tests.integration;
 
 import net.cpollet.jixture.dao.SimpleUnitDao;
 import net.cpollet.jixture.dao.UnitDao;
+import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.support.CommitDatabaseTestSupport;
 import net.cpollet.jixture.support.NoCommitDatabaseTestSupport;
@@ -84,7 +85,7 @@ public abstract class AbstractITestDatabaseTestSupport {
 
 	@Test
 	public void noCommitDatabaseTestSupportDoesNotCommit() {
-		noCommitDatabaseTestSupport.setFixtures(Arrays.asList(new MappingFixture(createUser())));
+		noCommitDatabaseTestSupport.setFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
 		noCommitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();
@@ -128,7 +129,7 @@ public abstract class AbstractITestDatabaseTestSupport {
 
 	@Test
 	public void commitDatabaseSupportCommits() {
-		commitDatabaseTestSupport.setFixtures(Arrays.asList(new MappingFixture(createUser())));
+		commitDatabaseTestSupport.setFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
 		commitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();
