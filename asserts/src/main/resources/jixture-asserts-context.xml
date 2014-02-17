@@ -9,5 +9,5 @@
 
 	<import resource="classpath:/spring/jixture-core-context.xml"/>
 
-	<bean class="net.cpollet.jixture.asserts.helpers.StaticFieldJInjector"/>
+	<bean class="net.cpollet.jixture.asserts.helpers.StaticFieldInjector"/>
 </beans>

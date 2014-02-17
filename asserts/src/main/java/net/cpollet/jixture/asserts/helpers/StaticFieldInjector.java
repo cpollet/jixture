@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author Christophe Pollet
  */
-public class StaticFieldJInjector implements InitializingBean {
+public class StaticFieldInjector implements InitializingBean {
 	@Autowired
 	private UnitDaoFactory unitDaoFactory;
 
