@@ -31,7 +31,7 @@ public class UnitDaoFactory implements InitializingBean {
 	private final static Logger logger = LoggerFactory.getLogger(UnitDaoFactory.class);
 
 	@Autowired
-	@Qualifier(value = "jixture.transactionManager")
+	@Qualifier(value = "jixture.core.transactionManager")
 	private HibernateTransactionManager transactionManager;
 
 	private UnitDao unitDao;
