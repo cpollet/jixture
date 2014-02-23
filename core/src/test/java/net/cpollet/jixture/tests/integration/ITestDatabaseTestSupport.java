@@ -89,7 +89,7 @@ public class ITestDatabaseTestSupport {
 
 	@Test
 	public void noCommitDatabaseTestSupportDoesNotCommit() {
-		noCommitDatabaseTestSupport.setFixtures(new MappingFixture(createUser()));
+		noCommitDatabaseTestSupport.addFixtures(new MappingFixture(createUser()));
 		noCommitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();
@@ -133,7 +133,7 @@ public class ITestDatabaseTestSupport {
 
 	@Test
 	public void commitDatabaseSupportCommits() {
-		commitDatabaseTestSupport.setFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
+		commitDatabaseTestSupport.addFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
 		commitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();

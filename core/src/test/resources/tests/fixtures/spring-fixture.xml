@@ -15,9 +15,7 @@
 	</bean>
 	-->
 
-	<bean id="user1" class="net.cpollet.jixture.tests.mappings.User">
-	</bean>
+	<bean id="user1" class="net.cpollet.jixture.tests.mappings.User"></bean>
 
-	<bean id="client1" class="net.cpollet.jixture.tests.mappings.Client">
-	</bean>
+	<bean id="client1" class="net.cpollet.jixture.tests.mappings.Client"></bean>
 </beans>

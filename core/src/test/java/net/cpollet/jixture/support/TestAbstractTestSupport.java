@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,35 @@
 
 package net.cpollet.jixture.support;
 
-import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.junit.Test;
 
 import java.util.Collection;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public interface DatabaseTestSupport {
-	DatabaseTestSupport addFixtures(Fixture... fixtures);
+public class TestAbstractTestSupport {
+	@Test
+	public void addSpringContextFixtureLoadsContextAndAddFixturesToTheList() {
+		// GIVEN
+		DatabaseTestSupport testSupport = new ConcreteTestSupport();
 
-	DatabaseTestSupport addFixtures(Collection<Fixture> fixtures);
+		// WHEN
+		testSupport.addFixtures("classpath:tests/fixtures/fixtures-context.xml");
 
-	DatabaseTestSupport addFixtures(String... contexts);
+		// THEN
+		Collection<Fixture> fixtures = testSupport.getFixtures();
+		assertThat(fixtures.size()).isEqualTo(4);
+	}
 
-	Collection<Fixture> getFixtures();
-
-	DatabaseTestSupport setFixtureLoader(FixtureLoader fixtureLoaderChain);
-
-	void afterTest();
-
-	void beforeTest();
-
-	UnitDao getUnitDao();
-
-	HibernateTransactionManager getTransactionManager();
+	private class ConcreteTestSupport extends AbstractTestSupport {
+		@Override
+		protected FixtureLoader.Mode getCommitMode() {
+			return null;
+		}
+	};
 }

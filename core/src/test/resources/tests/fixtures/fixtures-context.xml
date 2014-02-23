@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean class="net.cpollet.jixture.fixtures.SqlFileFixture">
+		<constructor-arg value="classpath:tests/fixtures/sql-fixture.sql"/>
+	</bean>
+
+	<bean class="net.cpollet.jixture.fixtures.SqlFixture">
+		<constructor-arg>
+			<list>
+				<value>query 1</value>
+				<value>query 2</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<import resource="spring-fixture.xml"/>
+	<bean class="net.cpollet.jixture.fixtures.MappingFixture">
+		<constructor-arg>
+			<list>
+				<ref bean="user1"/>
+				<ref bean="client1"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean class="net.cpollet.jixture.fixtures.SpringFixture">
+		<constructor-arg index="0" type="java.lang.String" value="context"/>
+		<constructor-arg index="1" type="java.lang.Class[]">
+			<list>
+				<value>net.cpollet.jixture.tests.mappings.User</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+
+</beans>

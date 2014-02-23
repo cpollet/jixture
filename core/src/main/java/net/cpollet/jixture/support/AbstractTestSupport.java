@@ -22,6 +22,8 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.util.Assert;
 
@@ -43,7 +45,7 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	protected FixtureLoader fixtureLoader;
 
 	public AbstractTestSupport() {
-		fixtures = Collections.emptyList();
+		fixtures = new LinkedList<Fixture>();
 	}
 
 	protected abstract FixtureLoader.Mode getCommitMode();
@@ -63,17 +65,6 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	}
 
 	@Override
-	public DatabaseTestSupport setFixtures(Fixture... fixtures) {
-		return setFixtures(Arrays.asList(fixtures));
-	}
-
-	@Override
-	public DatabaseTestSupport setFixtures(Collection<Fixture> fixtures) {
-		this.fixtures = fixtures;
-		return this;
-	}
-
-	@Override
 	public DatabaseTestSupport addFixtures(Fixture... fixtures) {
 		return addFixtures(Arrays.asList(fixtures));
 	}
@@ -81,6 +72,16 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	@Override
 	public DatabaseTestSupport addFixtures(Collection<Fixture> fixtures) {
 		this.fixtures.addAll(fixtures);
+		return this;
+	}
+
+	@Override
+	public DatabaseTestSupport addFixtures(String... contexts) {
+		for (String context : contexts) {
+			ApplicationContext springContext = new ClassPathXmlApplicationContext(context);
+			addFixtures(springContext.getBeansOfType(Fixture.class).values());
+		}
+
 		return this;
 	}
 

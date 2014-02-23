@@ -85,7 +85,7 @@ public abstract class AbstractITestDatabaseTestSupport {
 
 	@Test
 	public void noCommitDatabaseTestSupportDoesNotCommit() {
-		noCommitDatabaseTestSupport.setFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
+		noCommitDatabaseTestSupport.addFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
 		noCommitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();
@@ -129,7 +129,7 @@ public abstract class AbstractITestDatabaseTestSupport {
 
 	@Test
 	public void commitDatabaseSupportCommits() {
-		commitDatabaseTestSupport.setFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
+		commitDatabaseTestSupport.addFixtures(Arrays.<Fixture>asList(new MappingFixture(createUser())));
 		commitDatabaseTestSupport.beforeTest();
 
 		assertDatabaseContainsUser();
