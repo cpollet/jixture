@@ -22,17 +22,12 @@ import net.cpollet.jixture.sample.service.UserService;
 import net.cpollet.jixture.support.AbstractCommitDatabaseTest;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.*;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -60,7 +55,7 @@ public class TestSimpleUserServiceWithSuperclass extends AbstractCommitDatabaseT
 	}
 
 	@Override
-	protected void setupFixtures() {
+	public void setupFixtures() {
 		User committedUser = new User();
 		committedUser.setId(1L);
 		committedUser.setName("name");

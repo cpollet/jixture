@@ -27,6 +27,10 @@ import java.util.Collection;
  * @author Christophe Pollet
  */
 public interface DatabaseTestSupport {
+	void setupFixtures();
+
+	void teardownFixtures();
+
 	DatabaseTestSupport addFixtures(Fixture... fixtures);
 
 	DatabaseTestSupport addFixtures(Collection<Fixture> fixtures);
