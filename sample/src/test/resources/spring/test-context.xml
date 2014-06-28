@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- open database connection, load application context -->
+	<import resource="classpath:/spring/oracle-datasource-context.xml"/>
+	<import resource="classpath:/spring/context.xml"/>
+
+	<!-- import jixture context -->
+	<alias name="transactionManager" alias="jixture.core.transactionManager"/>
+	<import resource="classpath:/spring/jixture-core-context.xml"/>
+
+	<!-- create test support bean -->
+	<bean id="commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport" />
+
+</beans>

@@ -12,6 +12,7 @@
 		<module>core</module>
 		<module>asserts</module>
 		<module>integration</module>
+		<module>sample</module>
 	</modules>
 
 	<build>
