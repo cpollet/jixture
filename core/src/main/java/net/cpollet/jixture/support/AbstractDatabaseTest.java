@@ -28,15 +28,25 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractDatabaseTest extends AbstractTestSupport implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 
+	protected void setupFixtures() {
+		// nothing
+	}
+
+	protected void teardownFixtures() {
+		// nothing
+	}
+
 	@Override
 	@Before
 	public void beforeTest() {
+		setupFixtures();
 		super.beforeTest();
 	}
 
 	@Override
 	@After
 	public void afterTest() {
+		teardownFixtures();
 		super.afterTest();
 	}
 
