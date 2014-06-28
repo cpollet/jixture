@@ -1,0 +1,11 @@
+language: java
+
+before_script:
+  - mysql -e 'create database testsupport;'
+
+scripts:
+  - mvn clean test -DskipOracleTests -Djixture.sample.database.type=mysql
+
+branches:
+  only:
+    - master
