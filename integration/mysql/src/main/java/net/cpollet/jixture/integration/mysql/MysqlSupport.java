@@ -20,6 +20,8 @@ import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import net.cpollet.jixture.support.CommitDatabaseTestSupport;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
@@ -35,6 +37,8 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class MysqlSupport implements InitializingBean {
+	private static final Logger logger = LoggerFactory.getLogger(MysqlSupport.class);
+
 	@Autowired
 	private UnitDaoFactory unitDaoFactory;
 
@@ -46,6 +50,7 @@ public class MysqlSupport implements InitializingBean {
 		transactionTemplates.get(FixtureLoader.Mode.COMMIT).execute(new TransactionCallbackWithoutResult() {
 			@Override
 			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				logger.info("Setting global transaction isolation to read committed");
 				unitDaoFactory.getUnitDao().getSession().createSQLQuery("set global transaction isolation level read committed").executeUpdate();
 			}
 		});

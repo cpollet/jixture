@@ -16,33 +16,7 @@
 
 package net.cpollet.jixture.integration.mysql;
 
-import net.cpollet.jixture.dao.SimpleUnitDao;
-import net.cpollet.jixture.dao.UnitDao;
-import net.cpollet.jixture.fixtures.MappingFixture;
-import net.cpollet.jixture.support.CommitDatabaseTestSupport;
-import net.cpollet.jixture.support.NoCommitDatabaseTestSupport;
 import net.cpollet.jixture.tests.integration.AbstractITestDatabaseTestSupport;
-import net.cpollet.jixture.tests.mappings.User;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet

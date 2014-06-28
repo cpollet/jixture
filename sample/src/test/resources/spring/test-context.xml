@@ -3,8 +3,7 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- open database connection, load application context -->
-	<import resource="classpath:/spring/oracle-datasource-context.xml"/>
+	<!-- load application context -->
 	<import resource="classpath:/spring/context.xml"/>
 
 	<!-- import jixture context -->
@@ -13,5 +12,4 @@
 
 	<!-- create test support bean -->
 	<bean id="commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport" />
-
 </beans>
