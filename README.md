@@ -12,4 +12,4 @@ Several custom maven flags are available:
 * `-DskipSampleTests=true` skips tests under `/sample`
 * `-Djixture.sample.database.type=[oracle,mysql]`, defaults to `oracle` determine what database should be used to run tests under `/samples`
 
-Since the oracle driver is not un Central, it is not included in the dependencies if a file named `.ojdbc6.exclude` exists in `/`.
+Since the oracle driver is not in Central, it is not included in the dependencies if a file named `.ojdbc6.exclude` exists in `/`.
