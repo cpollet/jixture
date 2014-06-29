@@ -9,7 +9,7 @@ before_script:
   - mysql -e 'create database testsupport;'
   - ls -a .*.exclude
 
-scripts:
+script:
   - mvn clean test -Djixture.sample.database.type=mysql
 
 branches:
