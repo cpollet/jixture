@@ -4,6 +4,7 @@ before_install:
   - touch .ojdbc6.exclude
 
 before_script:
+  - mysql -uroot -e 'SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED'
   - mysql -e 'show variables;'
   - mysql -e 'create database testsupport;'
 
