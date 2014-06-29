@@ -17,16 +17,11 @@
 package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
-import net.cpollet.jixture.fixtures.XmlFileFixture;
-import net.cpollet.jixture.helper.MappingField;
-import net.cpollet.jixture.tests.mappings.CartEntry;
 import net.cpollet.jixture.tests.mappings.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.fest.assertions.Assertions.assertThat;
 

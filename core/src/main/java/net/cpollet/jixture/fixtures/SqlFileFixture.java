@@ -19,7 +19,6 @@ package net.cpollet.jixture.fixtures;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.io.InputStreamUtils;
 import net.cpollet.jixture.utils.ExceptionUtils;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

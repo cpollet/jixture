@@ -17,10 +17,7 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.io.InputStreamUtils;
-import net.cpollet.jixture.utils.ExceptionUtils;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**

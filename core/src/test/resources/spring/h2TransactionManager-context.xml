@@ -4,16 +4,6 @@
 	   xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<!--
-	<bean id="postgresqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="org.postgresql.Driver"/>
-		<property name="url" value="jdbc:postgresql://localhost/test"/>
-		<property name="username" value="test"/>
-		<property name="password" value="test"/>
-	</bean>
-	<alias name="mysqlDataSource" alias="dataSource"/>
-	-->
-
 	<bean id="H2DataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.h2.Driver"/>
 		<property name="url" value="jdbc:h2:mem:test;INIT=CREATE SCHEMA IF NOT EXISTS test;MVCC=TRUE"/>

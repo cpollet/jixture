@@ -18,10 +18,7 @@ package net.cpollet.jixture.sample.da.dao.impl;
 
 import net.cpollet.jixture.sample.da.dao.UserDao;
 import net.cpollet.jixture.sample.da.data.User;
-import org.hibernate.LockMode;
-import org.hibernate.LockOptions;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 

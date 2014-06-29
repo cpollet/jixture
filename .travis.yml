@@ -1,10 +1,13 @@
 language: java
 
+before_install:
+  - touch .ojdbc6.exclude
+
 before_script:
   - mysql -e 'create database testsupport;'
 
 scripts:
-  - mvn clean test -DskipOracleTests -Djixture.sample.database.type=mysql
+  - mvn clean test -Djixture.sample.database.type=mysql
 
 branches:
   only:

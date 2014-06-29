@@ -16,8 +16,6 @@
 
 package net.cpollet.jixture.sample.da.dao;
 
-import net.cpollet.jixture.sample.da.data.User;
-
 import java.util.List;
 
 /**
