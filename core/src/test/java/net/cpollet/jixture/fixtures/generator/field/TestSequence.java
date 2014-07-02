@@ -117,7 +117,7 @@ public class TestSequence {
 		sequence.next();
 
 		expectedException.expect(NoSuchElementException.class);
-		expectedException.expectMessage("Sequence ended");
+		expectedException.expectMessage("Sequence [1;1;1] ended");
 
 		sequence.next();
 	}

@@ -59,7 +59,7 @@ public class Sequence implements FieldGenerator {
 	@Override
 	public Object next() {
 		if (!hasNext()) {
-			throw new NoSuchElementException("Sequence ended");
+			throw new NoSuchElementException("Sequence [" + start + ";" + increment + ";" + stop + "] ended");
 		}
 
 		current = next;
