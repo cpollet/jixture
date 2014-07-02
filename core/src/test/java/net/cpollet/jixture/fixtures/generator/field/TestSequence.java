@@ -50,10 +50,40 @@ public class TestSequence {
 	}
 
 	@Test
+	public void firstCurrentReturnsFirstValueValue() {
+		// GIVEN
+		sequence = new Sequence(1, 3);
+
+		// WHEN + THEN
+		assertThat(sequence.current()).isEqualTo(1);
+	}
+
+	@Test
+	public void nextAfterFirstCurrentReturnsSecondValue() {
+		// GIVEN
+		sequence = new Sequence(1, 3);
+
+		// WHEN + THEN
+		assertThat(sequence.current()).isEqualTo(1);
+		assertThat(sequence.next()).isEqualTo(2);
+	}
+
+	@Test
+	public void currentAfterNextReturnsCUrrentValue() {
+		// GIVEN
+		sequence = new Sequence(1, 3);
+
+		// WHEN + THEN
+		assertThat(sequence.next()).isEqualTo(1);
+		assertThat(sequence.current()).isEqualTo(1);
+	}
+
+	@Test
 	public void firstNextReturnsFirstValue() {
 		// GIVEN
 		sequence = new Sequence(1, 3);
 
+		// WHEN + THEN
 		assertThat(sequence.next()).isEqualTo(1);
 	}
 
@@ -62,6 +92,7 @@ public class TestSequence {
 		// GIVEN
 		sequence = new Sequence(1, 3);
 
+		// WHEN + THEN
 		assertThat(sequence.next()).isEqualTo(1);
 		assertThat(sequence.next()).isEqualTo(2);
 	}
@@ -82,6 +113,7 @@ public class TestSequence {
 		// GIVEN
 		sequence = new Sequence(1, 1);
 
+		// WHEN + THEN
 		sequence.next();
 
 		expectedException.expect(NoSuchElementException.class);
@@ -103,7 +135,7 @@ public class TestSequence {
 	@Test
 	public void resetResetsTheSequence() {
 		// GIVEN
-		sequence = new Sequence(1, 3, 2);
+		sequence = new Sequence(1, 3);
 
 		assertThat(sequence.next()).isEqualTo(1);
 
@@ -112,6 +144,11 @@ public class TestSequence {
 
 		// THEN
 		assertThat(sequence.next()).isEqualTo(1);
+
+		sequence.reset();
+
+		assertThat(sequence.current()).isEqualTo(1);
+		assertThat(sequence.next()).isEqualTo(2);
 	}
 
 	@Test

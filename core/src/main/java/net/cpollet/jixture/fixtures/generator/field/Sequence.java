@@ -27,13 +27,12 @@ public class Sequence implements FieldGenerator {
 	private int start;
 	private int increment;
 	private int stop;
-	private int current;
+	private Integer current;
 	private int next;
 
 	public Sequence(int start, int stop, int increment) {
 		Assert.isTrue(stop >= start, "stop must be >= start");
 		Assert.isTrue(0 < increment, "increment must be > 0");
-
 
 		this.start = start;
 		this.increment = increment;
@@ -48,6 +47,7 @@ public class Sequence implements FieldGenerator {
 
 	@Override
 	public void reset() {
+		current = null;
 		next = start;
 	}
 
@@ -68,8 +68,17 @@ public class Sequence implements FieldGenerator {
 		return current();
 	}
 
+	/**
+	 * Returns the current sequence value. Implicitly calls next() if next() was never called before since creation of
+	 * last reset().
+	 * @return
+	 */
 	@Override
 	public Object current() {
+		if (null == current) {
+			return next();
+		}
+
 		return current;
 	}
 }
