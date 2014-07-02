@@ -16,12 +16,11 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.generator.Generator;
+import net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,24 +32,24 @@ import java.util.List;
 public class GeneratorFixture implements ScrollableFixture {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratorFixture.class);
 
-	private List<Generator> generators;
+	private List<FixtureGenerator> fixtureGenerators;
 	private boolean started;
 
-	private Iterator<Generator> generatorIterator;
-	private Generator currentGenerator;
+	private Iterator<FixtureGenerator> generatorIterator;
+	private FixtureGenerator currentFixtureGenerator;
 
-	public GeneratorFixture(Generator... generators) {
-		this.generators = new LinkedList<Generator>();
-		addGenerators(generators);
+	public GeneratorFixture(FixtureGenerator... fixtureGenerators) {
+		this.fixtureGenerators = new LinkedList<FixtureGenerator>();
+		addGenerators(fixtureGenerators);
 
 		this.started = false;
 	}
 
-	public GeneratorFixture addGenerators(Generator... generatorsToAdd) {
+	public GeneratorFixture addGenerators(FixtureGenerator... generatorsToAdd) {
 		assertGeneratorNotStarted();
 
 		if (generatorsToAdd.length > 0) {
-			Collections.addAll(generators, generatorsToAdd);
+			Collections.addAll(fixtureGenerators, generatorsToAdd);
 		}
 
 		return this;
@@ -66,10 +65,15 @@ public class GeneratorFixture implements ScrollableFixture {
 		assertGeneratorNotStarted();
 
 		started = true;
-		generatorIterator = generators.iterator();
+
+		for (FixtureGenerator fixtureGenerator : fixtureGenerators) {
+			fixtureGenerator.start();
+		}
+
+		generatorIterator = fixtureGenerators.iterator();
 
 		if (generatorIterator.hasNext()) {
-			currentGenerator = generatorIterator.next();
+			currentFixtureGenerator = generatorIterator.next();
 		}
 	}
 
@@ -91,12 +95,12 @@ public class GeneratorFixture implements ScrollableFixture {
 	}
 
 	private boolean hasCurrentGeneratorMoreObjectsToGenerate() {
-		return currentGenerator != null && currentGenerator.hasNext();
+		return currentFixtureGenerator != null && currentFixtureGenerator.hasNext();
 	}
 
 	private boolean hasNextGeneratorsObjectsToGenerate() {
 		if (generatorIterator.hasNext()) {
-			currentGenerator = generatorIterator.next();
+			currentFixtureGenerator = generatorIterator.next();
 			return hasNext();
 		}
 
@@ -111,17 +115,17 @@ public class GeneratorFixture implements ScrollableFixture {
 			throw new IllegalStateException("No object to generate");
 		}
 
-		Object object = currentGenerator.next();
+		Object object = currentFixtureGenerator.next();
 		logger.debug("Generated {}", object);
 		return object;
 	}
 
 	@Override
 	public List<Class> getClassesToDelete() {
-		List<Class> classesToDelete = new ArrayList<Class>(generators.size());
+		List<Class> classesToDelete = new ArrayList<Class>(fixtureGenerators.size());
 
-		for (Generator generator : generators) {
-			classesToDelete.add(generator.getGeneratedClass());
+		for (FixtureGenerator fixtureGenerator : fixtureGenerators) {
+			classesToDelete.add(fixtureGenerator.getGeneratedClass());
 		}
 
 		return classesToDelete;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.generator;
+package net.cpollet.jixture.fixtures.generator.fixture;
 
 
 import org.junit.Test;

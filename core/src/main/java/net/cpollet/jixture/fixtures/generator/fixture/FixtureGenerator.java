@@ -14,39 +14,17 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.generator;
+package net.cpollet.jixture.fixtures.generator.fixture;
 
 /**
  * @author Christophe Pollet
  */
-public class SimpleGenerator implements Generator {
-	private Class generatedClass;
-	private int quantity;
+public interface FixtureGenerator {
+	public boolean hasNext();
 
-	public SimpleGenerator(Class generatedClass, int quantity) {
-		this.generatedClass = generatedClass;
-		this.quantity = quantity;
-	}
+	public Object next();
 
-	@Override
-	public boolean hasNext() {
-		return quantity > 0;
-	}
+	public Class getGeneratedClass();
 
-	@Override
-	public Object next() {
-		quantity--;
-
-		try {
-			return generatedClass.newInstance();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	public Class getGeneratedClass() {
-		return generatedClass;
-	}
+	void start();
 }

@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.generator.SimpleGenerator;
+import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
