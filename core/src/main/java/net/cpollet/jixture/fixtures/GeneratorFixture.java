@@ -66,10 +66,6 @@ public class GeneratorFixture implements ScrollableFixture {
 
 		started = true;
 
-		for (FixtureGenerator fixtureGenerator : fixtureGenerators) {
-			fixtureGenerator.start();
-		}
-
 		generatorIterator = fixtureGenerators.iterator();
 
 		if (generatorIterator.hasNext()) {

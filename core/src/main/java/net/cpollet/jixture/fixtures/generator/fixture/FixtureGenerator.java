@@ -25,6 +25,4 @@ public interface FixtureGenerator {
 	public Object next();
 
 	public Class getGeneratedClass();
-
-	void start();
 }

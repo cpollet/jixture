@@ -19,7 +19,7 @@ package net.cpollet.jixture.fixtures.generator.fixture;
 /**
  * @author Christophe Pollet
  */
-public class SimpleGenerator extends BaseFixtureGenerator {
+public class SimpleGenerator implements FixtureGenerator {
 	private Class generatedClass;
 	private int quantity;
 
