@@ -16,44 +16,29 @@
 
 package net.cpollet.jixture.fixtures.generator.field;
 
-import org.springframework.util.Assert;
-
 import java.util.NoSuchElementException;
 
 /**
  * @author Christophe Pollet
  */
-public class IntegerSequence implements FieldGenerator {
-	private int start;
-	private int increment;
-	private int stop;
-	private Integer current;
-	private int next;
+public class SimpleStringSequence implements FieldGenerator {
+	private String format;
+	private String current;
+	private FieldGenerator generator;
 
-	public IntegerSequence(int start, int stop, int increment) {
-		Assert.isTrue(stop >= start, "stop must be >= start");
-		Assert.isTrue(0 < increment, "increment must be > 0");
-
-		this.start = start;
-		this.increment = increment;
-		this.stop = stop;
-
-		reset();
-	}
-
-	public IntegerSequence(int start, int stop) {
-		this(start, stop, 1);
+	public SimpleStringSequence(String format, FieldGenerator generator) {
+		this.format = format;
+		this.generator = generator;
 	}
 
 	@Override
 	public void reset() {
-		current = null;
-		next = start;
+		generator.reset();
 	}
 
 	@Override
 	public boolean hasNext() {
-		return next <= stop;
+		return generator.hasNext();
 	}
 
 	@Override
@@ -62,20 +47,14 @@ public class IntegerSequence implements FieldGenerator {
 			throw new NoSuchElementException(toString() + " ended");
 		}
 
-		current = next;
-		next = next + increment;
+		current = String.format(format, generator.next());
 
 		return current();
 	}
 
-	/**
-	 * Returns the current sequence value. Implicitly calls next() if next() was never called before since creation of
-	 * last reset().
-	 * @return
-	 */
 	@Override
 	public Object current() {
-		if (null == current) {
+		if (current == null) {
 			return next();
 		}
 
@@ -84,6 +63,6 @@ public class IntegerSequence implements FieldGenerator {
 
 	@Override
 	public String toString() {
-		return "IntegerSequence{" + start + ';' + increment + ';' +  stop + '}';
+		return "SimpleStringSequence{'" + format + "';" + generator + '}';
 	}
 }

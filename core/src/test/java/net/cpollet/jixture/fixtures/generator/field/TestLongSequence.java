@@ -117,7 +117,7 @@ public class TestLongSequence {
 		longSequence.next();
 
 		expectedException.expect(NoSuchElementException.class);
-		expectedException.expectMessage("LongSequence [1;1;1] ended");
+		expectedException.expectMessage("LongSequence{1;1;1} ended");
 
 		longSequence.next();
 	}

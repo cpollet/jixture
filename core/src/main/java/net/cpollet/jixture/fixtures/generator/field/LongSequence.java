@@ -59,7 +59,7 @@ public class LongSequence implements FieldGenerator {
 	@Override
 	public Object next() {
 		if (!hasNext()) {
-			throw new NoSuchElementException("LongSequence [" + start + ";" + increment + ";" + stop + "] ended");
+			throw new NoSuchElementException(toString() + " ended");
 		}
 
 		current = next;
@@ -80,5 +80,10 @@ public class LongSequence implements FieldGenerator {
 		}
 
 		return current;
+	}
+
+	@Override
+	public String toString() {
+		return "LongSequence{" + start + ';' + increment + ';' +  stop + '}';
 	}
 }
