@@ -40,8 +40,8 @@ public class TestMultiFieldGenerator {
 	public void firstNextReturnsFirstFieldValueMap() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		// WHEN
 		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.next();
@@ -57,8 +57,8 @@ public class TestMultiFieldGenerator {
 	public void secondNextReturnsSecondFieldValueMap() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		multiFieldGenerator.next();
 
@@ -75,8 +75,8 @@ public class TestMultiFieldGenerator {
 	public void thirdNextReturnsThirdFieldValueMap() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		multiFieldGenerator.next();
 		multiFieldGenerator.next();
@@ -94,9 +94,9 @@ public class TestMultiFieldGenerator {
 	public void nextReturnsNextFieldValueMap() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
-		multiFieldGenerator.addFieldGenerator("field3", new Sequence(5, 6));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field3", new IntegerSequence(5, 6));
 
 		List<Map<String, Object>> values = new ArrayList<Map<String, Object>>(8);
 
@@ -119,7 +119,7 @@ public class TestMultiFieldGenerator {
 	public void nextThrowsExceptionWhenNoMoreElementToGenerate() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
 
 		multiFieldGenerator.next();
 		multiFieldGenerator.next();
@@ -135,7 +135,7 @@ public class TestMultiFieldGenerator {
 	public void hasNextReturnsFalseWhenThereAreNoMoreElementsToGenerate() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
 
 		multiFieldGenerator.next();
 		multiFieldGenerator.next();
@@ -148,8 +148,8 @@ public class TestMultiFieldGenerator {
 	public void hasNextReturnsTrueOnlyWhenThereAreElementsToGenerate() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		// WHEN + THEN
 		multiFieldGenerator.next();
@@ -170,8 +170,8 @@ public class TestMultiFieldGenerator {
 	public void resetResetsGenerators() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		multiFieldGenerator.next();
 		multiFieldGenerator.next();
@@ -190,8 +190,8 @@ public class TestMultiFieldGenerator {
 	public void currentReturnsLatestGeneratedElements() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		Object expected = multiFieldGenerator.next();
 
@@ -207,8 +207,8 @@ public class TestMultiFieldGenerator {
 	public void currentCallsNextIfNeeded() {
 		// GIVEN
 		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
-		multiFieldGenerator.addFieldGenerator("field1", new Sequence(1, 2));
-		multiFieldGenerator.addFieldGenerator("field2", new Sequence(3, 4));
+		multiFieldGenerator.addFieldGenerator("field1", new IntegerSequence(1, 2));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		// WHEN + THEN
 		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.current();

@@ -27,8 +27,8 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Christophe Pollet
  */
-public class TestSequence {
-	private Sequence sequence;
+public class TestIntegerSequence {
+	private IntegerSequence integerSequence;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
@@ -38,7 +38,7 @@ public class TestSequence {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage("increment must be > 0");
 
-		new Sequence(1, 3, 0);
+		new IntegerSequence(1, 3, 0);
 	}
 
 	@Test
@@ -46,127 +46,127 @@ public class TestSequence {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage("stop must be >= start");
 
-		new Sequence(3, 1);
+		new IntegerSequence(3, 1);
 	}
 
 	@Test
 	public void firstCurrentReturnsFirstValueValue() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.current()).isEqualTo(1);
+		assertThat(integerSequence.current()).isEqualTo(1);
 	}
 
 	@Test
 	public void nextAfterFirstCurrentReturnsSecondValue() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.current()).isEqualTo(1);
-		assertThat(sequence.next()).isEqualTo(2);
+		assertThat(integerSequence.current()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(2);
 	}
 
 	@Test
 	public void currentAfterNextReturnsCUrrentValue() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.next()).isEqualTo(1);
-		assertThat(sequence.current()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(1);
+		assertThat(integerSequence.current()).isEqualTo(1);
 	}
 
 	@Test
 	public void firstNextReturnsFirstValue() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(1);
 	}
 
 	@Test
 	public void secondNextReturnsSecondValue() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.next()).isEqualTo(1);
-		assertThat(sequence.next()).isEqualTo(2);
+		assertThat(integerSequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(2);
 	}
 
 	@Test
 	public void nextReturnsCorrectValues() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.next()).isEqualTo(1);
-		assertThat(sequence.next()).isEqualTo(2);
-		assertThat(sequence.next()).isEqualTo(3);
+		assertThat(integerSequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(2);
+		assertThat(integerSequence.next()).isEqualTo(3);
 	}
 
 	@Test
 	public void nextThrowsExceptionWhenSequenceFinished() {
 		// GIVEN
-		sequence = new Sequence(1, 1);
+		integerSequence = new IntegerSequence(1, 1);
 
 		// WHEN + THEN
-		sequence.next();
+		integerSequence.next();
 
 		expectedException.expect(NoSuchElementException.class);
-		expectedException.expectMessage("Sequence [1;1;1] ended");
+		expectedException.expectMessage("IntegerSequence [1;1;1] ended");
 
-		sequence.next();
+		integerSequence.next();
 	}
 
 	@Test
 	public void nextReturnsCorrectValuesWithIncrement2() {
 		// GIVEN
-		sequence = new Sequence(1, 3, 2);
+		integerSequence = new IntegerSequence(1, 3, 2);
 
 		// WHEN + THEN
-		assertThat(sequence.next()).isEqualTo(1);
-		assertThat(sequence.next()).isEqualTo(3);
+		assertThat(integerSequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(3);
 	}
 
 	@Test
 	public void resetResetsTheSequence() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
-		assertThat(sequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(1);
 
 		// WHEN
-		sequence.reset();
+		integerSequence.reset();
 
 		// THEN
-		assertThat(sequence.next()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(1);
 
-		sequence.reset();
+		integerSequence.reset();
 
-		assertThat(sequence.current()).isEqualTo(1);
-		assertThat(sequence.next()).isEqualTo(2);
+		assertThat(integerSequence.current()).isEqualTo(1);
+		assertThat(integerSequence.next()).isEqualTo(2);
 	}
 
 	@Test
 	public void hasNextReturnsTrueWhenThereAreMoreElements() {
 		// GIVEN
-		sequence = new Sequence(1, 3);
+		integerSequence = new IntegerSequence(1, 3);
 
 		// WHEN + THEN
-		assertThat(sequence.hasNext()).isTrue();
+		assertThat(integerSequence.hasNext()).isTrue();
 	}
 
 	@Test
 	public void hasNextReturnsFalseWhenThereAreMoreElements() {
 		// GIVEN
-		sequence = new Sequence(1, 1);
+		integerSequence = new IntegerSequence(1, 1);
 
 		// WHEN + THEN
-		sequence.next();
-		assertThat(sequence.hasNext()).isFalse();
+		integerSequence.next();
+		assertThat(integerSequence.hasNext()).isFalse();
 	}
 }

@@ -23,14 +23,14 @@ import java.util.NoSuchElementException;
 /**
  * @author Christophe Pollet
  */
-public class Sequence implements FieldGenerator {
+public class IntegerSequence implements FieldGenerator {
 	private int start;
 	private int increment;
 	private int stop;
 	private Integer current;
 	private int next;
 
-	public Sequence(int start, int stop, int increment) {
+	public IntegerSequence(int start, int stop, int increment) {
 		Assert.isTrue(stop >= start, "stop must be >= start");
 		Assert.isTrue(0 < increment, "increment must be > 0");
 
@@ -41,7 +41,7 @@ public class Sequence implements FieldGenerator {
 		reset();
 	}
 
-	public Sequence(int start, int stop) {
+	public IntegerSequence(int start, int stop) {
 		this(start, stop, 1);
 	}
 
@@ -59,7 +59,7 @@ public class Sequence implements FieldGenerator {
 	@Override
 	public Object next() {
 		if (!hasNext()) {
-			throw new NoSuchElementException("Sequence [" + start + ";" + increment + ";" + stop + "] ended");
+			throw new NoSuchElementException("IntegerSequence [" + start + ";" + increment + ";" + stop + "] ended");
 		}
 
 		current = next;

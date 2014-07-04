@@ -17,18 +17,14 @@
 package net.cpollet.jixture.fixtures.generator.fixture;
 
 import net.cpollet.jixture.fixtures.generator.field.FieldGenerator;
-import net.cpollet.jixture.fixtures.generator.field.Sequence;
+import net.cpollet.jixture.fixtures.generator.field.IntegerSequence;
 import net.cpollet.jixture.tests.mappings.CartEntry;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -107,7 +103,7 @@ public class TestTemplateGenerator {
 	@Test
 	public void nextReturnsCorrectObject() {
 		// GIVEN
-		templateGenerator.addFieldGenerator("count", new Sequence(1, 2));
+		templateGenerator.addFieldGenerator("count", new IntegerSequence(1, 2));
 
 		// WHEN
 		CartEntry cartEntry1 = (CartEntry) templateGenerator.next();
