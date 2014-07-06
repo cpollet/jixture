@@ -69,7 +69,7 @@ public class TestIntegerSequence {
 	}
 
 	@Test
-	public void currentAfterNextReturnsCUrrentValue() {
+	public void currentAfterNextReturnsCurrentValue() {
 		// GIVEN
 		integerSequence = new IntegerSequence(1, 3);
 

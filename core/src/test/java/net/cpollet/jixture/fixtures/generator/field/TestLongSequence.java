@@ -69,7 +69,7 @@ public class TestLongSequence {
 	}
 
 	@Test
-	public void currentAfterNextReturnsCUrrentValue() {
+	public void currentAfterNextReturnsCurrentValue() {
 		// GIVEN
 		longSequence = new LongSequence(1l, 3l);
 

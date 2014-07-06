@@ -29,6 +29,12 @@ import java.util.Map;
  * Generates entities by cloning a given template entity. It is possible to update specific entity values using
  * {@link net.cpollet.jixture.fixtures.generator.field.FieldGenerator} instances.
  *
+ * <p><b>Requires:</b></p>
+ * <ul>
+ *     <li><a href="https://code.google.com/p/cloning/">cloning</a></li>
+ *     <li><a href="http://commons.apache.org/proper/commons-beanutils/">Commons BeanUtils</a></li>
+ * </ul>
+ *
  * @see net.cpollet.jixture.fixtures.generator.field.FieldGenerator
  *
  * @author Christophe Pollet
