@@ -17,6 +17,7 @@
 package net.cpollet.jixture.fixtures.generator.field;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.junit.Before;
@@ -41,8 +42,8 @@ public class TestDateSequence {
 
 	@Before
 	public void setUp() {
-		defaultStart = new DateTime(2014, 7, 6, 19, 43, 0);
-		defaultStop = new DateTime(2014, 7, 8, 19, 43, 0);
+		defaultStart = new DateTime(2014, 7, 6, 19, 43, 0, DateTimeZone.UTC);
+		defaultStop = new DateTime(2014, 7, 8, 19, 43, 0, DateTimeZone.UTC);
 	}
 
 	@Test
@@ -145,7 +146,7 @@ public class TestDateSequence {
 		dateSequence.next();
 
 		expectedException.expect(NoSuchElementException.class);
-		expectedException.expectMessage("DateSequence{2014-07-06T19:43:00.000+02:00;2014-07-06T19:43:00.000+02:00;P1D} ended");
+		expectedException.expectMessage("DateSequence{2014-07-06T19:43:00.000Z;2014-07-06T19:43:00.000Z;P1D} ended");
 
 		dateSequence.next();
 	}
