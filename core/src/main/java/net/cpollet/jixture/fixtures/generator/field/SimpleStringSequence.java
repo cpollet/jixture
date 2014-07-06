@@ -43,7 +43,7 @@ public class SimpleStringSequence extends BaseFieldGenerator<String> {
 	}
 
 	/**
-	 * Resets the {@code SimpleStringGenerator}. After this method is called, the following {@link #next} or
+	 * Resets the {@code SimpleStringSequence}. After this method is called, the following {@link #next} or
 	 * {@link #current} call returns the first generated value.
 	 */
 	@Override

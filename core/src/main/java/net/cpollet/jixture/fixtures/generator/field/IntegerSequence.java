@@ -73,7 +73,7 @@ public class IntegerSequence extends BaseFieldGenerator<Integer> {
 	}
 
 	/**
-	 * Resets the {@code IntegerGenerator}. After this method is called, the following {@link #next} or {@link #current}
+	 * Resets the {@code IntegerSequence}. After this method is called, the following {@link #next} or {@link #current}
 	 * call returns the first generated value.
 	 */
 	@Override
@@ -115,6 +115,7 @@ public class IntegerSequence extends BaseFieldGenerator<Integer> {
 	/**
 	 * Returns the current sequence value. Implicitly calls {@link #next} if {@code next} was never called before since
 	 * creation of last {@link #reset}.
+	 *
 	 * @return the current sequence value
 	 */
 	@Override

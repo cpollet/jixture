@@ -130,7 +130,7 @@ public class DateSequence extends BaseFieldGenerator<Date> {
 	}
 
 	/**
-	 * Resets the {@code DateGenerator}. After this method is called, the following {@link #next} or {@link #current}
+	 * Resets the {@code DateSequence}. After this method is called, the following {@link #next} or {@link #current}
 	 * call returns the first generated value.
 	 */
 	@Override

@@ -73,7 +73,7 @@ public class LongSequence extends BaseFieldGenerator<Long> {
 	}
 
 	/**
-	 * Resets the {@code LongGenerator}. After this method is called, the following {@link #next} or {@link #current}
+	 * Resets the {@code LongSequence}. After this method is called, the following {@link #next} or {@link #current}
 	 * call returns the first generated value.
 	 */
 	@Override
