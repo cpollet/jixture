@@ -23,7 +23,7 @@ import java.util.Iterator;
  *
  * @author Christophe Pollet
  */
-public interface FieldGenerator extends Iterator<Object> {
+public interface FieldGenerator<T> extends Iterator<T> {
 	/**
 	 * Resets the {@code FieldGenerator}. After this method is called, the following {@link #next} or {@link #current}
 	 * call returns the first generated element.
@@ -35,5 +35,5 @@ public interface FieldGenerator extends Iterator<Object> {
 	 *
 	 * @return the current element.
 	 */
-	Object current();
+	T current();
 }

@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
  *
  * @author Christophe Pollet
  */
-public class MultiFieldGenerator extends BaseFieldGenerator {
+public class MultiFieldGenerator extends BaseFieldGenerator<Map<String, Object>> {
 	private List<NamedFieldGenerator> fieldGenerators;
 
 	private Map<String, Object> currentValue;
@@ -75,7 +75,7 @@ public class MultiFieldGenerator extends BaseFieldGenerator {
 	}
 
 	@Override
-	public Object next() {
+	public Map<String, Object> next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("No more field value to generate");
 		}
@@ -108,7 +108,7 @@ public class MultiFieldGenerator extends BaseFieldGenerator {
 	}
 
 	@Override
-	public Object current() {
+	public Map<String, Object> current() {
 		if (currentValue == null) {
 			return next();
 		}

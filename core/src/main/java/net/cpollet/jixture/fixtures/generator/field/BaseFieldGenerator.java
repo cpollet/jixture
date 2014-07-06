@@ -21,7 +21,7 @@ package net.cpollet.jixture.fixtures.generator.field;
  *
  * @author Christophe Pollet
  */
-public abstract class BaseFieldGenerator implements FieldGenerator {
+public abstract class BaseFieldGenerator<T> implements FieldGenerator<T> {
 	/**
 	 * The remove method is not supported by a {@code BaseFieldGenerator}, it thus always throws an
 	 * {@code UnsupportedOperationException}.

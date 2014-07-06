@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
  *
  * @author Christophe Pollet
  */
-public class SimpleStringSequence extends BaseFieldGenerator {
+public class SimpleStringSequence extends BaseFieldGenerator<String> {
 	private String format;
 	private String current;
 	private FieldGenerator generator;
@@ -70,7 +70,7 @@ public class SimpleStringSequence extends BaseFieldGenerator {
 	 * @throws java.util.NoSuchElementException if the iteration has no more value.
 	 */
 	@Override
-	public Object next() {
+	public String next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException(toString() + " ended");
 		}
@@ -87,7 +87,7 @@ public class SimpleStringSequence extends BaseFieldGenerator {
 	 * @return the current sequence value.
 	 */
 	@Override
-	public Object current() {
+	public String current() {
 		if (current == null) {
 			return next();
 		}

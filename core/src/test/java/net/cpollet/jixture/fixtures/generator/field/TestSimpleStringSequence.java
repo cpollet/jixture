@@ -73,8 +73,8 @@ public class TestSimpleStringSequence {
 		simpleStringSequence = new SimpleStringSequence("_%d_", new IntegerSequence(1, 2));
 
 		// WHEN
-		String value1 = (String) simpleStringSequence.next();
-		String value2 = (String) simpleStringSequence.next();
+		String value1 = simpleStringSequence.next();
+		String value2 = simpleStringSequence.next();
 
 		// THEN
 		assertThat(value1).isEqualTo("_1_");
@@ -89,7 +89,7 @@ public class TestSimpleStringSequence {
 
 		// WHEN
 		simpleStringSequence.reset();
-		String value = (String) simpleStringSequence.next();
+		String value = simpleStringSequence.next();
 
 		// THEN
 		assertThat(value).isEqualTo("_1_");
@@ -115,7 +115,7 @@ public class TestSimpleStringSequence {
 		simpleStringSequence = new SimpleStringSequence("_%d_", new IntegerSequence(1, 2));
 
 		// WHEN
-		String value = (String) simpleStringSequence.current();
+		String value = simpleStringSequence.current();
 
 		// THEN
 		assertThat(value).isEqualTo("_1_");
@@ -128,7 +128,7 @@ public class TestSimpleStringSequence {
 		simpleStringSequence.next();
 
 		// WHEN
-		String value = (String) simpleStringSequence.current();
+		String value = simpleStringSequence.current();
 
 		// THEN
 		assertThat(value).isEqualTo("_1_");

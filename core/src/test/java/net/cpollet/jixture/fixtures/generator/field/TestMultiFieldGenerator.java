@@ -44,7 +44,7 @@ public class TestMultiFieldGenerator {
 		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		// WHEN
-		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.next();
+		Map<String, Object> values = multiFieldGenerator.next();
 
 		// THEN
 		assertThat(values).hasSize(2);
@@ -63,7 +63,7 @@ public class TestMultiFieldGenerator {
 		multiFieldGenerator.next();
 
 		// WHEN
-		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.next();
+		Map<String, Object> values = multiFieldGenerator.next();
 
 		assertThat(values).hasSize(2);
 		assertThat(values.get("field1")).isEqualTo(1);
@@ -82,7 +82,7 @@ public class TestMultiFieldGenerator {
 		multiFieldGenerator.next();
 
 		// WHEN
-		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.next();
+		Map<String, Object> values = multiFieldGenerator.next();
 
 		assertThat(values).hasSize(2);
 		assertThat(values.get("field1")).isEqualTo(2);
@@ -179,7 +179,7 @@ public class TestMultiFieldGenerator {
 
 		multiFieldGenerator.reset();
 
-		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.next();
+		Map<String, Object> values = multiFieldGenerator.next();
 
 		assertThat(values).hasSize(2);
 		assertThat(values.get("field1")).isEqualTo(1);
@@ -211,7 +211,7 @@ public class TestMultiFieldGenerator {
 		multiFieldGenerator.addFieldGenerator("field2", new IntegerSequence(3, 4));
 
 		// WHEN + THEN
-		Map<String, Object> values = (Map<String, Object>) multiFieldGenerator.current();
+		Map<String, Object> values = multiFieldGenerator.current();
 		assertThat(values).hasSize(2);
 		assertThat(values.get("field1")).isEqualTo(1);
 		assertThat(values.get("field2")).isEqualTo(3);

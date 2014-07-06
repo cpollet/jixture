@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
  *
  * @author Christophe Pollet
  */
-public class LongSequence extends BaseFieldGenerator {
+public class LongSequence extends BaseFieldGenerator<Long> {
 	private long start;
 	private long increment;
 	private long stop;
@@ -101,7 +101,7 @@ public class LongSequence extends BaseFieldGenerator {
 	 * @throws java.util.NoSuchElementException if the iteration has no more value.
 	 */
 	@Override
-	public Object next() {
+	public Long next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException(toString() + " ended");
 		}
@@ -119,7 +119,7 @@ public class LongSequence extends BaseFieldGenerator {
 	 * @return the current sequence value.
 	 */
 	@Override
-	public Object current() {
+	public Long current() {
 		if (null == current) {
 			return next();
 		}
