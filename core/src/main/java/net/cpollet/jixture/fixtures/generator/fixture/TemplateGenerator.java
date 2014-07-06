@@ -26,9 +26,14 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
+ * Generates entities by cloning a given template entity. It is possible to update specific entity values using
+ * {@link net.cpollet.jixture.fixtures.generator.field.FieldGenerator} instances.
+ *
+ * @see net.cpollet.jixture.fixtures.generator.field.FieldGenerator
+ *
  * @author Christophe Pollet
  */
-public class TemplateGenerator implements FixtureGenerator {
+public class TemplateGenerator extends BaseFixtureGenerator {
 	private static final Logger logger = LoggerFactory.getLogger(TemplateGenerator.class);
 
 	private Object templateObject;
@@ -36,6 +41,9 @@ public class TemplateGenerator implements FixtureGenerator {
 
 	private Cloner cloner;
 
+	/**
+	 * @param templateObject the template entity to clone.
+	 */
 	public TemplateGenerator(Object templateObject) {
 		this.templateObject = templateObject;
 
@@ -45,16 +53,36 @@ public class TemplateGenerator implements FixtureGenerator {
 		cloner.setDumpClonedClasses(logger.isDebugEnabled());
 	}
 
+	/**
+	 * Adds a {@link net.cpollet.jixture.fixtures.generator.field.FieldGenerator}.
+	 *
+	 * @param fieldName the field's name whom value is to be overridden.
+	 * @param fieldGenerator the field generator to add
+	 * @return the current instance.
+	 */
 	public TemplateGenerator addFieldGenerator(String fieldName, FieldGenerator fieldGenerator) {
 		multiFieldGenerator.addFieldGenerator(fieldName, fieldGenerator);
 		return this;
 	}
 
+	/**
+	 * Returns {@code true} if the generator has more entity to generate (In other words, returns {@code true} if
+	 * {@link #next} would return an entity rather than throwing an exception.)
+	 *
+	 * @return {@code true} if the iteration has more elements.
+	 */
 	@Override
 	public boolean hasNext() {
 		return multiFieldGenerator.hasNext();
 	}
 
+	/**
+	 * Returns the next generated entity.
+	 *
+	 * @return the next generated entity.
+	 *
+	 * @throws java.util.NoSuchElementException if the iteration has no more elements.
+	 */
 	@Override
 	public Object next() {
 		Object object = cloner.deepClone(templateObject);
@@ -78,6 +106,11 @@ public class TemplateGenerator implements FixtureGenerator {
 		return (Map<String, Object>) multiFieldGenerator.next();
 	}
 
+	/**
+	 * Returns the class of generated entities.
+	 *
+	 * @return the class of generated entities.
+	 */
 	@Override
 	public Class getGeneratedClass() {
 		return templateObject.getClass();

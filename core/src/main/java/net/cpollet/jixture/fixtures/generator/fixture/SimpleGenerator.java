@@ -17,22 +17,41 @@
 package net.cpollet.jixture.fixtures.generator.fixture;
 
 /**
+ * Returns a predefined amount of instances of a given class.
+ *
  * @author Christophe Pollet
  */
-public class SimpleGenerator implements FixtureGenerator {
+public class SimpleGenerator extends BaseFixtureGenerator {
 	private Class generatedClass;
 	private int quantity;
 
+	/**
+	 * @param generatedClass he class to instantiate to create the entity.
+	 * @param quantity the amount of entities to return.
+	 */
 	public SimpleGenerator(Class generatedClass, int quantity) {
 		this.generatedClass = generatedClass;
 		this.quantity = quantity;
 	}
 
+	/**
+	 * Returns {@code true} if the generator has more entity to generate (In other words, returns {@code true} if
+	 * {@link #next} would return an entity rather than throwing an exception.)
+	 *
+	 * @return {@code true} if the iteration has more elements.
+	 */
 	@Override
 	public boolean hasNext() {
 		return quantity > 0;
 	}
 
+	/**
+	 * Returns the next generated entity.
+	 *
+	 * @return the next generated entity.
+	 *
+	 * @throws java.util.NoSuchElementException if the iteration has no more elements.
+	 */
 	@Override
 	public Object next() {
 		quantity--;
@@ -45,6 +64,11 @@ public class SimpleGenerator implements FixtureGenerator {
 		}
 	}
 
+	/**
+	 * Returns the class of generated entities.
+	 *
+	 * @return the class of generated entities.
+	 */
 	@Override
 	public Class getGeneratedClass() {
 		return generatedClass;

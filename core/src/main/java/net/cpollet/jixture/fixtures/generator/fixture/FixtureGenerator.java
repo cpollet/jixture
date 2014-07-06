@@ -16,13 +16,21 @@
 
 package net.cpollet.jixture.fixtures.generator.fixture;
 
+import java.util.Iterator;
+
 /**
+ * Automatically generates entities. The generators are used by the
+ * {@link net.cpollet.jixture.fixtures.GeneratorFixture} to generate the entities that are to be loaded in database.
+ *
+ * @see net.cpollet.jixture.fixtures.GeneratorFixture
+ *
  * @author Christophe Pollet
  */
-public interface FixtureGenerator {
-	public boolean hasNext();
-
-	public Object next();
-
+public interface FixtureGenerator extends Iterator<Object> {
+	/**
+	 * Returns the class of generated entities.
+	 *
+	 * @return the class of generated entities.
+	 */
 	public Class getGeneratedClass();
 }

@@ -20,12 +20,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Loads entities instance into database.
+ *
  * @author Christophe Pollet
  */
 public interface ObjectFixture<T> extends Fixture {
+	/**
+	 * Adds object to the list of object to load into database.
+	 *
+	 * @param objects the objects to add.
+	 *
+	 * @return the current fixture instance.
+	 */
 	Fixture addObjects(T... objects);
 
+	/**
+	 * Returns the list of entities to load into database.
+	 *
+	 * @return the list of entities to load into database.
+	 */
 	List<T> getObjects();
 
+	/**
+	 * Returns the list of mapping classes representing the tables to truncate.
+	 *
+	 * @return the list of mapping classes representing the tables to truncate.
+	 */
 	LinkedList<Class> getClassesToDelete();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.generator.fixture;
 
 /**
- * Base interface for all kind of fixtures. Fixture implementation should not implement this interface bit rather one of
- * its sub-interfaces. Fixtures are loaded by a {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader} instance.
- *
- * @see net.cpollet.jixture.fixtures.loaders.FixtureLoader
+ * Base class for {@code FixtureGenerator}. Implements {@code remove} method.
  *
  * @author Christophe Pollet
  */
-public interface Fixture {
+public abstract class BaseFixtureGenerator implements FixtureGenerator {
+	/**
+	 * The remove method is not supported by a {@code BaseFixtureGenerator}, it thus always throws an
+	 * {@code UnsupportedOperationException}.
+	 *
+	 * @throws UnsupportedOperationException always.
+	 */
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
 }

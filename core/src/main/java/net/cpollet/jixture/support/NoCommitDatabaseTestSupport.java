@@ -19,9 +19,22 @@ package net.cpollet.jixture.support;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 
 /**
+ * Allows to load data in commit mode. This class can be used as a helper class. The
+ * {@link net.cpollet.jixture.support.CommitDatabaseTestSupport} contains full exmaple of use.
+ *
+ * @see net.cpollet.jixture.support.CommitDatabaseTestSupport
+ *
  * @author Christophe Pollet
  */
 public class NoCommitDatabaseTestSupport extends AbstractTestSupport {
+	/**
+	 * Returns the commit mode. In this case, always
+	 * {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#NO_COMMIT}.
+	 *
+	 * @see net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#NO_COMMIT
+	 *
+	 * @return {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#NO_COMMIT}
+	 */
 	@Override
 	public FixtureLoader.Mode getCommitMode() {
 		return FixtureLoader.Mode.NO_COMMIT;

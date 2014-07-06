@@ -18,7 +18,7 @@ package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.fixtures.AbstractObjectFixture;
+import net.cpollet.jixture.fixtures.BaseObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
@@ -95,7 +95,7 @@ public class TestSimpleFixtureLoader {
 	}
 
 	private ObjectFixture getLoadableFixture() {
-		return new AbstractObjectFixture() {
+		return new BaseObjectFixture() {
 			Object object = new Object();
 
 			@Override

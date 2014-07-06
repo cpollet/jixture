@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,19 @@
 package net.cpollet.jixture.fixtures;
 
 /**
- * Base interface for all kind of fixtures. Fixture implementation should not implement this interface bit rather one of
- * its sub-interfaces. Fixtures are loaded by a {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader} instance.
- *
- * @see net.cpollet.jixture.fixtures.loaders.FixtureLoader
+ * Base class for {@code ScrollableFixtures}. Implements {@code remove} method.
  *
  * @author Christophe Pollet
  */
-public interface Fixture {
+public abstract class BaseScrollableFixture implements ScrollableFixture {
+	/**
+	 * The remove method is not supported by a {@code BaseScrollableFixture}, it thus always throws an
+	 * {@code UnsupportedOperationException}.
+	 *
+	 * @throws UnsupportedOperationException always.
+	 */
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
 }

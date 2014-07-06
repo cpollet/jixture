@@ -17,6 +17,12 @@
 package net.cpollet.jixture.fixtures;
 
 /**
+ * A fixture that is not loadable into database without being transformed to another kind of fixture. This interface is
+ * mainly a maker for the {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader} and the transformer method is
+ * defined in {@link net.cpollet.jixture.fixtures.transformers.FixtureTransformer}.
+ *
+ * @see net.cpollet.jixture.fixtures.transformers.FixtureTransformer
+ *
  * @author Christophe Pollet
  */
 public interface TransformableFixture extends Fixture {

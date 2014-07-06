@@ -28,22 +28,38 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * Loads data from a SQL file.
+ *
  * @author Christophe Pollet
  */
 public class SqlFileFixture implements RawFixture {
 	private CleaningFixture cleaningFixture;
 	private InputStream fileInputStream;
 
+	/**
+	 * @param filePath the path to the SQL file. If the path starts with {@code classpath:/}, the path is relative
+	 *                 the classpath's root. Otherwise, it's considered a filesystem path.
+	 */
 	public SqlFileFixture(String filePath) {
 		this.cleaningFixture = new CleaningFixture();
 		this.fileInputStream = InputStreamUtils.getInputStream(filePath);
 	}
 
+	/**
+	 * @param filePath the path to the SQL file. If the path starts with {@code classpath:/}, the path is relative
+	 *                 the classpath's root. Otherwise, it's considered a filesystem path.
+	 * @param classes the mapping classes representing tge tables to truncate before executing the SQL commands.
+	 */
 	public SqlFileFixture(String filePath, Class... classes) {
 		this.cleaningFixture = new CleaningFixture(classes);
 		this.fileInputStream = InputStreamUtils.getInputStream(filePath);
 	}
 
+	/**
+	 * Execute the SQL file's content.
+	 *
+	 * @param unitDaoFactory the {@link net.cpollet.jixture.dao.UnitDaoFactory} to use.
+	 */
 	@Override
 	public void load(UnitDaoFactory unitDaoFactory) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
@@ -65,13 +81,17 @@ public class SqlFileFixture implements RawFixture {
 	}
 
 	private boolean isCommentOrEmptyLine(String line) {
-		return line.length() == 0 || line.startsWith("--");
+		return 0 == line.length() || line.startsWith("--");
 	}
 
 	private boolean isEndOfQuery(String line) {
 		return line.endsWith(";");
 	}
 
+	/**
+	 * Returns the list of mapping classes representing the tables to truncate.
+	 * @return the list of mapping classes representing the tables to truncate.
+	 */
 	@Override
 	public LinkedList<Class> getClassesToDelete() {
 		return cleaningFixture.getClassesToDelete();
@@ -97,7 +117,7 @@ public class SqlFileFixture implements RawFixture {
 
 		@Override
 		public boolean hasNext() {
-			return currentLine != null;// && nextLine != null;
+			return null != currentLine;
 		}
 
 		@Override

@@ -32,6 +32,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
+ * Provides default implementation for {@link net.cpollet.jixture.support.DatabaseTestSupport} interface.
+ *
  * @author Christophe Pollet
  */
 public abstract class AbstractTestSupport implements DatabaseTestSupport, InitializingBean {

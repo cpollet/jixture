@@ -49,7 +49,7 @@ public class UnitDaoFactory implements InitializingBean {
 	}
 
 	private boolean mustProvideNewSession() {
-		return unitDao.getSession() == null || !unitDao.isSessionOpen();
+		return null == unitDao.getSession() || !unitDao.isSessionOpen();
 	}
 
 	public void setTransactionManager(HibernateTransactionManager transactionManager) {
@@ -64,7 +64,7 @@ public class UnitDaoFactory implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(transactionManager, "transactionManager must be set");
 
-		if (unitDao == null) {
+		if (null == unitDao) {
 			logger.info("No {} instance provided, will create one instance of {} for you", new String[]{//
 					UnitDao.class.getName(),//
 					SimpleUnitDao.class.getName()});

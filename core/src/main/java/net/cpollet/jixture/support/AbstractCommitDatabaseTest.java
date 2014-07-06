@@ -19,9 +19,22 @@ package net.cpollet.jixture.support;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 
 /**
+ * Serves as tests superclass when the tests need to commit changes to database. A test needs to commit when for
+ * instance the tested method creates a new database transaction to read data.
+ *
+ * @see net.cpollet.jixture.support.AbstractDatabaseTest
+ *
  * @author Christophe Pollet
  */
 public abstract class AbstractCommitDatabaseTest extends AbstractDatabaseTest {
+	/**
+	 * Returns the commit mode. In this case, always
+	 * {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#COMMIT}.
+	 *
+	 * @see net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#COMMIT
+	 *
+	 * @return {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#COMMIT}
+	 */
 	@Override
 	public FixtureLoader.Mode getCommitMode() {
 		return FixtureLoader.Mode.COMMIT;

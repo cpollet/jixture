@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Providesa default implementation for {@link UnitDao}.
+ *
  * @author Christophe Pollet
  */
 public class SimpleUnitDao implements UnitDao {
@@ -58,12 +60,9 @@ public class SimpleUnitDao implements UnitDao {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteAll(Class clazz) {
-		logger.trace("> deleteAll({})", clazz.getName());
-		logger.debug("Deleting all {}", clazz.getName());
 		session.evict(clazz);
 		session.createQuery("delete from " + clazz.getName()).executeUpdate();
 		flush();
-		logger.trace("< deleteAll({})", clazz.getName());
 	}
 
 	@Override

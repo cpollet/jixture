@@ -21,27 +21,45 @@ import net.cpollet.jixture.dao.UnitDaoFactory;
 import java.util.LinkedList;
 
 /**
+ * Load data from SQL queries.
+ *
  * @author Christophe Pollet
  */
 public class SqlFixture implements RawFixture {
 	private CleaningFixture cleaningFixture;
 	private String[] queries;
 
+	/**
+	 * @param queries SQL queries to execute.
+	 */
 	public SqlFixture(String[] queries) {
 		this.cleaningFixture = new CleaningFixture();
 		this.queries = queries;
 	}
 
+	/**
+	 * @param queries SQL queries to execute.
+	 * @param classes mapping classes representing the tables to truncate before executing the SQL queries.
+	 */
 	public SqlFixture(String[] queries, Class... classes) {
 		this.cleaningFixture = new CleaningFixture(classes);
 		this.queries = queries;
 	}
 
+	/**
+	 * Returns the list of mapping classes representing the tables to truncate.
+	 * @return the list of mapping classes representing the tables to truncate.
+	 */
 	@Override
 	public LinkedList<Class> getClassesToDelete() {
 		return cleaningFixture.getClassesToDelete();
 	}
 
+	/**
+	 * Execute the SQL queries.
+	 *
+	 * @param unitDaoFactory the {@link net.cpollet.jixture.dao.UnitDaoFactory} to use.
+	 */
 	@Override
 	public void load(UnitDaoFactory unitDaoFactory) {
 		for (String query : queries) {

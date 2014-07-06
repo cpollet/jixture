@@ -25,11 +25,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
+ * Generate entities on the fly. It is backed by an instances of
+ * {@link net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator}. Those {@code FixtureGenerators} are the
+ * actual entities generators, the {@code GeneratorFixture} is mainly a mean of aggregating them.
+ *
+ * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
+ *
  * @author Christophe Pollet
  */
-public class GeneratorFixture implements ScrollableFixture {
+public class GeneratorFixture extends BaseScrollableFixture {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratorFixture.class);
 
 	private List<FixtureGenerator> fixtureGenerators;
@@ -38,6 +45,9 @@ public class GeneratorFixture implements ScrollableFixture {
 	private Iterator<FixtureGenerator> generatorIterator;
 	private FixtureGenerator currentFixtureGenerator;
 
+	/**
+	 * @param fixtureGenerators the generators to use to generate the entities ot load.
+	 */
 	public GeneratorFixture(FixtureGenerator... fixtureGenerators) {
 		this.fixtureGenerators = new LinkedList<FixtureGenerator>();
 		addGenerators(fixtureGenerators);
@@ -73,6 +83,12 @@ public class GeneratorFixture implements ScrollableFixture {
 		}
 	}
 
+	/**
+	 * Returns {@code true} if the generator has more entity to generate (In other words, returns {@code true} if
+	 * {@link #next} would return an entity rather than throwing an exception.)
+	 *
+	 * @return {@code true} if the iteration has more elements.
+	 */
 	@Override
 	public boolean hasNext() {
 		assertGeneratorStarted();
@@ -103,12 +119,19 @@ public class GeneratorFixture implements ScrollableFixture {
 		return false;
 	}
 
+	/**
+	 * Returns the next entity to load.
+	 *
+	 * @return the next entity to load.
+	 *
+	 * @throws java.util.NoSuchElementException if the iteration has no more elements.
+	 */
 	@Override
 	public Object next() {
 		assertGeneratorStarted();
 
 		if (!hasNext()) {
-			throw new IllegalStateException("No object to generate");
+			throw new NoSuchElementException("No more object to generate");
 		}
 
 		Object object = currentFixtureGenerator.next();
@@ -116,6 +139,11 @@ public class GeneratorFixture implements ScrollableFixture {
 		return object;
 	}
 
+	/**
+	 * Returns the list of mapping classes representing the tables to truncate.
+	 *
+	 * @return the list of mapping classes representing the tables to truncate.
+	 */
 	@Override
 	public List<Class> getClassesToDelete() {
 		List<Class> classesToDelete = new ArrayList<Class>(fixtureGenerators.size());

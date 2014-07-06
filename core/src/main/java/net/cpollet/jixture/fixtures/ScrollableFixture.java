@@ -16,15 +16,20 @@
 
 package net.cpollet.jixture.fixtures;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
+ * A fixture that acts like an {@link java.util.Iterator} to return entities. It can be used to load a huge amount of
+ * entities or to generate them on the fly without impacting memory.
+ *
  * @author Christophe Pollet
  */
-public interface ScrollableFixture extends Fixture {
-	boolean hasNext();
-
-	Object next();
-
+public interface ScrollableFixture extends Fixture, Iterator<Object> {
+	/**
+	 * Returns the list of mapping classes representing the tables to truncate.
+	 *
+	 * @return the list of mapping classes representing the tables to truncate.
+	 */
 	List<Class> getClassesToDelete();
 }

@@ -16,15 +16,24 @@
 
 package net.cpollet.jixture.fixtures.generator.field;
 
+import java.util.Iterator;
+
 /**
+ * Generates field values.
+ *
  * @author Christophe Pollet
  */
-public interface FieldGenerator {
+public interface FieldGenerator extends Iterator<Object> {
+	/**
+	 * Resets the {@code FieldGenerator}. After this method is called, the following {@link #next} or {@link #current}
+	 * call returns the first generated element.
+	 */
 	void reset();
 
-	boolean hasNext();
-
-	Object next();
-
+	/**
+	 * Returns the current element. In other words, it returns the same element as the last {@link #next} call.
+	 *
+	 * @return the current element.
+	 */
 	Object current();
 }

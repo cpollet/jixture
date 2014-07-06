@@ -24,35 +24,112 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Used for unit/integration testing. Contains useful methods to load fixtures and execute basic operations on database.
  * @author Christophe Pollet
  */
 public interface UnitDao {
+	/**
+	 * Returns a list of stored entities.
+	 *
+	 * @param clazz the mapping's class.
+	 * @return  a list of stored entities.
+	 */
 	public <T> List<T> getAll(Class<T> clazz);
 
+	/**
+	 * Returns one stored entity.
+	 *
+	 * @param clazz the mapping's class.
+	 * @param id the entity's id value.
+	 * @return the stored entity
+	 */
 	public <T> T getOne(Class<T> clazz, Serializable id);
 
+	/**
+	 * Saves an entitity to database.
+	 *
+	 * @param object the entity to save.
+	 */
 	public void save(Object object);
 
+	/**
+	 * Deletes an entity from database.
+	 *
+	 * @param object the entity to delete.
+	 */
 	public void delete(Object object);
 
+	/**
+	 * Deletes all entities of given mapping.
+	 *
+	 * @param clazz the mapping's class.
+	 */
 	@SuppressWarnings("rawtypes")
 	public void deleteAll(Class clazz);
 
+	/**
+	 * Flushes the session, ie. synchronize the underlying database with persistable state held in memory.
+	 *
+	 * @see org.hibernate.Session#clear()
+	 */
 	public void flush();
 
+	/**
+	 * Clears the session, ie. remove all entities from memory cache.
+	 *
+	 * @see org.hibernate.Session#flush()
+	 */
 	public void clear();
 
+	/**
+	 * Flushes and clears the session.
+	 *
+	 * @see #flush()
+	 * @see #clear()
+	 */
 	public void flushAndClear();
 
+	/**
+	 * Sets the session to use.
+	 *
+	 * @param session the session to use.
+	 */
 	public void setSession(Session session);
 
+	/**
+	 * Returns the currently used session.
+	 *
+	 * @return the currently used session.
+	 */
 	public Session getSession();
 
+	/**
+	 * Returns {@code true} if the session is open.
+	 *
+	 * @return {@code true} if the session is open.
+	 */
 	public boolean isSessionOpen();
 
+	/**
+	 * Returns the current session factory
+	 *
+	 * @see org.hibernate.SessionFactory
+	 *
+	 * @return the current session factory
+	 */
 	public SessionFactory getSessionFactory();
 
+	/**
+	 * Gets Hibernate's known mappings.
+	 *
+	 * @return Hibernate's known mappings.
+	 */
 	public Set<String> getKnownMappings();
 
+	/**
+	 * Executes a SQL query against the database.
+	 *
+	 * @param sqlQuery the SQL query to execute.
+	 */
 	void execute(String sqlQuery);
 }

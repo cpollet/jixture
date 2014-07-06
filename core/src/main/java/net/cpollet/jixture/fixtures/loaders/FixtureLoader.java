@@ -22,13 +22,28 @@ import net.cpollet.jixture.fixtures.Fixture;
  * @author Christophe Pollet
  */
 public interface FixtureLoader {
-
-
 	public enum Mode {
-		COMMIT, NO_COMMIT
+		/**
+		 * Executes database operation in a new transaction that is committed.
+		 */
+		COMMIT,
+		/**
+		 * Executes database operations in the current transaction.
+		 */
+		NO_COMMIT
 	}
 
+	/**
+	 * Loads a fixture.
+	 *
+	 * @param fixture the fixture to load.
+	 * @param mode the comit mode to use.
+	 */
 	void load(Fixture fixture, Mode mode);
 
+	/**
+	 * Resets the fixture. After a call to {@code reset}, the fixture is in the same state as it was before the
+	 * {@link #load} call.
+	 */
 	void reset();
 }

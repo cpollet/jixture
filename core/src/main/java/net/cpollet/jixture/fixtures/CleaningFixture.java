@@ -23,16 +23,27 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * A fixture that only truncates tables but does not insert an data into them.
+ *
  * @author Christophe Pollet
  */
 public class CleaningFixture implements ObjectFixture<Class> {
 	Set<Class> classes;
 
+	/**
+	 * @param classesToDelete a list of the Hibernate mappings representing the tables to truncate.
+	 */
 	public CleaningFixture(Class... classesToDelete) {
 		classes = new LinkedHashSet<Class>();
 		addObjects(classesToDelete);
 	}
 
+	/**
+	 * Add Hibernate mappings to the list of mappings representing the tables to truncate.
+	 * @param classesToDelete the mappings to add.
+	 *
+	 * @return the current fixture instance.
+	 */
 	@Override
 	public Fixture addObjects(Class... classesToDelete) {
 		if (classesToDelete.length > 0) {
@@ -42,11 +53,21 @@ public class CleaningFixture implements ObjectFixture<Class> {
 		return this;
 	}
 
+	/**
+	 * Since this fixture does not insert any data, its {@code getObject} method always returns an empty list.
+	 *
+	 * @return empty list.
+	 */
 	@Override
 	public List<Class> getObjects() {
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Returns the list of mappings representing the tables to truncate.
+	 *
+	 * @return the list of mappings representing the tables to truncate.
+	 */
 	@Override
 	public LinkedList<Class> getClassesToDelete() {
 		return new LinkedList<Class>(classes);

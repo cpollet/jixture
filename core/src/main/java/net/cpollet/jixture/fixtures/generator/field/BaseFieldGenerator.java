@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
-
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+package net.cpollet.jixture.fixtures.generator.field;
 
 /**
+ * Base class for {@code FieldGenerator}. Implements {@code remove} method.
+ *
  * @author Christophe Pollet
  */
-public abstract class AbstractObjectFixture implements ObjectFixture<Object> {
+public abstract class BaseFieldGenerator implements FieldGenerator {
+	/**
+	 * The remove method is not supported by a {@code BaseFieldGenerator}, it thus always throws an
+	 * {@code UnsupportedOperationException}.
+	 *
+	 * @throws UnsupportedOperationException always.
+	 */
 	@Override
-	public LinkedList<Class> getClassesToDelete() {
-		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
-
-		for (Object object : getObjects()) {
-			classesToDelete.add(object.getClass());
-		}
-
-		return new LinkedList<Class>(classesToDelete);
+	public void remove() {
+		throw new UnsupportedOperationException();
 	}
 }

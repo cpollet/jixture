@@ -24,9 +24,24 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
+ * Generates a list of field name/field value pairs. It is backed by several instances of {@code FieldGenerator} and
+ * generates all combinations of their generated values:
+ * <pre>
+ *     generator = new MultiFieldGenerator();
+ *     generator.addFieldGenerator("f1", new IntegerSequence(1, 2));
+ *     generator.addFieldGenerator("f2", new IntegerSequence(3, 4));
+ * </pre>
+ * would produce the following pairs:
+ * <ul>
+ *     <li>f1=1, f2=3</li>
+ *     <li>f1=1, f2=4</li>
+ *     <li>f1=2, f2=3</li>
+ *     <li>f1=2, f2=4</li>
+ *  </ul>
+ *
  * @author Christophe Pollet
  */
-public class MultiFieldGenerator implements FieldGenerator {
+public class MultiFieldGenerator extends BaseFieldGenerator {
 	private List<NamedFieldGenerator> fieldGenerators;
 
 	private Map<String, Object> currentValue;

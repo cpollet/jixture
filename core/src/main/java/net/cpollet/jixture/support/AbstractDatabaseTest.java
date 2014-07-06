@@ -24,10 +24,43 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Can be used as a base class for test classes needing database and fixture loading mechanisms. As example of use is:
+ * <pre>
+ * <code>
+ *     {@literal @}RunWith(SpringJUnit4ClassRunner.class)
+ *     {@literal @}ContextConfiguration(locations = {"classpath:/spring/test-context.xml"})
+ *     {@literal @}Transactional
+ *     public class TestSimpleUserServiceWithSuperclass extends AbstractCommitDatabaseTest {
+ *     	{@literal @}Override
+ *     	public void setupFixtures() {
+ *     		User user = new User();
+ *     		user.setId(1L);
+ *     		user.setName("name");
+ *     		addFixtures(new MappingFixture(user));
+ *     	}
+ *
+ *     	{@literal @}Test
+ *     	public void testSomething() {
+ *     		// the database contains our user.
+ *     	}
+ *     }
+ * </code>
+ * </pre>
+ * If you don't want the user entity to be committed, you can extend
+ * {@link net.cpollet.jixture.support.AbstractNoCommitDatabaseTest} instead.
+ *
+ * @see net.cpollet.jixture.support.AbstractCommitDatabaseTest
+ * @see net.cpollet.jixture.support.AbstractNoCommitDatabaseTest
+ */
 @Transactional
 public abstract class AbstractDatabaseTest extends AbstractTestSupport implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 
+	/**
+	 * Load fixtures. Executed before each test method. {@link #setupFixtures()} is called before, allowing the subclass
+	 * to prepare the fixture before its loading, if needed.
+	 */
 	@Override
 	@Before
 	public void beforeTest() {
@@ -35,6 +68,11 @@ public abstract class AbstractDatabaseTest extends AbstractTestSupport implement
 		super.beforeTest();
 	}
 
+	/**
+	 * Cleanup loaded fixtures. Executed after each test method. Note that this method does not necessarily restore
+	 * database content. Its main use is to reset fixture's internal state. {@link #teardownFixtures()} is called
+	 * before, allowing the subclass to do additional work before the fixture is reset.
+	 */
 	@Override
 	@After
 	public void afterTest() {
@@ -42,6 +80,11 @@ public abstract class AbstractDatabaseTest extends AbstractTestSupport implement
 		super.afterTest();
 	}
 
+	/**
+	 * Returns a Spring bean from the current context.
+	 * @param type the Spring bean type.
+	 * @return a Spring bean from the current context.
+	 */
 	public <T> T getBean(Class<T> type) {
 		return (T) applicationContext.getBean(type);
 	}

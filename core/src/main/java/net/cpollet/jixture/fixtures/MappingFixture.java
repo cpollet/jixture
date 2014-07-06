@@ -21,16 +21,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * A simple fixture that loads a collection of entities.
+ *
  * @author Christophe Pollet
  */
-public class MappingFixture extends AbstractObjectFixture {
+public class MappingFixture extends BaseObjectFixture {
 	List<Object> objects;
 
+	/**
+	 * @param objectsToAdd a list of entities to load into database. The entities can be instances of different mapping
+	 *                     classes, targeting different tables. Objects are loaded in order.
+	 */
 	public MappingFixture(Object... objectsToAdd) {
 		objects = new LinkedList<Object>();
 		addObjects(objectsToAdd);
 	}
 
+	/**
+	 * Add entities to the current list of entities to load.
+	 *
+	 * @param objectsToAdd the list of entities to add. Objects are loaded in order.
+	 *
+	 * @return the current fixture instance.
+	 */
 	@Override
 	public Fixture addObjects(Object... objectsToAdd) {
 		if (objectsToAdd.length > 0) {
@@ -40,10 +53,13 @@ public class MappingFixture extends AbstractObjectFixture {
 		return this;
 	}
 
+	/**
+	 * Returns all entities that this fixture has to load into database.
+	 *
+	 * @return the list of entities to load.
+	 */
 	@Override
 	public List<Object> getObjects() {
 		return objects;
 	}
-
-
 }

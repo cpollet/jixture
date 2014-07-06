@@ -16,27 +16,28 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.dao.UnitDaoFactory;
-
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 /**
- * A fixture that is loaded via a file containing raw database statements.
+ * Base class for {@link ObjectFixture} implementations. Provide sensible implementation of {@link #getClassesToDelete}.
  *
  * @author Christophe Pollet
  */
-public interface RawFixture extends Fixture {
+public abstract class BaseObjectFixture implements ObjectFixture<Object> {
 	/**
-	 * Returns the list of mapping classes representing the tables to truncate before executing the SQL file.
+	 * Returns the list of mapping classes representing the tables to truncate.
 	 *
-	 * @return the list of mapping classes representing the tables to truncate before executing the SQL file.
+	 * @return the list of mapping classes representing the tables to truncate.
 	 */
-	LinkedList<Class> getClassesToDelete();
+	@Override
+	public LinkedList<Class> getClassesToDelete() {
+		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
 
-	/**
-	 * Execute the raw file's content.
-	 *
-	 * @param unitDaoFactory the {@link net.cpollet.jixture.dao.UnitDaoFactory} to use.
-	 */
-	public void load(UnitDaoFactory unitDaoFactory);
+		for (Object object : getObjects()) {
+			classesToDelete.add(object.getClass());
+		}
+
+		return new LinkedList<Class>(classesToDelete);
+	}
 }
