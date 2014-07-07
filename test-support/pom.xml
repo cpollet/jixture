@@ -3,17 +3,17 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.cpollet.jixture</groupId>
 	<artifactId>jixture-test-support</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
+	<name>jixture :: test-support</name>
 	<description>jixture - test support for core and asserts</description>
 
 	<parent>
 		<groupId>net.cpollet.jixture</groupId>
 		<artifactId>jixture-parent-pom</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath/>
+		<relativePath>../parent-pom</relativePath>
 	</parent>
 
 	<dependencies>

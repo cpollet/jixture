@@ -3,17 +3,17 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.cpollet.jixture</groupId>
 	<artifactId>jixture-asserts</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
+	<name>jixture :: asserts</name>
 	<description>jixture - database content assertions</description>
 
 	<parent>
 		<groupId>net.cpollet.jixture</groupId>
 		<artifactId>jixture-parent-pom</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath/>
+		<relativePath>../parent-pom</relativePath>
 	</parent>
 
 	<properties>

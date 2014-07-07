@@ -7,6 +7,7 @@
 	<artifactId>jixture-parent-pom</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
+	<name>jixture :: parent-pom</name>
 	<description>jixture - parent pom</description>
 	<url>http://jixture.cpollet.net</url>
 
@@ -33,9 +34,89 @@
 		</developer>
 	</developers>
 
+	<distributionManagement>
+		<site>
+			<id>jixture.cpollet.net</id>
+			<url>http://jixture.cpollet.net</url>
+		</site>
+	</distributionManagement>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/cpollet/jixture/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>travis-ci</system>
+		<url>https://travis-ci.org/cpollet/jixture</url>
+	</ciManagement>
+
 	<scm>
 		<connection>scm:git:git@github.com:cpollet/jixture.git</connection>
 		<developerConnection>scm:git:git@github.com:cpollet/jixture.git</developerConnection>
 		<url>git@github.com:cpollet/jixture.git</url>
 	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports><!-- select reports -->
+							<report>index</report>
+							<report>license</report>
+							<report>dependency-info</report>
+							<report>scm</report>
+							<report>issue-tracking</report>
+							<report>cim</report>
+							<report>distribution-management</report>
+							<report>project-team</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<xmlPath>${basedir}/changes.xml</xmlPath>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>changes-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
