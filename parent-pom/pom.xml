@@ -54,7 +54,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:cpollet/jixture.git</connection>
 		<developerConnection>scm:git:git@github.com:cpollet/jixture.git</developerConnection>
-		<url>git@github.com:cpollet/jixture.git</url>
+		<url>https://github.com/cpollet/jixture</url>
 	</scm>
 
 	<build>

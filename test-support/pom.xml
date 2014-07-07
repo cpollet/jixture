@@ -46,8 +46,13 @@
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.4.0.GA</version>
 		</dependency>
-
 	</dependencies>
+
+	<scm>
+		<connection>scm:git:git@github.com:cpollet/jixture.git</connection>
+		<developerConnection>scm:git:git@github.com:cpollet/jixture.git</developerConnection>
+		<url>https://github.com/cpollet/jixture</url>
+	</scm>
 
 	<build>
 		<plugins>

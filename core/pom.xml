@@ -134,8 +134,13 @@
 			<version>1.3.174</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
+
+	<scm>
+		<connection>scm:git:git@github.com:cpollet/jixture.git</connection>
+		<developerConnection>scm:git:git@github.com:cpollet/jixture.git</developerConnection>
+		<url>https://github.com/cpollet/jixture</url>
+	</scm>
 
 	<build>
 		<plugins>
