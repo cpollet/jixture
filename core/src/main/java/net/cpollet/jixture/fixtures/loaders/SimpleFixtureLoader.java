@@ -50,6 +50,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 
 	protected Set<Class> cleanedEntities;
 
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	@Resource(name = "jixture.transactionTemplatesByMode")
 	private Map<Mode, TransactionTemplate> transactionTemplates;
 
@@ -70,12 +71,14 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		load(transformToFixture(fixture), mode);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Fixture transformToFixture(final TransformableFixture fixture) {
 		return fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
 	}
 
 	private void load(final ObjectFixture fixture, Mode mode) {
 		execute(mode, new SimpleFixtureLoader.Executable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void execute() {
 				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
