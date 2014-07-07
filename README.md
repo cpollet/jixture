@@ -5,6 +5,8 @@ jixture
 
 jixture is an open source (Apache 2 licensed) spring/hibernate based java fixtures loading framework.
 
+jixture home: http://jixture.cpollet.net
+
 Several custom maven flags are available:
 
 * `-DskipOracleTests=true` skip tests under `/integration/oracle`
