@@ -35,5 +35,11 @@
 			</modules>
 		</profile>
 	</profiles>
+
+	<scm>
+		<connection>scm:git:git@github.com:cpollet/jixture.git</connection>
+		<developerConnection>scm:git:git@github.com:cpollet/jixture.git</developerConnection>
+		<url>https://github.com/cpollet/jixture</url>
+	</scm>
 </project>
 

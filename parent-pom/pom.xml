@@ -37,7 +37,7 @@
 	<distributionManagement>
 		<site>
 			<id>jixture.cpollet.net</id>
-			<url>http://jixture.cpollet.net</url>
+			<url>scp://jixture.cpollet.net/var/www/sites/jixture.cpollet.net/www</url>
 		</site>
 	</distributionManagement>
 
@@ -58,6 +58,22 @@
 	</scm>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.3</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.wagon</groupId>
+							<artifactId>wagon-ssh</artifactId>
+							<version>1.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +101,7 @@
 							<report>scm</report>
 							<report>issue-tracking</report>
 							<report>cim</report>
-							<report>distribution-management</report>
+							<!--<report>distribution-management</report>-->
 							<report>project-team</report>
 						</reports>
 					</reportSet>
