@@ -46,11 +46,11 @@ public class GeneratorFixture extends BaseScrollableFixture {
 	private Iterator<FixtureGenerator> generatorIterator;
 	private FixtureGenerator currentFixtureGenerator;
 
-	public static TemplateGenerator template(Object templateObject) {
+	public static TemplateGenerator from(Object templateObject) {
 		return new TemplateGenerator(templateObject);
 	}
 
-	public static SimpleGenerator simple(Class generatedClass, int quantity) {
+	public static SimpleGenerator from(Class generatedClass, int quantity) {
 		return new SimpleGenerator(generatedClass, quantity);
 	}
 

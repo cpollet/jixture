@@ -29,47 +29,48 @@ import java.util.List;
  * @author Christophe Pollet
  */
 public abstract class FieldGenerators {
-	public static FieldGenerator dateSequence(DateTime start, DateTime stop) {
+	public static FieldGenerator in(DateTime start, DateTime stop) {
 		return new DateSequence(start, stop);
 	}
 
-	public static FieldGenerator dateSequence(DateTime start, DateTime stop, ReadableDuration duration) {
+	public static FieldGenerator in(DateTime start, DateTime stop, ReadableDuration duration) {
 		return new DateSequence(start, stop, duration);
 	}
 
-	public static FieldGenerator dateSequence(DateTime start, DateTime stop, ReadablePeriod period) {
+	public static FieldGenerator in(DateTime start, DateTime stop, ReadablePeriod period) {
 		return new DateSequence(start, stop, period);
 	}
 
-	public static FieldGenerator integerSequence(Integer start, Integer stop) {
+	public static FieldGenerator in(Integer start, Integer stop) {
 		return new IntegerSequence(start, stop);
 	}
 
-	public static FieldGenerator integerSequence(Integer start, Integer stop, Integer increment) {
+	public static FieldGenerator in(Integer start, Integer stop, Integer increment) {
 		return new IntegerSequence(start, stop, increment);
 	}
 
-	public static FieldGenerator longSequence(Long start, Long stop) {
+	public static FieldGenerator in(Long start, Long stop) {
 		return new LongSequence(start, stop);
 	}
 
-	public static FieldGenerator longSequence(Long start, Long stop, Long increment) {
+	public static FieldGenerator in(Long start, Long stop, Long increment) {
 		return new LongSequence(start, stop, increment);
 	}
 
-	public static <T> FieldGenerator listSequence(List<T> values) {
+	public static <T> FieldGenerator in(List<T> values) {
 		return new ListSequence<T>(values);
 	}
 
-	public static <T> FieldGenerator listSequence(T... values) {
+	public static <T> FieldGenerator in(T... values) {
 		return new ListSequence<T>(values);
 	}
 
-	public static MultiFieldGenerator multiFieldGenerator() {
+	public static FieldGenerator in(String format, FieldGenerator generator) {
+		return new SimpleStringSequence(format, generator);
+	}
+
+	public static MultiFieldGenerator multiField() {
 		return new MultiFieldGenerator();
 	}
 
-	public static SimpleStringSequence simpleStringGenerator(String format, FieldGenerator generator) {
-		return new SimpleStringSequence(format, generator);
-	}
 }
