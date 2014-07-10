@@ -37,28 +37,28 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Christophe Pollet
  */
-public class TestGeneratorFixture {
-	private GeneratorFixture generatorFixture;
+public class TestGeneratedFixture {
+	private GeneratedFixture generatedFixture;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
 	@Before
 	public void setUp() {
-		generatorFixture = new GeneratorFixture();
+		generatedFixture = new GeneratedFixture();
 	}
 
 	@Test
 	public void addGeneratorWhenGeneratorFixtureStartedThrowsAnException() {
 		// GIVEN
-		generatorFixture.start();
+		generatedFixture.start();
 
 		// THEN
 		expectedException.expect(IllegalStateException.class);
 		expectedException.expectMessage("Generator already started");
 
 		// WHEN
-		generatorFixture.addGenerators(new SimpleGenerator(Object.class, 1));
+		generatedFixture.addGenerators(new SimpleGenerator(Object.class, 1));
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class TestGeneratorFixture {
 		expectedException.expectMessage("Generator not started");
 
 		// WHEN
-		generatorFixture.hasNext();
+		generatedFixture.hasNext();
 	}
 
 	@Test
@@ -82,13 +82,13 @@ public class TestGeneratorFixture {
 		expectedException.expectMessage("Generator not started");
 
 		// WHEN
-		generatorFixture.next();
+		generatedFixture.next();
 	}
 
 	@Test
 	public void nextIteratesOverAllGeneratedObjectsOfAllGenerators() {
 		// GIVEN
-		generatorFixture //
+		generatedFixture //
 				.addGenerators( //
 						new SimpleGenerator(Object.class, 2), //
 						new SimpleGenerator(Object.class, 3)) //
@@ -96,9 +96,9 @@ public class TestGeneratorFixture {
 
 		// WHEN
 		int actualCount = 0;
-		while (generatorFixture.hasNext()) {
+		while (generatedFixture.hasNext()) {
 			actualCount++;
-			generatorFixture.next();
+			generatedFixture.next();
 		}
 
 		// THEN
@@ -108,13 +108,13 @@ public class TestGeneratorFixture {
 	@Test
 	public void getClassesToDeleteReturnsClassesToDeleteOfAllGenerators() {
 		// GIVEN
-		generatorFixture //
+		generatedFixture //
 				.addGenerators( //
 						new SimpleGenerator(Integer.class, 2), //
 						new SimpleGenerator(String.class, 3));
 
 		// WHEN
-		List<Class> classesToDelete = generatorFixture.getClassesToDelete();
+		List<Class> classesToDelete = generatedFixture.getClassesToDelete();
 
 		// THEN
 		assertThat(classesToDelete).containsExactly(Integer.class, String.class);
@@ -123,18 +123,18 @@ public class TestGeneratorFixture {
 	@Test
 	public void extractEntitiesExtractEntities() {
 		// GIVEN
-		GeneratorFixture.ExtractionResult extractionResult = new GeneratorFixture.ExtractionResult();
-		generatorFixture //
+		GeneratedFixture.ExtractionResult extractionResult = new GeneratedFixture.ExtractionResult();
+		generatedFixture //
 				.addGenerators( //
-						GeneratorFixture.from(new Product()) //
+						GeneratedFixture.from(new Product()) //
 								.addFieldGenerator("id", FieldGenerators.in("1", "2")) //
 				) //
 				.extractEntities(new IsAnything(), extractionResult) //
 				.start();
 
 		// WHEN
-		while (generatorFixture.hasNext()) {
-			generatorFixture.next();
+		while (generatedFixture.hasNext()) {
+			generatedFixture.next();
 		}
 
 		// THEN
@@ -145,9 +145,9 @@ public class TestGeneratorFixture {
 	public void extractEntitiesExtractMatchingEntities() {
 		// GIVEN
 		//noinspection unchecked
-		generatorFixture //
+		generatedFixture //
 				.addGenerators( //
-						GeneratorFixture.from(new Product()) //
+						GeneratedFixture.from(new Product()) //
 								.addFieldGenerator("id", FieldGenerators.in("1", "2")) //
 								.addFieldGenerator("name", FieldGenerators.in("name1", "name2")) //
 				) //
@@ -155,10 +155,10 @@ public class TestGeneratorFixture {
 				.start();
 
 		// WHEN
-		while (generatorFixture.hasNext()) {
-			generatorFixture.next();
+		while (generatedFixture.hasNext()) {
+			generatedFixture.next();
 		}
-		GeneratorFixture.ExtractionResult extractionResult = generatorFixture.getExtractionResult();
+		GeneratedFixture.ExtractionResult extractionResult = generatedFixture.getExtractionResult();
 
 		// THEN
 		Product expectedProduct = new Product();

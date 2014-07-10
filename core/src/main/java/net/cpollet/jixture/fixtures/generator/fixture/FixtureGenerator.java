@@ -20,9 +20,9 @@ import java.util.Iterator;
 
 /**
  * Automatically generates entities. The generators are used by the
- * {@link net.cpollet.jixture.fixtures.GeneratorFixture} to generate the entities that are to be loaded in database.
+ * {@link net.cpollet.jixture.fixtures.GeneratedFixture} to generate the entities that are to be loaded in database.
  *
- * @see net.cpollet.jixture.fixtures.GeneratorFixture
+ * @see net.cpollet.jixture.fixtures.GeneratedFixture
  *
  * @author Christophe Pollet
  */

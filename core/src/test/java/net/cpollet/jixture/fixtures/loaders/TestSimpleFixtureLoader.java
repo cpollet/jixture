@@ -20,7 +20,7 @@ import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.BaseObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.GeneratorFixture;
+import net.cpollet.jixture.fixtures.GeneratedFixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SqlFileFixture;
@@ -263,7 +263,7 @@ public class TestSimpleFixtureLoader {
 	@Test
 	public void loadScrollableFixtureDeletesOldEntitiesBeforeSavingNewOnes() {
 		// WHEN
-		simpleFixtureLoader.load(new GeneratorFixture(new SimpleGenerator(User.class, 2)).start(), FixtureLoader.Mode.COMMIT);
+		simpleFixtureLoader.load(new GeneratedFixture(new SimpleGenerator(User.class, 2)).start(), FixtureLoader.Mode.COMMIT);
 
 		// WHEN
 		InOrder inOrder = Mockito.inOrder(unitDao);
@@ -274,7 +274,7 @@ public class TestSimpleFixtureLoader {
 	@Test
 	public void loadScrollableFixtureDeletesOldEntitiesInReverseOrder() {
 		// WHEN
-		simpleFixtureLoader.load(new GeneratorFixture( //
+		simpleFixtureLoader.load(new GeneratedFixture( //
 				new SimpleGenerator(User.class, 1), //
 				new SimpleGenerator(Product.class, 1) //
 		).start(), FixtureLoader.Mode.COMMIT);

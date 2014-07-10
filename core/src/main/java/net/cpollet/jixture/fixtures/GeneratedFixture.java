@@ -34,13 +34,13 @@ import java.util.NoSuchElementException;
 /**
  * Generate entities on the fly. It is backed by an instances of
  * {@link net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator}. Those {@code FixtureGenerators} are the
- * actual entities generators, the {@code GeneratorFixture} is mainly a mean of aggregating them.
+ * actual entities generators, the {@code GeneratedFixture} is mainly a mean of aggregating them.
  *
  * @author Christophe Pollet
  * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
  */
-public class GeneratorFixture extends BaseScrollableFixture {
-	private static final Logger logger = LoggerFactory.getLogger(GeneratorFixture.class);
+public class GeneratedFixture extends BaseScrollableFixture {
+	private static final Logger logger = LoggerFactory.getLogger(GeneratedFixture.class);
 
 	private List<FixtureGenerator> fixtureGenerators;
 	private boolean started;
@@ -62,14 +62,14 @@ public class GeneratorFixture extends BaseScrollableFixture {
 	/**
 	 * @param fixtureGenerators the generators to use to generate the entities ot load.
 	 */
-	public GeneratorFixture(FixtureGenerator... fixtureGenerators) {
+	public GeneratedFixture(FixtureGenerator... fixtureGenerators) {
 		this.fixtureGenerators = new LinkedList<FixtureGenerator>();
 		addGenerators(fixtureGenerators);
 
 		this.started = false;
 	}
 
-	public GeneratorFixture addGenerators(FixtureGenerator... generatorsToAdd) {
+	public GeneratedFixture addGenerators(FixtureGenerator... generatorsToAdd) {
 		assertGeneratorNotStarted();
 
 		if (generatorsToAdd.length > 0) {
@@ -79,11 +79,11 @@ public class GeneratorFixture extends BaseScrollableFixture {
 		return this;
 	}
 
-	public GeneratorFixture extractEntities(Matcher matcher) {
+	public GeneratedFixture extractEntities(Matcher matcher) {
 		return extractEntities(matcher, new ExtractionResult());
 	}
 
-	public GeneratorFixture extractEntities(Matcher matcher, ExtractionResult extractionResult) {
+	public GeneratedFixture extractEntities(Matcher matcher, ExtractionResult extractionResult) {
 		this.extractionMatcher = matcher;
 		this.extractionResult = extractionResult;
 		return this;
@@ -99,7 +99,7 @@ public class GeneratorFixture extends BaseScrollableFixture {
 		}
 	}
 
-	public GeneratorFixture start() {
+	public GeneratedFixture start() {
 		assertGeneratorNotStarted();
 
 		started = true;
