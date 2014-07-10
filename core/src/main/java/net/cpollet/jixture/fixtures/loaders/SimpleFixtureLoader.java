@@ -20,6 +20,7 @@ import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.RawFixture;
+import net.cpollet.jixture.fixtures.ScrollableFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import org.slf4j.Logger;
@@ -65,6 +66,9 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		else if (fixture instanceof TransformableFixture) {
 			load((TransformableFixture) fixture, mode);
 		}
+		else if (fixture instanceof ScrollableFixture) {
+			load((ScrollableFixture) fixture, mode);
+		}
 	}
 
 	private void load(TransformableFixture fixture, Mode mode) {
@@ -92,6 +96,16 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 			@Override
 			public void execute() {
 				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
+				fixture.load(unitDaoFactory);
+			}
+		});
+	}
+
+	private void load(final ScrollableFixture fixture, Mode mode) {
+		execute(mode, new Executable() {
+			@Override
+			public void execute() {
+				deleteEntitiesOfClass(fixture.getClassesToDelete().iterator());
 				fixture.load(unitDaoFactory);
 			}
 		});

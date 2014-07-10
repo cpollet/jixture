@@ -71,7 +71,7 @@ public class GeneratorFixture extends BaseScrollableFixture {
 		}
 	}
 
-	public void start() {
+	public GeneratorFixture start() {
 		assertGeneratorNotStarted();
 
 		started = true;
@@ -81,6 +81,8 @@ public class GeneratorFixture extends BaseScrollableFixture {
 		if (generatorIterator.hasNext()) {
 			currentFixtureGenerator = generatorIterator.next();
 		}
+
+		return this;
 	}
 
 	/**

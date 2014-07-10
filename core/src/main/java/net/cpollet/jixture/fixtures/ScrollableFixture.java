@@ -16,6 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.dao.UnitDaoFactory;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,4 +34,6 @@ public interface ScrollableFixture extends Fixture, Iterator<Object> {
 	 * @return the list of mapping classes representing the tables to truncate.
 	 */
 	List<Class> getClassesToDelete();
+
+	void load(UnitDaoFactory unitDaoFactory);
 }
