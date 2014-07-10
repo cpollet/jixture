@@ -17,10 +17,11 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator;
+import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
+import net.cpollet.jixture.fixtures.generator.fixture.TemplateGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -44,6 +45,14 @@ public class GeneratorFixture extends BaseScrollableFixture {
 
 	private Iterator<FixtureGenerator> generatorIterator;
 	private FixtureGenerator currentFixtureGenerator;
+
+	public static TemplateGenerator template(Object templateObject) {
+		return new TemplateGenerator(templateObject);
+	}
+
+	public static SimpleGenerator simple(Class generatedClass, int quantity) {
+		return new SimpleGenerator(generatedClass, quantity);
+	}
 
 	/**
 	 * @param fixtureGenerators the generators to use to generate the entities ot load.
