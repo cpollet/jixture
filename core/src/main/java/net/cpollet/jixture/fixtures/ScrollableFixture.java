@@ -16,11 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.dao.UnitDaoFactory;
-
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * A fixture that acts like an {@link java.util.Iterator} to return entities. It can be used to load a huge amount of
