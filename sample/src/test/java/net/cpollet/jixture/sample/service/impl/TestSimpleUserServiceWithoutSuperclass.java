@@ -57,7 +57,7 @@ public class TestSimpleUserServiceWithoutSuperclass {
 		committedUser.setCount(0);
 
 		commitDatabaseTestSupport.addFixtures(new MappingFixture(committedUser)) //
-				.beforeTest();
+				.loadFixtures();
 
 		User uncommittedUser = new User();
 		uncommittedUser.setId(2L);

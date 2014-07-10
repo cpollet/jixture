@@ -24,31 +24,14 @@ import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import java.util.Collection;
 
 /**
- * Provides a set of method that can be useful in the context of unit/integration testing. This interface
- * has two kinds of implementations. One kind is abstract classes that are meant to be superclasses for test
- * classes ({@link net.cpollet.jixture.support.AbstractDatabaseTest} and subclasses), the other kind is support classes
- * that can be injected in a test class.
+ * Provides a set of method that can be useful in the context of unit/integration testing.
  *
- * @see net.cpollet.jixture.support.AbstractDatabaseTest
- * @see net.cpollet.jixture.support.AbstractCommitDatabaseTest
- * @see net.cpollet.jixture.support.AbstractNoCommitDatabaseTest
  * @see net.cpollet.jixture.support.CommitDatabaseTestSupport
  * @see net.cpollet.jixture.support.NoCommitDatabaseTestSupport
  *
  * @author Christophe Pollet
  */
 public interface DatabaseTestSupport {
-	/**
-	 * Prepares the fixtures to be loaded. This method is meant to be executed in the {@code @Before}-annotated method.
-	 */
-	void setupFixtures();
-
-	/**
-	 * Resets the fixtures after test methods. This method is meant to be executed in the {@code @After}-annotated
-	 * method.
-	 */
-	void teardownFixtures();
-
 	/**
 	 * Adds fixtures to the fixtures to be loaded.
 	 *
@@ -94,16 +77,16 @@ public interface DatabaseTestSupport {
 	DatabaseTestSupport setFixtureLoader(FixtureLoader fixtureLoaderChain);
 
 	/**
-	 * This method is meant to be executed after a test in run. Typically loads the fixtures. Depending on the context,
-	 * it can be annotated with {@code @After}.
-	 */
-	void afterTest();
-
-	/**
 	 * This method is meant to be executed before a test in run. Typically loads the fixtures. Depending on the context,
 	 * it can be annotated with {@code @Before}.
 	 */
-	void beforeTest();
+	void loadFixtures();
+
+	/**
+	 * This method is meant to be executed after a test in run. Typically loads the fixtures. Depending on the context,
+	 * it can be annotated with {@code @After}.
+	 */
+	void resetFixtures();
 
 	/**
 	 * Returns an instance of {@link net.cpollet.jixture.dao.UnitDao}.

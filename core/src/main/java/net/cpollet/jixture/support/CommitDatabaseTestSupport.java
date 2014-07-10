@@ -38,7 +38,7 @@ import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
  *
  *     		commitDatabaseTestSupport
  *     		    .addFixtures(new MappingFixture(user))
- *     		    .beforeTest();
+ *     		    .loadFixtures();
  *     	}
  *
  *     	{@literal @}Test

@@ -52,24 +52,14 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	protected abstract FixtureLoader.Mode getCommitMode();
 
 	@Override
-	public void setupFixtures() {
-		// nothing
-	}
-
-	@Override
-	public void teardownFixtures() {
-		// nothing
-	}
-
-	@Override
-	public void beforeTest() {
+	public void loadFixtures() {
 		for (Fixture fixture : getFixtures()) {
 			fixtureLoader.load(fixture, getCommitMode());
 		}
 	}
 
 	@Override
-	public void afterTest() {
+	public void resetFixtures() {
 		if (fixtureLoader != null) {
 			fixtureLoader.reset();
 		}
