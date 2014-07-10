@@ -29,31 +29,31 @@ import java.util.List;
  * @author Christophe Pollet
  */
 public abstract class FieldGenerators {
-	public static FieldGenerator in(DateTime start, DateTime stop) {
+	public static FieldGenerator sequence(DateTime start, DateTime stop) {
 		return new DateSequence(start, stop);
 	}
 
-	public static FieldGenerator in(DateTime start, DateTime stop, ReadableDuration duration) {
+	public static FieldGenerator sequence(DateTime start, DateTime stop, ReadableDuration duration) {
 		return new DateSequence(start, stop, duration);
 	}
 
-	public static FieldGenerator in(DateTime start, DateTime stop, ReadablePeriod period) {
+	public static FieldGenerator sequence(DateTime start, DateTime stop, ReadablePeriod period) {
 		return new DateSequence(start, stop, period);
 	}
 
-	public static FieldGenerator in(Integer start, Integer stop) {
+	public static FieldGenerator sequence(Integer start, Integer stop) {
 		return new IntegerSequence(start, stop);
 	}
 
-	public static FieldGenerator in(Integer start, Integer stop, Integer increment) {
+	public static FieldGenerator sequence(Integer start, Integer stop, Integer increment) {
 		return new IntegerSequence(start, stop, increment);
 	}
 
-	public static FieldGenerator in(Long start, Long stop) {
+	public static FieldGenerator sequence(Long start, Long stop) {
 		return new LongSequence(start, stop);
 	}
 
-	public static FieldGenerator in(Long start, Long stop, Long increment) {
+	public static FieldGenerator sequence(Long start, Long stop, Long increment) {
 		return new LongSequence(start, stop, increment);
 	}
 
