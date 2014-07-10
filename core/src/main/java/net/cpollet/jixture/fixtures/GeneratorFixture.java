@@ -147,8 +147,8 @@ public class GeneratorFixture extends BaseScrollableFixture {
 	 * @return the list of mapping classes representing the tables to truncate.
 	 */
 	@Override
-	public List<Class> getClassesToDelete() {
-		List<Class> classesToDelete = new ArrayList<Class>(fixtureGenerators.size());
+	public LinkedList<Class> getClassesToDelete() {
+		LinkedList<Class> classesToDelete = new LinkedList<Class>();
 
 		for (FixtureGenerator fixtureGenerator : fixtureGenerators) {
 			classesToDelete.add(fixtureGenerator.getGeneratedClass());

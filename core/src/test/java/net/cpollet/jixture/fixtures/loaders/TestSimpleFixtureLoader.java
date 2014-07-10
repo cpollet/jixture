@@ -20,13 +20,16 @@ import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.BaseObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
+import net.cpollet.jixture.fixtures.GeneratorFixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SqlFileFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
+import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import net.cpollet.jixture.tests.mappings.Client;
+import net.cpollet.jixture.tests.mappings.Product;
 import net.cpollet.jixture.tests.mappings.User;
 import net.cpollet.jixture.tests.mocks.TransactionTemplateMock;
 import org.junit.Before;
@@ -257,4 +260,29 @@ public class TestSimpleFixtureLoader {
 		inOrder.verify(unitDao, Mockito.times(3)).execute(Mockito.anyString());
 	}
 
+	@Test
+	public void loadScrollableFixtureDeletesOldEntitiesBeforeSavingNewOnes() {
+		// WHEN
+		simpleFixtureLoader.load(new GeneratorFixture(new SimpleGenerator(User.class, 2)).start(), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		InOrder inOrder = Mockito.inOrder(unitDao);
+		inOrder.verify(unitDao).deleteAll(User.class);
+		inOrder.verify(unitDao, Mockito.times(2)).save(Mockito.any(User.class));
+	}
+
+	@Test
+	public void loadScrollableFixtureDeletesOldEntitiesInReverseOrder() {
+		// WHEN
+		simpleFixtureLoader.load(new GeneratorFixture( //
+				new SimpleGenerator(User.class, 1), //
+				new SimpleGenerator(Product.class, 1) //
+		).start(), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		InOrder inOrder = Mockito.inOrder(unitDao);
+		inOrder.verify(unitDao).deleteAll(Product.class);
+		inOrder.verify(unitDao).deleteAll(User.class);
+		inOrder.verify(unitDao, Mockito.times(2)).save(Mockito.any(User.class));
+	}
 }

@@ -16,8 +16,6 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.dao.UnitDaoFactory;
-
 /**
  * Base class for {@code ScrollableFixtures}. Implements {@code remove} method.
  *
@@ -33,12 +31,5 @@ public abstract class BaseScrollableFixture implements ScrollableFixture {
 	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void load(UnitDaoFactory unitDaoFactory) {
-		while (hasNext()) {
-			unitDaoFactory.getUnitDao().save(next());
-		}
 	}
 }

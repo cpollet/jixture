@@ -105,8 +105,8 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {
-				deleteEntitiesOfClass(fixture.getClassesToDelete().iterator());
-				fixture.load(unitDaoFactory);
+				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
+				saveEntities(fixture);
 			}
 		});
 	}
