@@ -35,6 +35,10 @@ public class ExtractableGeneratedFixture extends GeneratedFixture {
 	private Matcher extractionMatcher;
 	private ExtractionResult extractionResult;
 
+	public ExtractableGeneratedFixture(FixtureGenerator... fixtureGenerators) {
+		super(fixtureGenerators);
+	}
+
 	public ExtractableGeneratedFixture extractEntities(Matcher matcher) {
 		return extractEntities(matcher, new ExtractionResult());
 	}
