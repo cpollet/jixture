@@ -42,7 +42,7 @@ public class SimpleGenerator extends BaseFixtureGenerator {
 	 */
 	@Override
 	public boolean hasNext() {
-		return quantity > 0;
+		return 0 < quantity;
 	}
 
 	/**

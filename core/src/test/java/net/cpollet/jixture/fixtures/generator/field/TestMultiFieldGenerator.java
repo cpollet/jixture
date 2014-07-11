@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,17 +217,53 @@ public class TestMultiFieldGenerator {
 		assertThat(values.get("field1")).isEqualTo(1);
 		assertThat(values.get("field2")).isEqualTo(3);
 
-		values = (Map<String, Object>) multiFieldGenerator.next();
+		values = multiFieldGenerator.next();
 		assertThat(values).hasSize(2);
 		assertThat(values.get("field1")).isEqualTo(1);
 		assertThat(values.get("field2")).isEqualTo(4);
+	}
+
+	@Test
+	public void LongSequenceInBoundByOtherFieldGenerators() {
+		// GIVEN
+		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
+		multiFieldGenerator.addFieldGenerator("field1", new ListSequence<String>("a", "b", "c", "d"));
+		multiFieldGenerator.addFieldGenerator("field2", new LongIndexSequence());
+
+		long i = 0;
+		for (String s : Arrays.asList("a", "b", "c", "d")) {
+			Map<String, Object> values = multiFieldGenerator.next();
+			assertThat(values.get("field1")).isEqualTo(s);
+			assertThat(values.get("field2")).isEqualTo(i);
+			i++;
+		}
+
+		assertThat(multiFieldGenerator.hasNext()).isFalse();
+	}
+
+	@Test
+	public void IntegerSequenceInBoundByOtherFieldGenerators() {
+		// GIVEN
+		MultiFieldGenerator multiFieldGenerator = new MultiFieldGenerator();
+		multiFieldGenerator.addFieldGenerator("field1", new ListSequence<String>("a", "b", "c", "d"));
+		multiFieldGenerator.addFieldGenerator("field2", new IntegerIndexSequence());
+
+		int i = 0;
+		for (String s : Arrays.asList("a", "b", "c", "d")) {
+			Map<String, Object> values = multiFieldGenerator.next();
+			assertThat(values.get("field1")).isEqualTo(s);
+			assertThat(values.get("field2")).isEqualTo(i);
+			i++;
+		}
+
+		assertThat(multiFieldGenerator.hasNext()).isFalse();
 	}
 
 	private Map<String, Object> buildMap(Object... elements) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		for (int i = 0; i < elements.length; i = i + 2) {
-			map.put((String) elements[i], elements[i+1]);
+			map.put((String) elements[i], elements[i + 1]);
 		}
 
 		return map;

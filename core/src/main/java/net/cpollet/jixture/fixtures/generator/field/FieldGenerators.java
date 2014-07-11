@@ -57,6 +57,14 @@ public abstract class FieldGenerators {
 		return new LongSequence(start, stop, increment);
 	}
 
+	public static FieldGenerator sequence(Integer start) {
+		return new IntegerIndexSequence(start);
+	}
+
+	public static FieldGenerator sequence(Long start) {
+		return new LongIndexSequence(start);
+	}
+
 	public static <T> FieldGenerator in(List<T> values) {
 		return new ListSequence<T>(values);
 	}
