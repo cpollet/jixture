@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class MappingUtils {
-	public static Map<String, ? extends Object> toMap(Object mapping, Collection<MappingField> mappingFields) {
+	public static Map<String, ?> toMap(Object mapping, Collection<MappingField> mappingFields) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		for (MappingField mappingField : mappingFields) {
@@ -47,6 +47,7 @@ public class MappingUtils {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void setNonEmbeddableFieldValue(Map map, Object mapping, MappingField mappingField) {
 		Object fieldValue = getFieldValue(mapping, mappingField.getField());
 
@@ -67,6 +68,7 @@ public class MappingUtils {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void setEmbeddableFieldValue(Map map, Object mapping, MappingField mappingField) {
 		Object embeddableValue = getFieldValue(mapping, mappingField.getField());
 		Object embeddedValue = getFieldValue(embeddableValue, mappingField.getEmbeddableField());

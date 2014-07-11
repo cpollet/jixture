@@ -24,8 +24,6 @@ import net.cpollet.jixture.fixtures.TransformableFixture;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -39,8 +37,6 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class JixtureAssert<T> {
-	private static final Logger logger = LoggerFactory.getLogger(JixtureAssert.class);
-
 	private Class mapping;
 	private String[] columnsToIgnore;
 	private TransactionTemplate transactionTemplate;
@@ -86,8 +82,8 @@ public class JixtureAssert<T> {
 	}
 
 	public JixtureAssert containsAtLeast(Fixture transformableFixture) {
-		List<Map<String, ? extends Object>> expectedMaps = getExpectedMaps(transformableFixture);
-		List<Map<String, ? extends Object>> actualMaps = getActualMaps();
+		List<Map<String, ?>> expectedMaps = getExpectedMaps(transformableFixture);
+		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		if (!actualMaps.containsAll(expectedMaps)) {
 			expectedMaps.removeAll(actualMaps);
@@ -97,10 +93,10 @@ public class JixtureAssert<T> {
 		return this;
 	}
 
-	private List<Map<String, ? extends Object>> getActualMaps() {
+	private List<Map<String, ?>> getActualMaps() {
 		Collection<MappingField> fields = mappingDefinitionHolder.getFieldsByMappingClass(mapping);
 
-		List<Map<String, ? extends Object>> actualMaps = new ArrayList<Map<String, ? extends Object>>();
+		List<Map<String, ?>> actualMaps = new ArrayList<Map<String, ?>>();
 
 		for (Object entity : loadAllEntities()) {
 			actualMaps.add(MappingUtils.toMap(entity, fields));
@@ -111,24 +107,24 @@ public class JixtureAssert<T> {
 		return actualMaps;
 	}
 
-	private void resetIgnoredColumns(List<Map<String, ? extends Object>> maps) {
-		if (columnsToIgnore == null) {
+	private void resetIgnoredColumns(List<Map<String, ?>> maps) {
+		if (null == columnsToIgnore) {
 			return;
 		}
 
-		for (Map<String, ? extends Object> map : maps) {
+		for (Map<String, ?> map : maps) {
 			for (String column : columnsToIgnore) {
 				map.remove(column);
 			}
 		}
 	}
 
-	private List<Map<String, ? extends Object>> getExpectedMaps(Fixture transformableFixture) {
+	private List<Map<String, ?>> getExpectedMaps(Fixture transformableFixture) {
 		Collection<MappingField> fields = mappingDefinitionHolder.getFieldsByMappingClass(mapping);
 
 		ObjectFixture fixture = transform(transformableFixture);
 
-		List<Map<String, ? extends Object>> expectedMaps = new ArrayList<Map<String, ? extends Object>>();
+		List<Map<String, ?>> expectedMaps = new ArrayList<Map<String, ?>>();
 
 		for (Object object : fixture.getObjects()) {
 			if (object.getClass().equals(mapping)) {
@@ -141,6 +137,7 @@ public class JixtureAssert<T> {
 		return expectedMaps;
 	}
 
+	@SuppressWarnings("unchecked")
 	private ObjectFixture transform(Fixture fixture) {
 		while (fixture instanceof TransformableFixture) {
 			fixture = fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
@@ -154,8 +151,8 @@ public class JixtureAssert<T> {
 	}
 
 	private List<T> loadAllEntities() {
-		if (entities == null) {
-			if (transactionTemplate != null) {
+		if (null == entities) {
+			if (null != transactionTemplate) {
 				loadAllEntitiesWithTransactionTemplate();
 			}
 			else {
@@ -166,12 +163,14 @@ public class JixtureAssert<T> {
 		return entities;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadAllEntitiesWithoutTransactionTemplate() {
 		entities = getAllEntities();
 	}
 
 	private void loadAllEntitiesWithTransactionTemplate() {
 		entities = transactionTemplate.execute(new TransactionCallback<List<T>>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<T> doInTransaction(TransactionStatus status) {
 				return getAllEntities();
@@ -184,12 +183,12 @@ public class JixtureAssert<T> {
 	}
 
 	public JixtureAssert containsAtMost(Fixture transformableFixture) {
-		List<Map<String, ? extends Object>> expectedMaps = getExpectedMaps(transformableFixture);
-		List<Map<String, ? extends Object>> actualMaps = getActualMaps();
+		List<Map<String, ?>> expectedMaps = getExpectedMaps(transformableFixture);
+		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		actualMaps.removeAll(expectedMaps);
 
-		if (actualMaps.size() > 0) {
+		if (0 < actualMaps.size()) {
 			throw new AssertionError("Too many elements " + actualMaps.toString());
 		}
 

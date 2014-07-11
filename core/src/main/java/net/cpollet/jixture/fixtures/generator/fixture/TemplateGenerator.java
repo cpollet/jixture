@@ -109,7 +109,7 @@ public class TemplateGenerator extends BaseFixtureGenerator {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> nextValues() {
-		return (Map<String, Object>) multiFieldGenerator.next();
+		return multiFieldGenerator.next();
 	}
 
 	/**

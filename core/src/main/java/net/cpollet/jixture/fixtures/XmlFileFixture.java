@@ -36,8 +36,6 @@ import java.util.List;
  * @author Christophe Pollet
  */
 public class XmlFileFixture implements TransformableFixture, TransformableExtractionCapableFixture<XmlFileFixture> {
-	private static final String CLASSPATH_MARKER = "classpath:";
-
 	private InputStream fileInputStream;
 
 	private ExtractorDelegate extractorDelegate;

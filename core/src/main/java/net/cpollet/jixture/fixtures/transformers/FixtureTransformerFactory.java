@@ -29,6 +29,7 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class FixtureTransformerFactory implements InitializingBean {
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	@Autowired
 	private List<FixtureTransformer> transformers;
 
@@ -54,7 +55,7 @@ public class FixtureTransformerFactory implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		transformersMap = new HashMap<Class, FixtureTransformer>();
 
-		if (transformers != null) {
+		if (null != transformers) {
 			for (FixtureTransformer fixtureTransformer : transformers) {
 				transformersMap.put(fixtureTransformer.getFromType(), fixtureTransformer);
 			}

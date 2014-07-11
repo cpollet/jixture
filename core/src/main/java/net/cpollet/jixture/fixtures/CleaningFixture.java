@@ -46,7 +46,7 @@ public class CleaningFixture implements ObjectFixture<Class> {
 	 */
 	@Override
 	public Fixture addObjects(Class... classesToDelete) {
-		if (classesToDelete.length > 0) {
+		if (0 < classesToDelete.length) {
 			Collections.addAll(classes, classesToDelete);
 		}
 

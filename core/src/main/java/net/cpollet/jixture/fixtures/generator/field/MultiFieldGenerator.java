@@ -109,7 +109,7 @@ public class MultiFieldGenerator extends BaseFieldGenerator<Map<String, Object>>
 
 	@Override
 	public Map<String, Object> current() {
-		if (currentValue == null) {
+		if (null == currentValue) {
 			return next();
 		}
 

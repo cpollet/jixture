@@ -105,12 +105,10 @@ public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixt
 		}
 
 		@Override
-		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-			if (qName.equals("dataset")) {
+		public void startElement(String uri, String localName, String xmlTableName, Attributes attributes) throws SAXException {
+			if ("dataset".equals(xmlTableName)) {
 				return;
 			}
-
-			String xmlTableName = qName;
 
 			currentObject = createInstanceOfClass(getMappingClassForTable(xmlTableName));
 
@@ -149,7 +147,7 @@ public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixt
 		private Object getEmbeddedFieldValue(Object object, Field field) {
 			Object value = getFieldValue(object, field);
 
-			if (value == null) {
+			if (null == value) {
 				value = createInstanceOfClass(field.getType());
 				setFieldValue(object, field, value);
 			}
@@ -208,7 +206,7 @@ public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixt
 
 		@Override
 		public void endElement(String uri, String localName, String qName) throws SAXException {
-			if (qName.equals("dataset")) {
+			if ("dataset".equals(qName)) {
 				return;
 			}
 
