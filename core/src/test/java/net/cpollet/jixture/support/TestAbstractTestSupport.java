@@ -41,7 +41,7 @@ public class TestAbstractTestSupport {
 		assertThat(fixtures.size()).isEqualTo(4);
 	}
 
-	private class ConcreteTestSupport extends AbstractTestSupport {
+	private class ConcreteTestSupport extends BaseDatabaseTestSupport {
 		@Override
 		protected FixtureLoader.Mode getCommitMode() {
 			return null;

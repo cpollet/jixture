@@ -26,7 +26,7 @@ import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
  *
  * @author Christophe Pollet
  */
-public class NoCommitDatabaseTestSupport extends AbstractTestSupport {
+public class NoCommitDatabaseTestSupport extends BaseDatabaseTestSupport {
 	/**
 	 * Returns the commit mode. In this case, always
 	 * {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#NO_COMMIT}.

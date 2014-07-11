@@ -36,7 +36,7 @@ import java.util.LinkedList;
  *
  * @author Christophe Pollet
  */
-public abstract class AbstractTestSupport implements DatabaseTestSupport, InitializingBean {
+public abstract class BaseDatabaseTestSupport implements DatabaseTestSupport, InitializingBean {
 	private Collection<Fixture> fixtures;
 
 	@Autowired
@@ -45,7 +45,7 @@ public abstract class AbstractTestSupport implements DatabaseTestSupport, Initia
 	@Autowired
 	protected FixtureLoader fixtureLoader;
 
-	public AbstractTestSupport() {
+	public BaseDatabaseTestSupport() {
 		fixtures = new LinkedList<Fixture>();
 	}
 

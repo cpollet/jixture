@@ -53,7 +53,7 @@ import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
  *
  * @author Christophe Pollet
  */
-public class CommitDatabaseTestSupport extends AbstractTestSupport {
+public class CommitDatabaseTestSupport extends BaseDatabaseTestSupport {
 	/**
 	 * Returns the commit mode. In this case, always
 	 * {@link net.cpollet.jixture.fixtures.loaders.FixtureLoader.Mode#COMMIT}.
