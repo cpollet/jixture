@@ -23,7 +23,6 @@ package net.cpollet.jixture.fixtures.generator.field;
  */
 public class IntegerIndexSequence extends BaseFieldGenerator<Integer> {
 	private int start;
-	private Integer current;
 	private int next;
 
 	/**
@@ -89,7 +88,7 @@ public class IntegerIndexSequence extends BaseFieldGenerator<Integer> {
 	 */
 	@Override
 	public Integer next() {
-		current = next;
+		Integer current = next;
 		next += 1;
 
 		return current;

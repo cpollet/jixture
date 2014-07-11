@@ -23,7 +23,6 @@ package net.cpollet.jixture.fixtures.generator.field;
  */
 public class LongIndexSequence extends BaseFieldGenerator<Long> {
 	private long start;
-	private Long current;
 	private long next;
 
 	/**
@@ -89,7 +88,7 @@ public class LongIndexSequence extends BaseFieldGenerator<Long> {
 	 */
 	@Override
 	public Long next() {
-		current = next;
+		Long current = next;
 		next += 1;
 
 		return current;

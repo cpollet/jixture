@@ -35,7 +35,7 @@ public class MappingField {
 	}
 
 	public boolean isEmbedded() {
-		return embeddableField != null;
+		return null != embeddableField;
 	}
 
 	public Field getField() {

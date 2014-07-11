@@ -60,7 +60,7 @@ public abstract class BaseDatabaseTestSupport implements DatabaseTestSupport, In
 
 	@Override
 	public void resetFixtures() {
-		if (fixtureLoader != null) {
+		if (null != fixtureLoader) {
 			fixtureLoader.reset();
 		}
 	}

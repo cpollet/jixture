@@ -48,7 +48,7 @@ public class InputStreamUtils {
 	private static InputStream openFileFromClasspath(String classpath) {
 		InputStream fileInputStream = InputStreamUtils.class.getClassLoader().getResourceAsStream(removeClasspathMarker(classpath));
 
-		if (fileInputStream == null) {
+		if (null == fileInputStream) {
 			throw new RuntimeException("Unable to load file " + classpath);
 		}
 

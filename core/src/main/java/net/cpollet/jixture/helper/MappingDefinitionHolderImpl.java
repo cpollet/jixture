@@ -53,7 +53,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 
 	@Override
 	public Collection<Class> getMappingClasses() {
-		if (annotatedClasses == null) {
+		if (null == annotatedClasses) {
 			Set<String> classNames = unitDaoFactory.getUnitDao().getKnownMappings();
 			annotatedClasses = new ArrayList<Class>(classNames.size());
 
@@ -62,7 +62,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 					annotatedClasses.add(getClass().getClassLoader().loadClass(className));
 				}
 				catch (ClassNotFoundException e) {
-					ExceptionUtils.wrapInRuntimeException(e);
+					throw ExceptionUtils.wrapInRuntimeException(e);
 				}
 			}
 		}
@@ -76,7 +76,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 
 		Class result = classByTableName.get(tableName);
 
-		if (result == null) {
+		if (null == result) {
 			throw new RuntimeException("Mapping for table " + tableName + " not found");
 		}
 
@@ -100,7 +100,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	private boolean mappingsAlreadyCreated() {
-		return classByTableName != null && fieldsByTableAndColumnName != null;
+		return null != classByTableName && null != fieldsByTableAndColumnName;
 	}
 
 	private String getLowercaseTableNameFromMapping(Class mapping) {
@@ -113,7 +113,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		for (Field field : getFieldsUpToObject(mapping)) {
 			String columnName = getLowercaseColumnNameFromMapping(field);
 
-			if (columnName != null) {
+			if (null != columnName) {
 				getOrCreateFieldsByTableName(tableName).put(columnName, new MappingField(field));
 			}
 			else {
@@ -128,7 +128,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 		currentClassFields.addAll(Arrays.asList(startClass.getDeclaredFields()));
 		Class<?> parentClass = startClass.getSuperclass();
 
-		if (parentClass != null) {
+		if (null != parentClass) {
 			List<Field> parentClassFields = (List<Field>) getFieldsUpToObject(parentClass);
 			currentClassFields.addAll(parentClassFields);
 		}
@@ -139,15 +139,15 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	private String getLowercaseColumnNameFromMapping(Field field) {
 		Column column = field.getAnnotation(Column.class);
 
-		if (column == null) {
+		if (null == column) {
 			column = getColumnFromGetter(field);
 		}
 
-		if (column == null) {
+		if (null == column) {
 			return null;
 		}
 
-		if (column.name() == null || "".equals(column.name())) {
+		if (null == column.name() || "".equals(column.name())) {
 			return field.getName(); // FIXME this one may be wrong actually...
 		}
 
@@ -176,7 +176,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	}
 
 	private boolean isGetterForField(PropertyDescriptor pd, Field field) {
-		return pd.getReadMethod() != null && pd.getName().equals(field.getName());
+		return null != pd.getReadMethod() && pd.getName().equals(field.getName());
 	}
 
 	private Map<String, MappingField> getOrCreateFieldsByTableName(String tableName) {
@@ -190,7 +190,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	private void createColumnToEmbeddedFieldMapping(String tableName, Field field) {
 		EmbeddedId embeddedId = field.getAnnotation(EmbeddedId.class);
 
-		if (embeddedId != null) {
+		if (null != embeddedId) {
 			for (Field embeddedField : field.getType().getDeclaredFields()) {
 				String embeddedColumnName = getLowercaseColumnNameFromMapping(embeddedField);
 				getOrCreateFieldsByTableName(tableName).put(embeddedColumnName, new MappingField(field, embeddedField));
@@ -210,7 +210,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	private Map<String, MappingField> getFieldsByTableName(String tableName) {
 		Map<String, MappingField> mappingFields = fieldsByTableAndColumnName.get(tableName);
 
-		if (mappingFields == null) {
+		if (null == mappingFields) {
 			throw new RuntimeException("Mapping class not found for table " + tableName);
 		}
 
@@ -220,7 +220,7 @@ public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, Ini
 	private MappingField getFieldByColumnName(String tableName, String columnName, Map<String, MappingField> mappingFields) {
 		MappingField mappingField = mappingFields.get(columnName);
 
-		if (mappingField == null) {
+		if (null == mappingField) {
 			throw new RuntimeException("Column " + columnName + " not mapped in mapping class "//
 					+ getMappingClassByTableName(tableName).getName() + " for " + tableName);
 		}
