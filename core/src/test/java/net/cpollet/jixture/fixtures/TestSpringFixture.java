@@ -16,6 +16,9 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import org.hamcrest.core.IsAnything;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -71,5 +74,19 @@ public class TestSpringFixture {
 		assertThat(classList)//
 				.hasSize(2)//
 				.containsSequence(String.class, Integer.class);
+	}
+
+	@Test
+	public void getExtractionResultReturnCorrectEntities() {
+		// GIVEN
+		SpringFixture springFixture = new SpringFixture("context", Arrays.<Class<?>>asList(String.class, Integer.class));
+		springFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		springFixture.populateExtractionResult(Arrays.<Object>asList("string1", "string2"));
+
+		// WHEN
+		ExtractionResult extractionResult = springFixture.getExtractionResult();
+
+		// THEN
+		assertThat(extractionResult.getEntities()).containsOnly("string1", "string2");
 	}
 }

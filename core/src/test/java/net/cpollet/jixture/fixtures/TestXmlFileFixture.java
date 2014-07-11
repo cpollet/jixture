@@ -16,8 +16,11 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import org.apache.commons.io.FileUtils;
+import org.hamcrest.core.IsAnything;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -30,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -110,5 +114,23 @@ public class TestXmlFileFixture {
 
 		// THEN
 		assertThat(actualTransformedFixture).isSameAs(expectedTransformedFixture);
+	}
+
+	@Test
+	public void getExtractionResultReturnCorrectEntities() throws IOException {
+		// GIVEN
+		File file = folder.newFile("foo.txt");
+		FileUtils.writeStringToFile(file, "someContent");
+
+		String filePath = file.getAbsoluteFile().getAbsolutePath();
+		XmlFileFixture xmlFileFixture = new XmlFileFixture(filePath);
+		xmlFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		xmlFileFixture.populateExtractionResult(Arrays.<Object>asList("string1", "string2"));
+
+		// WHEN
+		ExtractionResult extractionResult = xmlFileFixture.getExtractionResult();
+
+		// THEN
+		assertThat(extractionResult.getEntities()).containsOnly("string1", "string2");
 	}
 }

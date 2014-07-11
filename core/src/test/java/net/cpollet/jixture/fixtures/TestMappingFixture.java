@@ -16,6 +16,9 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import org.hamcrest.core.IsAnything;
 import org.junit.Test;
 
 import java.util.List;
@@ -56,5 +59,22 @@ public class TestMappingFixture {
 		assertThat(classesToDelete)//
 				.hasSize(2)//
 				.containsSequence(String.class, Integer.class);
+	}
+
+	@Test
+	public void getExtractionResultReturnCorrectEntities() {
+		// GIVEN
+		String fixture1 = "Fixture1";
+		Integer fixture2 = 2;
+
+
+		MappingFixture mappingFixture = new MappingFixture(fixture1, fixture2)
+				.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+
+		// WHEN
+		ExtractionResult extractionResult = mappingFixture.getExtractionResult();
+
+		// THEN
+		assertThat(extractionResult.getEntities()).containsOnly(fixture1, fixture2);
 	}
 }

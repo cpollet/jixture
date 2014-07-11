@@ -19,7 +19,9 @@ package net.cpollet.jixture.fixtures.transformers;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import net.cpollet.jixture.tests.mappings.User;
+import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,6 +53,7 @@ public class TestSpringFixtureTransformer {
 	public void testTransform() throws NoSuchFieldException {
 		// GIVEN
 		SpringFixture springFixture = new SpringFixture("classpath:/tests/fixtures/spring-fixture.xml", User.class);
+		springFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
 
 		// WHEN
 		ObjectFixture transformedFixture = springFixtureTransformer.transform(springFixture);
@@ -60,5 +63,6 @@ public class TestSpringFixtureTransformer {
 
 		assertThat(transformedFixture.getObjects()).hasSize(1);
 		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(User.class);
+		assertThat(springFixture.getExtractionResult().getEntities()).hasSize(1);
 	}
 }

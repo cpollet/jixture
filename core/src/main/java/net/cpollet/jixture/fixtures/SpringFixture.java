@@ -16,6 +16,11 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.extraction.TransformableExtractionCapableFixture;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,9 +34,11 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class SpringFixture implements TransformableFixture {
-	String context;
-	List<Class<?>> classes;
+public class SpringFixture implements TransformableFixture, TransformableExtractionCapableFixture<SpringFixture> {
+	private String context;
+	private List<Class<?>> classes;
+
+	private ExtractorDelegate extractorDelegate;
 
 	/**
 	 * @param context the path to the XML Spring file containing the entities beans to load. The
@@ -44,6 +51,11 @@ public class SpringFixture implements TransformableFixture {
 	public SpringFixture(String context, Class<?>... classes) {
 		this.context = context;
 		this.classes = Arrays.asList(classes);
+		setupExtractionDelegate();
+	}
+
+	private void setupExtractionDelegate() {
+		extractorDelegate = new ExtractorDelegate();
 	}
 
 	/**
@@ -57,6 +69,7 @@ public class SpringFixture implements TransformableFixture {
 	public SpringFixture(String context, List<Class<?>> classes) {
 		this.context = context;
 		this.classes = classes;
+		setupExtractionDelegate();
 	}
 
 	/**
@@ -75,5 +88,45 @@ public class SpringFixture implements TransformableFixture {
 	 */
 	public List<Class<?>> getClasses() {
 		return classes;
+	}
+
+	/**
+	 * Add an extractor matcher.
+	 *
+	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 *
+	 * @param extractorMatcher the extraction matcher to add.
+	 * @return the current instance.
+	 */
+	@Override
+	public SpringFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+		extractorDelegate.addExtractorMatcher(extractorMatcher);
+		return this;
+	}
+
+	/**
+	 * Returns the extraction result.
+	 * @return the extraction result.
+	 */
+	@Override
+	public ExtractionResult getExtractionResult() {
+		return extractorDelegate.getExtractionResult();
+	}
+
+	/**
+	 * This method passes the list of transformed mappings to the transformable fixture in order for it to be able to
+	 * extract required entities. This method should only be called from a
+	 * {@link net.cpollet.jixture.fixtures.transformers.FixtureTransformer}
+	 *
+	 * @see net.cpollet.jixture.fixtures.TransformableFixture
+	 * @see net.cpollet.jixture.fixtures.transformers.FixtureTransformer
+	 *
+	 * @param objects the transformed mappings.
+	 */
+	@Override
+	public void populateExtractionResult(List<Object> objects) {
+		for (Object object : objects) {
+			extractorDelegate.extractEntity(object);
+		}
 	}
 }

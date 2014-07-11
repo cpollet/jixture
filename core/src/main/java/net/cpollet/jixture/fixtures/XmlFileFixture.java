@@ -16,9 +16,14 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.extraction.TransformableExtractionCapableFixture;
 import net.cpollet.jixture.io.InputStreamUtils;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Loads fixture from <a href="http://dbunit.sourceforge.net/">DbUnit</a>-like XML files. This fixture is transformed
@@ -30,16 +35,59 @@ import java.io.InputStream;
  *
  * @author Christophe Pollet
  */
-public class XmlFileFixture implements TransformableFixture {
+public class XmlFileFixture implements TransformableFixture, TransformableExtractionCapableFixture<XmlFileFixture> {
 	private static final String CLASSPATH_MARKER = "classpath:";
 
 	private InputStream fileInputStream;
 
+	private ExtractorDelegate extractorDelegate;
+
 	public XmlFileFixture(String filePath) {
 		fileInputStream = InputStreamUtils.getInputStream(filePath);
+		extractorDelegate = new ExtractorDelegate();
 	}
 
 	public InputStream getInputStream() {
 		return fileInputStream;
+	}
+
+	/**
+	 * This method passes the list of transformed mappings to the transformable fixture in order for it to be able to
+	 * extract required entities. This method should only be called from a
+	 * {@link net.cpollet.jixture.fixtures.transformers.FixtureTransformer}
+	 *
+	 * @see net.cpollet.jixture.fixtures.TransformableFixture
+	 * @see net.cpollet.jixture.fixtures.transformers.FixtureTransformer
+	 *
+	 * @param objects the transformed mappings.
+	 */
+	@Override
+	public void populateExtractionResult(List<Object> objects) {
+		for (Object object : objects) {
+			extractorDelegate.extractEntity(object);
+		}
+	}
+
+	/**
+	 * Add an extractor matcher.
+	 *
+	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 *
+	 * @param extractorMatcher the extraction matcher to add.
+	 * @return the current instance.
+	 */
+	@Override
+	public XmlFileFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+		extractorDelegate.addExtractorMatcher(extractorMatcher);
+		return this;
+	}
+
+	/**
+	 * Returns the extraction result.
+	 * @return the extraction result.
+	 */
+	@Override
+	public ExtractionResult getExtractionResult() {
+		return extractorDelegate.getExtractionResult();
 	}
 }

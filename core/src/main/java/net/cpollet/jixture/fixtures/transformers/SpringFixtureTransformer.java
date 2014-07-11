@@ -34,6 +34,7 @@ public class SpringFixtureTransformer implements FixtureTransformer<SpringFixtur
 		return SpringFixture.class;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ObjectFixture transform(SpringFixture springFixture) {
 		final ApplicationContext context = getApplicationContext(springFixture);
@@ -43,6 +44,8 @@ public class SpringFixtureTransformer implements FixtureTransformer<SpringFixtur
 		for (Class<?> clazz : springFixture.getClasses()) {
 			fixture.addObjects(context.getBeansOfType(clazz).values().toArray());
 		}
+
+		springFixture.populateExtractionResult(fixture.getObjects());
 
 		return fixture;
 	}

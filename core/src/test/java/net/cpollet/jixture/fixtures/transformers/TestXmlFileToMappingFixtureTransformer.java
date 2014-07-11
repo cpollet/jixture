@@ -19,11 +19,13 @@ package net.cpollet.jixture.fixtures.transformers;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.tests.mappings.CartEntry;
 import net.cpollet.jixture.tests.mappings.PersistentObject;
 import net.cpollet.jixture.tests.mappings.Product;
+import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,6 +85,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 	public void testTransform() throws NoSuchFieldException {
 		// GIVEN
 		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml");
+		xmlFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
 
 		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("cart_entry")).thenReturn(CartEntry.class);
 
@@ -111,6 +114,8 @@ public class TestXmlFileToMappingFixtureTransformer {
 		expectedCartEntry.setCount(10);
 
 		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
+
+		assertThat(xmlFileFixture.getExtractionResult().getEntities()).hasSize(1);
 	}
 
 	@Test

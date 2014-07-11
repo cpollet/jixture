@@ -16,7 +16,12 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.generator.field.FieldGenerators;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
+import net.cpollet.jixture.tests.mappings.Product;
+import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -114,5 +119,25 @@ public class TestGeneratedFixture {
 
 		// THEN
 		assertThat(classesToDelete).containsExactly(Integer.class, String.class);
+	}
+
+	@Test
+	public void getExtractionResultReturnCorrectEntities() {
+		// GIVEN
+		getGeneratedFixture() //
+				.addGenerators( //
+						GeneratedFixture.from(new Product()) //
+								.addFieldGenerator("id", FieldGenerators.in("1", "2")) //
+				) //
+				.addExtractorMatcher(ExtractorMatcher.create("name", new IsAnything()))
+				.start();
+
+		// WHEN
+		while (getGeneratedFixture().hasNext()) {
+			getGeneratedFixture().next();
+		}
+
+		// THEN
+		assertThat(getGeneratedFixture().getExtractionResult().getEntities()).hasSize(2);
 	}
 }

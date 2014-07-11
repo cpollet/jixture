@@ -16,6 +16,10 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.fixtures.generator.fixture.TemplateGenerator;
@@ -36,7 +40,7 @@ import java.util.NoSuchElementException;
  * @author Christophe Pollet
  * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
  */
-public class GeneratedFixture extends BaseScrollableFixture {
+public class GeneratedFixture extends BaseScrollableFixture implements ExtractionCapableFixture<GeneratedFixture> {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratedFixture.class);
 
 	private List<FixtureGenerator> fixtureGenerators;
@@ -44,6 +48,8 @@ public class GeneratedFixture extends BaseScrollableFixture {
 
 	private Iterator<FixtureGenerator> generatorIterator;
 	private FixtureGenerator currentFixtureGenerator;
+
+	private ExtractorDelegate extractorDelegate;
 
 	public static TemplateGenerator from(Object templateObject) {
 		return new TemplateGenerator(templateObject);
@@ -58,6 +64,8 @@ public class GeneratedFixture extends BaseScrollableFixture {
 	 */
 	public GeneratedFixture(FixtureGenerator... fixtureGenerators) {
 		this.fixtureGenerators = new LinkedList<FixtureGenerator>();
+		this.extractorDelegate = new ExtractorDelegate();
+
 		addGenerators(fixtureGenerators);
 
 		this.started = false;
@@ -141,6 +149,7 @@ public class GeneratedFixture extends BaseScrollableFixture {
 
 		Object object = currentFixtureGenerator.next();
 		logger.debug("Generated {}", object);
+		extractorDelegate.extractEntity(object);
 
 		return object;
 	}
@@ -159,5 +168,28 @@ public class GeneratedFixture extends BaseScrollableFixture {
 		}
 
 		return classesToDelete;
+	}
+
+	/**
+	 * Add an extractor matcher.
+	 *
+	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 *
+	 * @param extractorMatcher the extraction matcher to add.
+	 * @return the current instance.
+	 */
+	@Override
+	public GeneratedFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+		extractorDelegate.addExtractorMatcher(extractorMatcher);
+		return this;
+	}
+
+	/**
+	 * Returns the extraction result.
+	 * @return the extraction result.
+	 */
+	@Override
+	public ExtractionResult getExtractionResult() {
+		return extractorDelegate.getExtractionResult();
 	}
 }
