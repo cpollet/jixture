@@ -16,7 +16,6 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.generator.field.FieldGenerators;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
@@ -129,7 +128,7 @@ public class TestGeneratedFixture {
 						GeneratedFixture.from(new Product()) //
 								.addFieldGenerator("id", FieldGenerators.in("1", "2")) //
 				) //
-				.addExtractorMatcher(ExtractorMatcher.create("name", new IsAnything()))
+				.addExtractorMatcher(ExtractorMatcher.create("name", new IsAnything())) //
 				.start();
 
 		// WHEN
