@@ -16,10 +16,10 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
-import net.cpollet.jixture.fixtures.extraction.TransformableExtractionCapableFixture;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class SpringFixture implements TransformableFixture, TransformableExtractionCapableFixture<SpringFixture> {
+public class SpringFixture implements TransformableFixture, ExtractionCapableFixture<SpringFixture> {//, TransformableExtractionCapableFixture<SpringFixture> {
 	private String context;
 	private List<Class<?>> classes;
 
@@ -123,7 +123,6 @@ public class SpringFixture implements TransformableFixture, TransformableExtract
 	 *
 	 * @param objects the transformed mappings.
 	 */
-	@Override
 	public void populateExtractionResult(List<Object> objects) {
 		for (Object object : objects) {
 			extractorDelegate.extractEntity(object);
