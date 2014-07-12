@@ -25,7 +25,24 @@ import java.util.LinkedList;
  *
  * @author Christophe Pollet
  */
-public interface ScrollableFixture extends Fixture, Iterator<Object> {
+public interface ScrollableFixture<E> extends Fixture {
+	/**
+	 * Returns {@code true} if the fixture has more elements.
+	 * (In other words, returns {@code true} if {@link #next} would
+	 * return an element rather than throwing an exception.)
+	 *
+	 * @return {@code true} if the fixture has more elements
+	 */
+	boolean hasNext();
+
+	/**
+	 * Returns the next element in the fixture.
+	 *
+	 * @return the next element in the fixture
+	 * @throws java.util.NoSuchElementException if the fixture has no more elements
+	 */
+	E next();
+
 	/**
 	 * Returns the list of mapping classes representing the tables to truncate.
 	 *

@@ -72,4 +72,14 @@ public class CleaningFixture implements ObjectFixture<Class> {
 	public LinkedList<Class> getClassesToDelete() {
 		return new LinkedList<Class>(classes);
 	}
+
+	@Override
+	public boolean hasNext() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Class next() {
+		throw new UnsupportedOperationException();
+	}
 }

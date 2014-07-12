@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public interface ObjectFixture<T> extends Fixture {
+public interface ObjectFixture<T> extends ScrollableFixture<T> {
 	/**
 	 * Adds object to the list of object to load into database.
 	 *
@@ -40,11 +40,4 @@ public interface ObjectFixture<T> extends Fixture {
 	 * @return the list of entities to load into database.
 	 */
 	List<T> getObjects();
-
-	/**
-	 * Returns the list of mapping classes representing the tables to truncate.
-	 *
-	 * @return the list of mapping classes representing the tables to truncate.
-	 */
-	LinkedList<Class> getClassesToDelete();
 }

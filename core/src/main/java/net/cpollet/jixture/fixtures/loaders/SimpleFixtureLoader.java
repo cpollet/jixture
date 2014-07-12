@@ -18,7 +18,6 @@ package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
-import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.RawFixture;
 import net.cpollet.jixture.fixtures.ScrollableFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
@@ -57,17 +56,14 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 
 	@Override
 	public void load(final Fixture fixture, Mode mode) {
-		if (fixture instanceof ObjectFixture) {
-			load((ObjectFixture) fixture, mode);
-		}
-		else if (fixture instanceof RawFixture) {
-			load((RawFixture) fixture, mode);
+		if (fixture instanceof ScrollableFixture) {
+			load((ScrollableFixture) fixture, mode);
 		}
 		else if (fixture instanceof TransformableFixture) {
 			load((TransformableFixture) fixture, mode);
 		}
-		else if (fixture instanceof ScrollableFixture) {
-			load((ScrollableFixture) fixture, mode);
+		else if (fixture instanceof RawFixture) {
+			load((RawFixture) fixture, mode);
 		}
 	}
 
@@ -80,13 +76,13 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		return fixtureTransformerFactory.getFixtureTransformer(fixture).transform(fixture);
 	}
 
-	private void load(final ObjectFixture fixture, Mode mode) {
-		execute(mode, new SimpleFixtureLoader.Executable() {
+	private void load(final ScrollableFixture fixture, Mode mode) {
+		execute(mode, new Executable() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void execute() {
 				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
-				saveEntities(fixture.getObjects().iterator());
+				saveEntities(fixture);
 			}
 		});
 	}
@@ -97,16 +93,6 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 			public void execute() {
 				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
 				fixture.load(unitDaoFactory);
-			}
-		});
-	}
-
-	private void load(final ScrollableFixture fixture, Mode mode) {
-		execute(mode, new Executable() {
-			@Override
-			public void execute() {
-				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
-				saveEntities(fixture);
 			}
 		});
 	}
@@ -151,9 +137,9 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 			}
 		}
 
-		protected void saveEntities(Iterator<?> it) {
-			while (it.hasNext()) {
-				unitDaoFactory.getUnitDao().save(it.next());
+		protected void saveEntities(ScrollableFixture fixture) {
+			while (fixture.hasNext()) {
+				unitDaoFactory.getUnitDao().save(fixture.next());
 			}
 		}
 	}

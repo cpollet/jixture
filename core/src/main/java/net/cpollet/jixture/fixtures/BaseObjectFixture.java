@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
@@ -25,6 +26,8 @@ import java.util.LinkedList;
  * @author Christophe Pollet
  */
 public abstract class BaseObjectFixture implements ObjectFixture<Object> {
+	private Iterator<Object> iterator;
+
 	/**
 	 * Returns the list of mapping classes representing the tables to truncate.
 	 *
@@ -39,5 +42,23 @@ public abstract class BaseObjectFixture implements ObjectFixture<Object> {
 		}
 
 		return new LinkedList<Class>(classesToDelete);
+	}
+
+	@Override
+	public boolean hasNext() {
+		return iterator().hasNext();
+	}
+
+	@Override
+	public Object next() {
+		return iterator().next();
+	}
+
+	private Iterator<Object> iterator() {
+		if (null == iterator) {
+			iterator = getObjects().iterator();
+		}
+
+		return iterator;
 	}
 }

@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
  * @author Christophe Pollet
  * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
  */
-public class GeneratedFixture extends BaseScrollableFixture implements ExtractionCapableFixture<GeneratedFixture> {
+public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCapableFixture<GeneratedFixture> {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratedFixture.class);
 
 	private List<FixtureGenerator> fixtureGenerators;
