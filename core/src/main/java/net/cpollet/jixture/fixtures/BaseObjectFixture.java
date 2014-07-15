@@ -34,7 +34,7 @@ import java.util.LinkedList;
  * @author Christophe Pollet
  */
 public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements ObjectFixture<Object>, //
-		ExtractionCapableFixture<T>, //
+		ExtractionCapableFixture, //
 		CleanableFixture, //
 		FilterableFixture {
 
@@ -101,7 +101,6 @@ public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements 
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public T addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return (T) this;

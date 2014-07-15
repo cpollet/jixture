@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class ExtractorDelegate implements ExtractionCapableFixture<ExtractionCapableFixture> {
+public class ExtractorDelegate implements ExtractionCapableFixture {
 	private List<ExtractorMatcher> extractorMatchers;
 	private ExtractionResult extractionResult;
 
@@ -53,7 +53,6 @@ public class ExtractorDelegate implements ExtractionCapableFixture<ExtractionCap
 	 * @return the current instance.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
-	@Override
 	public ExtractionCapableFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		this.extractorMatchers.add(extractorMatcher);
 		return this;

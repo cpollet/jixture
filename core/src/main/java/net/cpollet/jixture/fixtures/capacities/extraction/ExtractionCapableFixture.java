@@ -22,17 +22,7 @@ package net.cpollet.jixture.fixtures.capacities.extraction;
  *
  * @author Christophe Pollet
  */
-public interface ExtractionCapableFixture<T extends ExtractionCapableFixture> {
-	/**
-	 * Add an extractor matcher.
-	 *
-	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
-	 *
-	 * @param extractorMatcher the extraction matcher to add.
-	 * @return the current instance.
-	 */
-	T addExtractorMatcher(ExtractorMatcher extractorMatcher);
-
+public interface ExtractionCapableFixture {
 	/**
 	 * Returns the extraction result.
 	 *

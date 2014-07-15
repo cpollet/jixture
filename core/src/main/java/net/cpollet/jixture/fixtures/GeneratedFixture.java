@@ -44,7 +44,7 @@ import java.util.NoSuchElementException;
  * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
  */
 public class GeneratedFixture implements ScrollableFixture,
-		ExtractionCapableFixture<GeneratedFixture>, //
+		ExtractionCapableFixture, //
 		CleanableFixture, //
 		FilterableFixture {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratedFixture.class);
@@ -189,7 +189,6 @@ public class GeneratedFixture implements ScrollableFixture,
 	 * @return the current instance.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
-	@Override
 	public GeneratedFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;

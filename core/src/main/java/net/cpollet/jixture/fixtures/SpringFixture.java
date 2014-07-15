@@ -36,7 +36,7 @@ import java.util.List;
  * @author Christophe Pollet
  */
 public class SpringFixture implements TransformableFixture, //
-		ExtractionCapableFixture<SpringFixture> {
+		ExtractionCapableFixture {
 	private String context;
 	private List<Class<?>> classes;
 
@@ -102,7 +102,6 @@ public class SpringFixture implements TransformableFixture, //
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @return the current instance.
 	 */
-	@Override
 	public SpringFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;

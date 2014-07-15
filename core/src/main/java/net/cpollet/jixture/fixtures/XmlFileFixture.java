@@ -36,7 +36,8 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class XmlFileFixture implements TransformableFixture, ExtractionCapableFixture<XmlFileFixture> {
+public class XmlFileFixture implements TransformableFixture, //
+		ExtractionCapableFixture {
 	private InputStream fileInputStream;
 
 	private ExtractorDelegate extractorDelegate;
@@ -60,7 +61,6 @@ public class XmlFileFixture implements TransformableFixture, ExtractionCapableFi
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @return the current instance.
 	 */
-	@Override
 	public XmlFileFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;
