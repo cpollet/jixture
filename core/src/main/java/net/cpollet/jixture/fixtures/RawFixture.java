@@ -27,13 +27,6 @@ import java.util.LinkedList;
  */
 public interface RawFixture extends Fixture {
 	/**
-	 * Returns the list of mapping classes representing the tables to truncate before executing the SQL file.
-	 *
-	 * @return the list of mapping classes representing the tables to truncate before executing the SQL file.
-	 */
-	LinkedList<Class> getClassesToDelete();
-
-	/**
 	 * Execute the raw file's content.
 	 *
 	 * @param unitDaoFactory the {@link net.cpollet.jixture.dao.UnitDaoFactory} to use.

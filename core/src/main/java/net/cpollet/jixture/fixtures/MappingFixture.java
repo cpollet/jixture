@@ -16,10 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -30,20 +27,17 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class MappingFixture extends BaseObjectFixture implements ExtractionCapableFixture<MappingFixture> {
+public class MappingFixture extends BaseObjectFixture<MappingFixture> {
 	private List<Object> objects;
-
-	private ExtractorDelegate extractorDelegate;
-	private boolean extractionDone;
 
 	/**
 	 * @param objectsToAdd a list of entities to load into database. The entities can be instances of different mapping
 	 *                     classes, targeting different tables. Objects are loaded in order.
 	 */
 	public MappingFixture(Object... objectsToAdd) {
+		super();
+
 		objects = new LinkedList<Object>();
-		extractorDelegate = new ExtractorDelegate();
-		extractionDone = false;
 
 		addObjects(objectsToAdd);
 	}
@@ -71,39 +65,5 @@ public class MappingFixture extends BaseObjectFixture implements ExtractionCapab
 	@Override
 	public List<Object> getObjects() {
 		return objects;
-	}
-
-	/**
-	 * Add an extractor matcher.
-	 *
-	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
-	 *
-	 * @param extractorMatcher the extraction matcher to add.
-	 * @return the current instance.
-	 */
-	@Override
-	public MappingFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
-		extractorDelegate.addExtractorMatcher(extractorMatcher);
-		return this;
-	}
-
-	/**
-	 * Returns the extraction result.
-	 * @return the extraction result.
-	 */
-	@Override
-	public ExtractionResult getExtractionResult() {
-		extractEntities();
-		return extractorDelegate.getExtractionResult();
-	}
-
-	private void extractEntities() {
-		if (!extractionDone) {
-			for (Object object : objects) {
-				extractorDelegate.extractEntity(object);
-			}
-
-			extractionDone = true;
-		}
 	}
 }

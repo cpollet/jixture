@@ -59,9 +59,12 @@ public class XmlFileFixtureTransformer implements FixtureTransformer<XmlFileFixt
 	public ObjectFixture transform(XmlFileFixture fixture) {
 		List<Object> objects = parse(fixture.getInputStream());
 
-		fixture.populateExtractionResult(objects);
+		MappingFixture mappingFixture = new MappingFixture(objects.toArray());
 
-		return new MappingFixture(objects.toArray());
+		fixture.populateExtractionResult(objects);
+		mappingFixture.setFilter(fixture.getFilter());
+
+		return mappingFixture;
 	}
 
 	private List<Object> parse(InputStream inputStream) {

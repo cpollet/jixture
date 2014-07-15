@@ -14,30 +14,38 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.filter;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public class TestCleaningFixture {
+public class TestOr {
 	@Test
-	public void getClassesToDeleteReturnsClassListWithoutDuplicates() {
-		// GIVEN
-		CleaningFixture fixture = new CleaningFixture(String.class, Integer.class, String.class);
+	public void filter() {
+		assertThat(buildAnd(true, true).filter("")).isTrue();
+		assertThat(buildAnd(true, false).filter("")).isTrue();
+		assertThat(buildAnd(false, true).filter("")).isTrue();
+		assertThat(buildAnd(false, false).filter("")).isFalse();
+	}
 
-		// WHEN + THEN
-		List classesToDelete = IteratorUtils.toList(fixture.getClassesToDeleteIterator());
-		assertThat(classesToDelete) //
-				.hasSize(2) //
-				.containsExactly(String.class, Integer.class);
+	private Or buildAnd(final boolean a, final boolean b) {
+		return Filters.or( //
+				new Filter() {
+					@Override
+					public boolean filter(Object entity) {
+						return a;
+					}
+				}, //
+				new Filter() {
+					@Override
+					public boolean filter(Object entity) {
+						return b;
+					}
+				}
+		);
 	}
 }

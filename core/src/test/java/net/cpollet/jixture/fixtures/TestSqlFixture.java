@@ -20,12 +20,16 @@ import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.tests.mappings.Product;
 import net.cpollet.jixture.tests.mappings.User;
+import org.apache.commons.collections.IteratorUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Iterator;
+import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -51,7 +55,7 @@ public class TestSqlFixture {
 		SqlFixture fixture = new SqlFixture(new String[]{"query1", "query2"});
 
 		// WHEN + THEN
-		assertThat(fixture.getClassesToDelete()).hasSize(0);
+		assertThat(fixture.getClassesToDeleteIterator()).hasSize(0);
 	}
 
 	@Test
@@ -60,9 +64,11 @@ public class TestSqlFixture {
 		SqlFixture fixture = new SqlFixture(new String[]{"query1", "query2"}, User.class, Product.class);
 
 		// WHEN + THEN
-		assertThat(fixture.getClassesToDelete())//
-				.hasSize(2)//
-				.contains(User.class, Product.class);
+		Iterator<Class> classesToDeleteIterator = fixture.getClassesToDeleteIterator();
+		List classesToDelete = IteratorUtils.toList(classesToDeleteIterator);
+		assertThat(classesToDelete) //
+				.hasSize(2) //
+				.containsExactly(User.class, Product.class);
 	}
 
 	@Test

@@ -17,15 +17,18 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
 import net.cpollet.jixture.fixtures.generator.field.FieldGenerators;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.tests.mappings.Product;
+import org.apache.commons.collections.IteratorUtils;
 import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -44,21 +47,17 @@ public class TestGeneratedFixture {
 		generatedFixture = new GeneratedFixture();
 	}
 
-	protected GeneratedFixture getGeneratedFixture() {
-		return generatedFixture;
-	}
-
 	@Test
 	public void addGeneratorWhenGeneratorFixtureStartedThrowsAnException() {
 		// GIVEN
-		getGeneratedFixture().start();
+		generatedFixture.start();
 
 		// THEN
 		expectedException.expect(IllegalStateException.class);
 		expectedException.expectMessage("Generator already started");
 
 		// WHEN
-		getGeneratedFixture().addGenerators(new SimpleGenerator(Object.class, 1));
+		generatedFixture.addGenerators(new SimpleGenerator(Object.class, 1));
 	}
 
 	@Test
@@ -70,7 +69,7 @@ public class TestGeneratedFixture {
 		expectedException.expectMessage("Generator not started");
 
 		// WHEN
-		getGeneratedFixture().hasNext();
+		generatedFixture.hasNext();
 	}
 
 	@Test
@@ -82,13 +81,13 @@ public class TestGeneratedFixture {
 		expectedException.expectMessage("Generator not started");
 
 		// WHEN
-		getGeneratedFixture().next();
+		generatedFixture.next();
 	}
 
 	@Test
 	public void nextIteratesOverAllGeneratedObjectsOfAllGenerators() {
 		// GIVEN
-		getGeneratedFixture() //
+		generatedFixture //
 				.addGenerators( //
 						new SimpleGenerator(Object.class, 2), //
 						new SimpleGenerator(Object.class, 3)) //
@@ -96,9 +95,9 @@ public class TestGeneratedFixture {
 
 		// WHEN
 		int actualCount = 0;
-		while (getGeneratedFixture().hasNext()) {
+		while (generatedFixture.hasNext()) {
 			actualCount++;
-			getGeneratedFixture().next();
+			generatedFixture.next();
 		}
 
 		// THEN
@@ -106,24 +105,27 @@ public class TestGeneratedFixture {
 	}
 
 	@Test
-	public void getClassesToDeleteReturnsClassesToDeleteOfAllGenerators() {
+	public void getClassesToDeleteReturnsClassesToDeleteOfAllGeneratorsInReverseOrder() {
 		// GIVEN
-		getGeneratedFixture() //
+		generatedFixture //
 				.addGenerators( //
 						new SimpleGenerator(Integer.class, 2), //
 						new SimpleGenerator(String.class, 3));
 
 		// WHEN
-		List<Class> classesToDelete = getGeneratedFixture().getClassesToDelete();
+		Iterator<Class> classesToDeleteIterator = generatedFixture.getClassesToDeleteIterator();
 
 		// THEN
-		assertThat(classesToDelete).containsExactly(Integer.class, String.class);
+		List classesToDelete = IteratorUtils.toList(classesToDeleteIterator);
+		assertThat(classesToDelete) //
+				.hasSize(2) //
+				.containsExactly(String.class, Integer.class);
 	}
 
 	@Test
 	public void getExtractionResultReturnCorrectEntities() {
 		// GIVEN
-		getGeneratedFixture() //
+		generatedFixture //
 				.addGenerators( //
 						GeneratedFixture.from(new Product()) //
 								.addFieldGenerator("id", FieldGenerators.in("1", "2")) //
@@ -132,11 +134,56 @@ public class TestGeneratedFixture {
 				.start();
 
 		// WHEN
-		while (getGeneratedFixture().hasNext()) {
-			getGeneratedFixture().next();
+		while (generatedFixture.hasNext()) {
+			generatedFixture.next();
 		}
 
 		// THEN
-		assertThat(getGeneratedFixture().getExtractionResult().getEntities()).hasSize(2);
+		assertThat(generatedFixture.getExtractionResult().getEntities()).hasSize(2);
+	}
+
+	@Test
+	public void entityPassesFilterReturnsTrueWhenNoFilterSet() {
+		// GIVEN
+
+		// WHEN
+		boolean actualValue = generatedFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isTrue();
+	}
+
+	@Test
+	public void entityPassesFilterReturnsFalseWhenEntityDoesNotPassFilter() {
+		// GIVEN
+		generatedFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
+
+		// WHEN
+		boolean actualValue = generatedFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isFalse();
+	}
+
+	@Test
+	public void entityPassesFilterReturnsTrueWhenEntityDoesNotPassFilter() {
+		// GIVEN
+		generatedFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return true;
+			}
+		});
+
+		// WHEN
+		boolean actualValue = generatedFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isTrue();
 	}
 }

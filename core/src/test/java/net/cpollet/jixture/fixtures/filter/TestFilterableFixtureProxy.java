@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.filter;
 
-import java.util.List;
+import net.cpollet.jixture.fixtures.Fixture;
+import org.junit.Test;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
- * Loads entities instance into database.
- *
  * @author Christophe Pollet
  */
-public interface ObjectFixture<T> extends ScrollableFixture {
-	/**
-	 * Adds object to the list of object to load into database.
-	 *
-	 * @param objects the objects to add.
-	 *
-	 * @return the current fixture instance.
-	 */
-	Fixture addObjects(T... objects);
-
-	/**
-	 * Returns the list of entities to load into database.
-	 *
-	 * @return the list of entities to load into database.
-	 */
-	List<T> getObjects();
+public class TestFilterableFixtureProxy {
+	@SuppressWarnings("EmptyClass")
+	@Test
+	public void filterReturnsTrueIfObjectDoesNotImplementFilterableFixture() {
+		assertThat(FilterableFixtureProxy.get(new Fixture() {}).filter("")).isTrue();
+	}
 }

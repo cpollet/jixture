@@ -25,6 +25,9 @@ import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SqlFileFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
@@ -284,5 +287,20 @@ public class TestSimpleFixtureLoader {
 		inOrder.verify(unitDao).deleteAll(Product.class);
 		inOrder.verify(unitDao).deleteAll(User.class);
 		inOrder.verify(unitDao, Mockito.times(2)).save(Mockito.any(User.class));
+	}
+
+	@Test
+	public void loadScrollableFixtureSkipsFilteredEntities() {
+		// GIVEN
+		simpleFixtureLoader.load(new MappingFixture("") //
+				.setFilter(new Filter() {
+					@Override
+					public boolean filter(Object entity) {
+						return false;
+					}
+				}), FixtureLoader.Mode.COMMIT);
+
+		// WHEN
+		Mockito.verify(unitDao, Mockito.never()).save(Mockito.anyObject());
 	}
 }

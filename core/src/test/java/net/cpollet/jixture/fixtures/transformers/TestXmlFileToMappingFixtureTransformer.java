@@ -20,6 +20,8 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.filter.FilterableFixtureProxy;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.tests.mappings.CartEntry;
@@ -86,6 +88,12 @@ public class TestXmlFileToMappingFixtureTransformer {
 		// GIVEN
 		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml");
 		xmlFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		xmlFileFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
 
 		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("cart_entry")).thenReturn(CartEntry.class);
 
@@ -116,6 +124,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
 
 		assertThat(xmlFileFixture.getExtractionResult().getEntities()).hasSize(1);
+		assertThat(FilterableFixtureProxy.get(transformedFixture).filter("")).isFalse();
 	}
 
 	@Test

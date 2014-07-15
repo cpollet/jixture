@@ -22,7 +22,7 @@ package net.cpollet.jixture.fixtures.extraction;
  *
  * @author Christophe Pollet
  */
-public interface ExtractionCapableFixture<T> {
+public interface ExtractionCapableFixture<T extends ExtractionCapableFixture> {
 	/**
 	 * Add an extractor matcher.
 	 *

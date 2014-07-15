@@ -20,6 +20,7 @@ import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
 import net.cpollet.jixture.io.InputStreamUtils;
 
 import java.io.InputStream;
@@ -39,6 +40,8 @@ public class XmlFileFixture implements TransformableFixture, ExtractionCapableFi
 	private InputStream fileInputStream;
 
 	private ExtractorDelegate extractorDelegate;
+
+	private Filter filter;
 
 	public XmlFileFixture(String filePath) {
 		fileInputStream = InputStreamUtils.getInputStream(filePath);
@@ -73,7 +76,7 @@ public class XmlFileFixture implements TransformableFixture, ExtractionCapableFi
 	}
 
 	/**
-	 * This method passes the list of transformed mappings to the transformable fixture in order for it to be able to
+	 * This method filter the list of transformed mappings to the transformable fixture in order for it to be able to
 	 * extract required entities. This method should only be called from a
 	 * {@link net.cpollet.jixture.fixtures.transformers.FixtureTransformer}
 	 *
@@ -86,5 +89,13 @@ public class XmlFileFixture implements TransformableFixture, ExtractionCapableFi
 		for (Object object : objects) {
 			extractorDelegate.extractEntity(object);
 		}
+	}
+
+	public Filter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(Filter filter) {
+		this.filter = filter;
 	}
 }

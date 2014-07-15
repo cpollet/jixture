@@ -21,6 +21,8 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.RawFixture;
 import net.cpollet.jixture.fixtures.ScrollableFixture;
 import net.cpollet.jixture.fixtures.TransformableFixture;
+import net.cpollet.jixture.fixtures.cleaning.CleanableFixtureProxy;
+import net.cpollet.jixture.fixtures.filter.FilterableFixtureProxy;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,14 +58,17 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 
 	@Override
 	public void load(final Fixture fixture, Mode mode) {
-		if (fixture instanceof ScrollableFixture) {
-			load((ScrollableFixture) fixture, mode);
-		}
-		else if (fixture instanceof TransformableFixture) {
+		if (fixture instanceof TransformableFixture) {
 			load((TransformableFixture) fixture, mode);
+		}
+		else if (fixture instanceof ScrollableFixture) {
+			load((ScrollableFixture) fixture, mode);
 		}
 		else if (fixture instanceof RawFixture) {
 			load((RawFixture) fixture, mode);
+		}
+		else {
+			throw new IllegalArgumentException(fixture.getClass().getName() + " is not supported");
 		}
 	}
 
@@ -81,7 +86,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void execute() {
-				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
+				deleteEntitiesOfClass(CleanableFixtureProxy.get(fixture).getClassesToDeleteIterator());
 				saveEntities(fixture);
 			}
 		});
@@ -91,7 +96,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		execute(mode, new Executable() {
 			@Override
 			public void execute() {
-				deleteEntitiesOfClass(fixture.getClassesToDelete().descendingIterator());
+				deleteEntitiesOfClass(CleanableFixtureProxy.get(fixture).getClassesToDeleteIterator());
 				fixture.load(unitDaoFactory);
 			}
 		});
@@ -138,8 +143,14 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		}
 
 		protected void saveEntities(ScrollableFixture fixture) {
+			FilterableFixtureProxy filterableFixtureProxy = FilterableFixtureProxy.get(fixture);
+
 			while (fixture.hasNext()) {
-				unitDaoFactory.getUnitDao().save(fixture.next());
+				Object entity = fixture.next();
+
+				if (filterableFixtureProxy.filter(entity)) {
+					unitDaoFactory.getUnitDao().save(entity);
+				}
 			}
 		}
 	}

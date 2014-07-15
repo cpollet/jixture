@@ -1,4 +1,4 @@
-/*
+package net.cpollet.jixture;/*
  * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,29 +14,37 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
-
-import java.util.List;
-
 /**
- * Loads entities instance into database.
- *
  * @author Christophe Pollet
  */
-public interface ObjectFixture<T> extends ScrollableFixture {
-	/**
-	 * Adds object to the list of object to load into database.
-	 *
-	 * @param objects the objects to add.
-	 *
-	 * @return the current fixture instance.
-	 */
-	Fixture addObjects(T... objects);
+public class Main {
+	public static void main(String argv[]) {
+		new Main().execute();
+	}
 
-	/**
-	 * Returns the list of entities to load into database.
-	 *
-	 * @return the list of entities to load into database.
-	 */
-	List<T> getObjects();
+
+	private void execute() {
+		Type type = new TypeImpl();
+
+		executeCapacity1(type);
+	}
+
+	private void executeCapacity1(Type type) {
+		if (type instanceof Capacity1) {
+
+		}
+	}
+
+	private static class TypeImpl implements Type, Capacity1 {
+	}
+
+	private static interface Type {
+	}
+
+
+	private static interface Capacity1 {
+	}
+
+	private static interface Capacity2 {
+	}
 }

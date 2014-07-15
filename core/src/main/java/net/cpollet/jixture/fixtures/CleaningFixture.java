@@ -16,10 +16,12 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
+
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ import java.util.Set;
  *
  * @author Christophe Pollet
  */
-public class CleaningFixture implements ObjectFixture<Class> {
+public class CleaningFixture implements Fixture, CleanableFixture {
 	Set<Class> classes;
 
 	/**
@@ -35,7 +37,7 @@ public class CleaningFixture implements ObjectFixture<Class> {
 	 */
 	public CleaningFixture(Class... classesToDelete) {
 		classes = new LinkedHashSet<Class>();
-		addObjects(classesToDelete);
+		addClassesToDelete(classesToDelete);
 	}
 
 	/**
@@ -44,8 +46,7 @@ public class CleaningFixture implements ObjectFixture<Class> {
 	 *
 	 * @return the current fixture instance.
 	 */
-	@Override
-	public Fixture addObjects(Class... classesToDelete) {
+	public Fixture addClassesToDelete(Class... classesToDelete) {
 		if (0 < classesToDelete.length) {
 			Collections.addAll(classes, classesToDelete);
 		}
@@ -53,33 +54,8 @@ public class CleaningFixture implements ObjectFixture<Class> {
 		return this;
 	}
 
-	/**
-	 * Since this fixture does not insert any data, its {@code getObject} method always returns an empty list.
-	 *
-	 * @return empty list.
-	 */
 	@Override
-	public List<Class> getObjects() {
-		return Collections.emptyList();
-	}
-
-	/**
-	 * Returns the list of mappings representing the tables to truncate.
-	 *
-	 * @return the list of mappings representing the tables to truncate.
-	 */
-	@Override
-	public LinkedList<Class> getClassesToDelete() {
-		return new LinkedList<Class>(classes);
-	}
-
-	@Override
-	public boolean hasNext() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Class next() {
-		throw new UnsupportedOperationException();
+	public Iterator<Class> getClassesToDeleteIterator() {
+		return new LinkedList<Class>(classes).iterator();
 	}
 }

@@ -16,10 +16,13 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.filter.FilterableFixture;
 import net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.fixtures.generator.fixture.TemplateGenerator;
@@ -40,7 +43,10 @@ import java.util.NoSuchElementException;
  * @author Christophe Pollet
  * @see net.cpollet.jixture.fixtures.generator.fixture.FixtureGenerator
  */
-public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCapableFixture<GeneratedFixture> {
+public class GeneratedFixture implements ScrollableFixture,
+		ExtractionCapableFixture<GeneratedFixture>, //
+		CleanableFixture, //
+		FilterableFixture {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratedFixture.class);
 
 	private List<FixtureGenerator> fixtureGenerators;
@@ -50,6 +56,8 @@ public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCa
 	private FixtureGenerator currentFixtureGenerator;
 
 	private ExtractorDelegate extractorDelegate;
+
+	private Filter filter;
 
 	public static TemplateGenerator from(Object templateObject) {
 		return new TemplateGenerator(templateObject);
@@ -160,7 +168,11 @@ public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCa
 	 * @return the list of mapping classes representing the tables to truncate.
 	 */
 	@Override
-	public LinkedList<Class> getClassesToDelete() {
+	public Iterator<Class> getClassesToDeleteIterator() {
+		return getClassesToDelete().descendingIterator();
+	}
+
+	private LinkedList<Class> getClassesToDelete() {
 		LinkedList<Class> classesToDelete = new LinkedList<Class>();
 
 		for (FixtureGenerator fixtureGenerator : fixtureGenerators) {
@@ -173,10 +185,9 @@ public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCa
 	/**
 	 * Add an extractor matcher.
 	 *
-	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
-	 *
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @return the current instance.
+	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
 	 */
 	@Override
 	public GeneratedFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
@@ -186,10 +197,21 @@ public class GeneratedFixture implements ScrollableFixture<Object>, ExtractionCa
 
 	/**
 	 * Returns the extraction result.
+	 *
 	 * @return the extraction result.
 	 */
 	@Override
 	public ExtractionResult getExtractionResult() {
 		return extractorDelegate.getExtractionResult();
+	}
+
+	public GeneratedFixture setFilter(Filter filter) {
+		this.filter = filter;
+		return this;
+	}
+
+	@Override
+	public boolean filter(Object entity) {
+		return null == filter || filter.filter(entity);
 	}
 }

@@ -14,30 +14,47 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.filter;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public class TestCleaningFixture {
+public class TestNo {
 	@Test
-	public void getClassesToDeleteReturnsClassListWithoutDuplicates() {
-		// GIVEN
-		CleaningFixture fixture = new CleaningFixture(String.class, Integer.class, String.class);
+	public void filterReturnsInverseOfInnerFilter() {
+		Not not;
+		boolean actualValue;
 
-		// WHEN + THEN
-		List classesToDelete = IteratorUtils.toList(fixture.getClassesToDeleteIterator());
-		assertThat(classesToDelete) //
-				.hasSize(2) //
-				.containsExactly(String.class, Integer.class);
+		// GIVEN
+		not = Filters.not(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
+
+		// WHEN
+		actualValue = not.filter("");
+
+		// THEN
+		assertThat(actualValue).isTrue();
+
+		// GIVEN
+		not = Filters.not(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return true;
+			}
+		});
+
+		// WHEN
+		actualValue = not.filter("");
+
+		// THEN
+		assertThat(actualValue).isFalse();
 	}
 }

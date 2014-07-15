@@ -16,16 +16,13 @@
 
 package net.cpollet.jixture.fixtures;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 /**
  * A fixture that acts like an {@link java.util.Iterator} to return entities. It can be used to load a huge amount of
  * entities or to generate them on the fly without impacting memory.
  *
  * @author Christophe Pollet
  */
-public interface ScrollableFixture<E> extends Fixture {
+public interface ScrollableFixture extends Fixture {
 	/**
 	 * Returns {@code true} if the fixture has more elements.
 	 * (In other words, returns {@code true} if {@link #next} would
@@ -41,12 +38,5 @@ public interface ScrollableFixture<E> extends Fixture {
 	 * @return the next element in the fixture
 	 * @throws java.util.NoSuchElementException if the fixture has no more elements
 	 */
-	E next();
-
-	/**
-	 * Returns the list of mapping classes representing the tables to truncate.
-	 *
-	 * @return the list of mapping classes representing the tables to truncate.
-	 */
-	LinkedList<Class> getClassesToDelete();
+	Object next();
 }

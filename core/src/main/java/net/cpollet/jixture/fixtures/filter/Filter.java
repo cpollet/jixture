@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
-
-import java.util.List;
+package net.cpollet.jixture.fixtures.filter;
 
 /**
- * Loads entities instance into database.
+ * The Filter filter interface.
+ *
+ * @see net.cpollet.jixture.fixtures.filter.FilterableFixture
  *
  * @author Christophe Pollet
  */
-public interface ObjectFixture<T> extends ScrollableFixture {
+public interface Filter {
 	/**
-	 * Adds object to the list of object to load into database.
+	 * This method must return {@code true} when the entity must be saved.
 	 *
-	 * @param objects the objects to add.
-	 *
-	 * @return the current fixture instance.
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be saved
 	 */
-	Fixture addObjects(T... objects);
-
-	/**
-	 * Returns the list of entities to load into database.
-	 *
-	 * @return the list of entities to load into database.
-	 */
-	List<T> getObjects();
+	boolean filter(Object entity);
 }

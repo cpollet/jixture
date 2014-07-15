@@ -14,29 +14,13 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures;
+package net.cpollet.jixture.fixtures.cleaning;
 
-import java.util.List;
+import java.util.Iterator;
 
 /**
- * Loads entities instance into database.
- *
  * @author Christophe Pollet
  */
-public interface ObjectFixture<T> extends ScrollableFixture {
-	/**
-	 * Adds object to the list of object to load into database.
-	 *
-	 * @param objects the objects to add.
-	 *
-	 * @return the current fixture instance.
-	 */
-	Fixture addObjects(T... objects);
-
-	/**
-	 * Returns the list of entities to load into database.
-	 *
-	 * @return the list of entities to load into database.
-	 */
-	List<T> getObjects();
+public interface CleanableFixture {
+	Iterator<Class> getClassesToDeleteIterator();
 }

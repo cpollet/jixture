@@ -17,6 +17,7 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
 import net.cpollet.jixture.io.InputStreamUtils;
 import net.cpollet.jixture.utils.ExceptionUtils;
 
@@ -32,7 +33,7 @@ import java.util.LinkedList;
  *
  * @author Christophe Pollet
  */
-public class SqlFileFixture implements RawFixture {
+public class SqlFileFixture implements RawFixture, CleanableFixture {
 	private CleaningFixture cleaningFixture;
 	private InputStream fileInputStream;
 
@@ -93,8 +94,8 @@ public class SqlFileFixture implements RawFixture {
 	 * @return the list of mapping classes representing the tables to truncate.
 	 */
 	@Override
-	public LinkedList<Class> getClassesToDelete() {
-		return cleaningFixture.getClassesToDelete();
+	public Iterator<Class> getClassesToDeleteIterator() {
+		return cleaningFixture.getClassesToDeleteIterator();
 	}
 
 	private class BufferedReaderIterator implements Iterator<String> {

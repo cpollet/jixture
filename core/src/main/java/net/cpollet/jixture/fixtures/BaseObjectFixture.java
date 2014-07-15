@@ -16,6 +16,14 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
+import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.filter.FilterableFixture;
+
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -25,16 +33,29 @@ import java.util.LinkedList;
  *
  * @author Christophe Pollet
  */
-public abstract class BaseObjectFixture implements ObjectFixture<Object> {
+public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements ObjectFixture<Object>, //
+		ExtractionCapableFixture<T>, //
+		CleanableFixture, //
+		FilterableFixture {
+
 	private Iterator<Object> iterator;
+
+	private ExtractorDelegate extractorDelegate;
+	private boolean extractionDone;
+
+	private Filter filter;
+
+	protected BaseObjectFixture() {
+		extractorDelegate = new ExtractorDelegate();
+		extractionDone = false;
+	}
 
 	/**
 	 * Returns the list of mapping classes representing the tables to truncate.
 	 *
 	 * @return the list of mapping classes representing the tables to truncate.
 	 */
-	@Override
-	public LinkedList<Class> getClassesToDelete() {
+	private LinkedList<Class> getClassesToDelete() {
 		LinkedHashSet<Class> classesToDelete = new LinkedHashSet<Class>();
 
 		for (Object object : getObjects()) {
@@ -42,6 +63,11 @@ public abstract class BaseObjectFixture implements ObjectFixture<Object> {
 		}
 
 		return new LinkedList<Class>(classesToDelete);
+	}
+
+	@Override
+	public Iterator<Class> getClassesToDeleteIterator() {
+		return getClassesToDelete().descendingIterator();
 	}
 
 	@Override
@@ -60,5 +86,51 @@ public abstract class BaseObjectFixture implements ObjectFixture<Object> {
 		}
 
 		return iterator;
+	}
+
+	/**
+	 * Add an extractor matcher.
+	 *
+	 * @param extractorMatcher the extraction matcher to add.
+	 * @return the current instance.
+	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public T addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+		extractorDelegate.addExtractorMatcher(extractorMatcher);
+		return (T) this;
+	}
+
+	/**
+	 * Returns the extraction result.
+	 *
+	 * @return the extraction result.
+	 */
+	@Override
+	public ExtractionResult getExtractionResult() {
+		extractEntities();
+		return extractorDelegate.getExtractionResult();
+	}
+
+	private void extractEntities() {
+		if (!extractionDone) {
+			for (Object object : getObjects()) {
+				extractorDelegate.extractEntity(object);
+			}
+
+			extractionDone = true;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setFilter(Filter filter) {
+		this.filter = filter;
+		return (T) this;
+	}
+
+	@Override
+	public boolean filter(Object entity) {
+		return null == filter || filter.filter(entity);
 	}
 }

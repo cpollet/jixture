@@ -20,6 +20,7 @@ import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,11 +35,14 @@ import java.util.List;
  *
  * @author Christophe Pollet
  */
-public class SpringFixture implements TransformableFixture, ExtractionCapableFixture<SpringFixture> {//, TransformableExtractionCapableFixture<SpringFixture> {
+public class SpringFixture implements TransformableFixture, //
+		ExtractionCapableFixture<SpringFixture> {
 	private String context;
 	private List<Class<?>> classes;
 
 	private ExtractorDelegate extractorDelegate;
+
+	private Filter filter;
 
 	/**
 	 * @param context the path to the XML Spring file containing the entities beans to load. The
@@ -114,7 +118,7 @@ public class SpringFixture implements TransformableFixture, ExtractionCapableFix
 	}
 
 	/**
-	 * This method passes the list of transformed mappings to the transformable fixture in order for it to be able to
+	 * This method filter the list of transformed mappings to the transformable fixture in order for it to be able to
 	 * extract required entities. This method should only be called from a
 	 * {@link net.cpollet.jixture.fixtures.transformers.FixtureTransformer}
 	 *
@@ -127,5 +131,13 @@ public class SpringFixture implements TransformableFixture, ExtractionCapableFix
 		for (Object object : objects) {
 			extractorDelegate.extractEntity(object);
 		}
+	}
+
+	public Filter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(Filter filter) {
+		this.filter = filter;
 	}
 }

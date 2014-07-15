@@ -18,9 +18,12 @@ package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
+import org.apache.commons.collections.IteratorUtils;
 import org.hamcrest.core.IsAnything;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -55,10 +58,11 @@ public class TestMappingFixture {
 		MappingFixture mappingFixture = new MappingFixture(fixture1, fixture2);
 
 		// THEN
-		List<Class> classesToDelete = mappingFixture.getClassesToDelete();
+		Iterator<Class> classesToDeleteIterator = mappingFixture.getClassesToDeleteIterator();
+		List classesToDelete = IteratorUtils.toList(classesToDeleteIterator);
 		assertThat(classesToDelete)//
 				.hasSize(2)//
-				.containsSequence(String.class, Integer.class);
+				.containsExactly(Integer.class, String.class);
 	}
 
 	@Test
@@ -76,5 +80,53 @@ public class TestMappingFixture {
 
 		// THEN
 		assertThat(extractionResult.getEntities()).containsOnly(fixture1, fixture2);
+	}
+
+	@Test
+	public void entityPassesFilterReturnsTrueWhenNoFilterSet() {
+		// GIVEN
+		MappingFixture mappingFixture = new MappingFixture();
+
+		// WHEN
+		boolean actualValue = mappingFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isTrue();
+	}
+
+	@Test
+	public void entityPassesFilterReturnsFalseWhenEntityDoesNotPassFilter() {
+		// GIVEN
+		MappingFixture mappingFixture = new MappingFixture();
+		mappingFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
+
+		// WHEN
+		boolean actualValue = mappingFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isFalse();
+	}
+
+	@Test
+	public void entityPassesFilterReturnsTrueWhenEntityDoesNotPassFilter() {
+		// GIVEN
+		MappingFixture mappingFixture = new MappingFixture();
+		mappingFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return true;
+			}
+		});
+
+		// WHEN
+		boolean actualValue = mappingFixture.filter(new Object());
+
+		// THEN
+		assertThat(actualValue).isTrue();
 	}
 }

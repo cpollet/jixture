@@ -20,6 +20,8 @@ import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.filter.FilterableFixtureProxy;
 import net.cpollet.jixture.tests.mappings.User;
 import org.hamcrest.core.IsAnything;
 import org.junit.Before;
@@ -54,6 +56,12 @@ public class TestSpringFixtureTransformer {
 		// GIVEN
 		SpringFixture springFixture = new SpringFixture("classpath:/tests/fixtures/spring-fixture.xml", User.class);
 		springFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		springFixture.setFilter(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
 
 		// WHEN
 		ObjectFixture transformedFixture = springFixtureTransformer.transform(springFixture);
@@ -64,5 +72,7 @@ public class TestSpringFixtureTransformer {
 		assertThat(transformedFixture.getObjects()).hasSize(1);
 		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(User.class);
 		assertThat(springFixture.getExtractionResult().getEntities()).hasSize(1);
+
+		assertThat(FilterableFixtureProxy.get(transformedFixture).filter("")).isFalse();
 	}
 }

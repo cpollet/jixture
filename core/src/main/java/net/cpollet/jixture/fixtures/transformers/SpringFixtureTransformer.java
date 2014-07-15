@@ -36,18 +36,19 @@ public class SpringFixtureTransformer implements FixtureTransformer<SpringFixtur
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ObjectFixture transform(SpringFixture springFixture) {
-		final ApplicationContext context = getApplicationContext(springFixture);
+	public ObjectFixture transform(SpringFixture fixture) {
+		final ApplicationContext context = getApplicationContext(fixture);
 
-		ObjectFixture fixture = new MappingFixture();
+		MappingFixture mappingFixture = new MappingFixture();
 
-		for (Class<?> clazz : springFixture.getClasses()) {
-			fixture.addObjects(context.getBeansOfType(clazz).values().toArray());
+		for (Class<?> clazz : fixture.getClasses()) {
+			mappingFixture.addObjects(context.getBeansOfType(clazz).values().toArray());
 		}
 
-		springFixture.populateExtractionResult(fixture.getObjects());
+		fixture.populateExtractionResult(mappingFixture.getObjects());
+		mappingFixture.setFilter(fixture.getFilter());
 
-		return fixture;
+		return mappingFixture;
 	}
 
 	private ApplicationContext getApplicationContext(SpringFixture springFixture) {
