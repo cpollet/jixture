@@ -19,8 +19,15 @@ package net.cpollet.jixture.fixtures.capacities.cleaning;
 import java.util.Iterator;
 
 /**
+ * Fixtures providing cleaning features must implement this interface.
+ *
  * @author Christophe Pollet
  */
 public interface CleanableFixture {
+	/**
+	 * Returns an ordered iterator of mapping classes to delete from database.
+	 *
+	 * @return an ordered iterator of mapping classes to delete from database.
+	 */
 	Iterator<Class> getClassesToDeleteIterator();
 }

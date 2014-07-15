@@ -19,11 +19,21 @@ package net.cpollet.jixture.fixtures.capacities.filtering;
 import net.cpollet.jixture.fixtures.Fixture;
 
 /**
+ * Proxy class for CleanableFixture. It allows the called to not care about whether the
+ * {@link net.cpollet.jixture.fixtures.Fixture} actually implements
+ * {@link net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixture} but still get consistent result.
+ *
  * @author Christophe Pollet
  */
 public class FilterableFixtureProxy implements FilterableFixture {
 	private Fixture fixture;
 
+	/**
+	 * Returns a new instance of {@code FilterableFixtureProxy}.
+	 *
+	 * @param fixture the fixture instance to proxy.
+	 * @return a new instance of {@code FilterableFixture}.
+	 */
 	public static FilterableFixtureProxy get(Fixture fixture) {
 		return new FilterableFixtureProxy(fixture);
 	}
@@ -32,6 +42,12 @@ public class FilterableFixtureProxy implements FilterableFixture {
 		this.fixture = fixture;
 	}
 
+	/**
+	 * Determines whether the entity must be inserted in database or not.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be inserted.
+	 */
 	@Override
 	public boolean filter(Object entity) {
 		if (fixture instanceof FilterableFixture) {

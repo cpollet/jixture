@@ -54,6 +54,11 @@ public class CleaningFixture implements Fixture, CleanableFixture {
 		return this;
 	}
 
+	/**
+	 * Returns an ordered iterator of mapping classes to delete from database.
+	 *
+	 * @return an ordered iterator of mapping classes to delete from database.
+	 */
 	@Override
 	public Iterator<Class> getClassesToDeleteIterator() {
 		return new LinkedList<Class>(classes).iterator();

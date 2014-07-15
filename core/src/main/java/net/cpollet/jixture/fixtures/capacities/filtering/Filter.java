@@ -19,7 +19,7 @@ package net.cpollet.jixture.fixtures.capacities.filtering;
 /**
  * The Filter filter interface.
  *
- * @see net.cpollet.jixture.fixtures.capacities.filter.FilterableFixture
+ * @see net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixture
  *
  * @author Christophe Pollet
  */

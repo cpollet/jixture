@@ -20,9 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Implementaion of {@link net.cpollet.jixture.fixtures.capacities.extraction.ExtractionCapableFixture} that
+ * {@link net.cpollet.jixture.fixtures.Fixture} classes can delegate to.
+ *
  * @author Christophe Pollet
  */
-public class ExtractorDelegate {
+public class ExtractorDelegate implements ExtractionCapableFixture<ExtractionCapableFixture> {
 	private List<ExtractorMatcher> extractorMatchers;
 	private ExtractionResult extractionResult;
 
@@ -43,10 +46,25 @@ public class ExtractorDelegate {
 		}
 	}
 
-	public void addExtractorMatcher(ExtractorMatcher matcher) {
-		this.extractorMatchers.add(matcher);
+	/**
+	 * Add an extractor matcher.
+	 *
+	 * @param extractorMatcher the extraction matcher to add.
+	 * @return the current instance.
+	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
+	 */
+	@Override
+	public ExtractionCapableFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+		this.extractorMatchers.add(extractorMatcher);
+		return this;
 	}
 
+	/**
+	 * Returns the extraction result.
+	 *
+	 * @return the extraction result.
+	 */
+	@Override
 	public ExtractionResult getExtractionResult() {
 		return extractionResult;
 	}

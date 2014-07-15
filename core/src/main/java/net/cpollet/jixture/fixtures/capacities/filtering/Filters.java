@@ -17,6 +17,8 @@
 package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
+ * Helper class to create {@link net.cpollet.jixture.fixtures.capacities.filtering.Filters} instances.
+ *
  * @author Christophe Pollet
  */
 public abstract class Filters {

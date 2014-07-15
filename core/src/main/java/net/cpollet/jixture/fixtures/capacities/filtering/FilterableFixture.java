@@ -17,8 +17,16 @@
 package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
+ * Fixtures providing filtering capacities before saving entities must implement this interface.
+ *
  * @author Christophe Pollet
  */
 public interface FilterableFixture {
+	/**
+	 * Determines whether the entity must be inserted in database or not.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be inserted.
+	 */
 	boolean filter(Object entity);
 }

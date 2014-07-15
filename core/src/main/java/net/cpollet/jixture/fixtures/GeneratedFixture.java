@@ -163,9 +163,9 @@ public class GeneratedFixture implements ScrollableFixture,
 	}
 
 	/**
-	 * Returns the list of mapping classes representing the tables to truncate.
+	 * Returns an ordered iterator of mapping classes to delete from database.
 	 *
-	 * @return the list of mapping classes representing the tables to truncate.
+	 * @return an ordered iterator of mapping classes to delete from database.
 	 */
 	@Override
 	public Iterator<Class> getClassesToDeleteIterator() {
@@ -210,6 +210,12 @@ public class GeneratedFixture implements ScrollableFixture,
 		return this;
 	}
 
+	/**
+	 * Determines whether the entity must be inserted in database or not.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be inserted.
+	 */
 	@Override
 	public boolean filter(Object entity) {
 		return null == filter || filter.filter(entity);

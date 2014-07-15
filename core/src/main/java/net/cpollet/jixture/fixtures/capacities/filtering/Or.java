@@ -17,6 +17,8 @@
 package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
+ * Builds a disjunction of {@link net.cpollet.jixture.fixtures.capacities.filtering.Filters}.
+ *
  * @author Christophe Pollet
  */
 public class Or implements Filter {
@@ -26,10 +28,16 @@ public class Or implements Filter {
 		this.filters = filters;
 	}
 
+	/**
+	 * Returns {@code true} if at least on filter returns {@code true}.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} at least one filter returns {@code true}.
+	 */
 	@Override
-	public boolean filter(Object object) {
+	public boolean filter(Object entity) {
 		for (Filter filter : filters) {
-			if (filter.filter(object)) {
+			if (filter.filter(entity)) {
 				return true;
 			}
 		}

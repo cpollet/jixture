@@ -22,11 +22,21 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
+ * Proxy class for CleanableFixture. It allows the called to not care about whether the
+ * {@link net.cpollet.jixture.fixtures.Fixture} actually implements
+ * {@link net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture} but still get consistent result.
+ *
  * @author Christophe Pollet
  */
 public class CleanableFixtureProxy implements CleanableFixture {
 	private Fixture fixture;
 
+	/**
+	 * Returns a new instance of {@code CleanableFixtureProxy}.
+	 *
+	 * @param fixture the fixture instance to proxy.
+	 * @return a new instance of {@code CleanableFixtureProxy}.
+	 */
 	public static CleanableFixtureProxy get(Fixture fixture) {
 		return new CleanableFixtureProxy(fixture);
 	}
@@ -35,6 +45,11 @@ public class CleanableFixtureProxy implements CleanableFixture {
 		this.fixture = fixture;
 	}
 
+	/**
+	 * Returns an ordered iterator of mapping classes to delete from database.
+	 *
+	 * @return an ordered iterator of mapping classes to delete from database.
+	 */
 	@Override
 	public Iterator<Class> getClassesToDeleteIterator() {
 		if (fixture instanceof CleanableFixture) {

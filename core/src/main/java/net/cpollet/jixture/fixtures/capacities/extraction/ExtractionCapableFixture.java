@@ -35,6 +35,7 @@ public interface ExtractionCapableFixture<T extends ExtractionCapableFixture> {
 
 	/**
 	 * Returns the extraction result.
+	 *
 	 * @return the extraction result.
 	 */
 	ExtractionResult getExtractionResult();

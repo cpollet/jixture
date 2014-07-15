@@ -17,6 +17,8 @@
 package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
+ * Negates a {@link net.cpollet.jixture.fixtures.capacities.filtering.Filter}.
+ *
  * @author Christophe Pollet
  */
 public class Not implements Filter {
@@ -26,8 +28,14 @@ public class Not implements Filter {
 		this.filter = filter;
 	}
 
+	/**
+	 * Negates the inner filter value.
+	 *
+	 * @param entity the entity to filter.
+	 * @return the negation of inner filter.
+	 */
 	@Override
-	public boolean filter(Object Filter) {
-		return !filter.filter(Filter);
+	public boolean filter(Object entity) {
+		return !filter.filter(entity);
 	}
 }

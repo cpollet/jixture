@@ -89,8 +89,9 @@ public class SqlFileFixture implements RawFixture, CleanableFixture {
 	}
 
 	/**
-	 * Returns the list of mapping classes representing the tables to truncate.
-	 * @return the list of mapping classes representing the tables to truncate.
+	 * Returns an ordered iterator of mapping classes to delete from database.
+	 *
+	 * @return an ordered iterator of mapping classes to delete from database.
 	 */
 	@Override
 	public Iterator<Class> getClassesToDeleteIterator() {

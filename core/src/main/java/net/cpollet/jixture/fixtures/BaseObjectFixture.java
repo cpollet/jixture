@@ -65,6 +65,11 @@ public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements 
 		return new LinkedList<Class>(classesToDelete);
 	}
 
+	/**
+	 * Returns an ordered iterator of mapping classes to delete from database.
+	 *
+	 * @return an ordered iterator of mapping classes to delete from database.
+	 */
 	@Override
 	public Iterator<Class> getClassesToDeleteIterator() {
 		return getClassesToDelete().descendingIterator();
@@ -129,6 +134,12 @@ public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements 
 		return (T) this;
 	}
 
+	/**
+	 * Determines whether the entity must be inserted in database or not.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be inserted.
+	 */
 	@Override
 	public boolean filter(Object entity) {
 		return null == filter || filter.filter(entity);
