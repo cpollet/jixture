@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.extraction;
+package net.cpollet.jixture.fixtures.capacities.extraction;
 
 import net.cpollet.jixture.tests.mappings.Client;
 import net.cpollet.jixture.tests.mappings.Product;
-import org.hamcrest.core.IsAnything;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 import static org.fest.assertions.Assertions.assertThat;
 

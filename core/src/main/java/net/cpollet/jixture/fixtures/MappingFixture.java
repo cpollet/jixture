@@ -16,8 +16,6 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.filter.Filter;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

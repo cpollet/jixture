@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.extraction;
+package net.cpollet.jixture.fixtures.capacities.extraction;
 
 import net.cpollet.jixture.tests.mappings.Product;
 import net.cpollet.jixture.tests.mappings.User;

@@ -16,9 +16,9 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
-import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
 import org.apache.commons.collections.IteratorUtils;
 import org.hamcrest.core.IsAnything;
 import org.junit.Test;

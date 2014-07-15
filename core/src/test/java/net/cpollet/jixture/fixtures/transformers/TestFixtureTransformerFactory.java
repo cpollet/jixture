@@ -19,8 +19,6 @@ package net.cpollet.jixture.fixtures.transformers;
 import net.cpollet.jixture.fixtures.BaseObjectFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

@@ -17,10 +17,9 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
+import net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Load data from SQL queries.

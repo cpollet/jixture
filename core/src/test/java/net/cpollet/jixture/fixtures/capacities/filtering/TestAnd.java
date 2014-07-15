@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 import org.junit.Test;
 

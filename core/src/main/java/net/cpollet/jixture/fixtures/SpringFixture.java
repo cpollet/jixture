@@ -16,11 +16,11 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
-import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionCapableFixture;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -97,7 +97,7 @@ public class SpringFixture implements TransformableFixture, //
 	/**
 	 * Add an extractor matcher.
 	 *
-	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 *
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @return the current instance.

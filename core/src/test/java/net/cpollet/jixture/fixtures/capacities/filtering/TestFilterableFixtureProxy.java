@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.filtering;
+
+import net.cpollet.jixture.fixtures.Fixture;
+import org.junit.Test;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public interface FilterableFixture {
-	boolean filter(Object entity);
+public class TestFilterableFixtureProxy {
+	@SuppressWarnings("EmptyClass")
+	@Test
+	public void filterReturnsTrueIfObjectDoesNotImplementFilterableFixture() {
+		assertThat(FilterableFixtureProxy.get(new Fixture() {}).filter("")).isTrue();
+	}
 }

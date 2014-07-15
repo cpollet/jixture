@@ -16,8 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
-import net.cpollet.jixture.fixtures.filter.Filter;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
 import net.cpollet.jixture.fixtures.generator.field.FieldGenerators;
 import net.cpollet.jixture.fixtures.generator.fixture.SimpleGenerator;
 import net.cpollet.jixture.tests.mappings.Product;

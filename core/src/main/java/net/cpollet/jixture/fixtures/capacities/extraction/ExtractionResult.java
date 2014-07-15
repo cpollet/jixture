@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.extraction;
+package net.cpollet.jixture.fixtures.capacities.extraction;
 
 import java.util.HashMap;
 import java.util.LinkedList;

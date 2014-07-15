@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.cleaning;
+
+import java.util.Iterator;
 
 /**
- * The Filter filter interface.
- *
- * @see net.cpollet.jixture.fixtures.filter.FilterableFixture
- *
  * @author Christophe Pollet
  */
-public interface Filter {
-	/**
-	 * This method must return {@code true} when the entity must be saved.
-	 *
-	 * @param entity the entity to filter.
-	 * @return {@code true} if the entity must be saved
-	 */
-	boolean filter(Object entity);
+public interface CleanableFixture {
+	Iterator<Class> getClassesToDeleteIterator();
 }

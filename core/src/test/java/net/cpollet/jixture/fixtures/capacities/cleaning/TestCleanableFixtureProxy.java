@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.cleaning;
 
+import net.cpollet.jixture.fixtures.Fixture;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -23,38 +24,11 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Christophe Pollet
  */
-public class TestNo {
+public class TestCleanableFixtureProxy {
 	@Test
-	public void filterReturnsInverseOfInnerFilter() {
-		Not not;
-		boolean actualValue;
-
-		// GIVEN
-		not = Filters.not(new Filter() {
-			@Override
-			public boolean filter(Object entity) {
-				return false;
-			}
-		});
-
-		// WHEN
-		actualValue = not.filter("");
-
-		// THEN
-		assertThat(actualValue).isTrue();
-
-		// GIVEN
-		not = Filters.not(new Filter() {
-			@Override
-			public boolean filter(Object entity) {
-				return true;
-			}
-		});
-
-		// WHEN
-		actualValue = not.filter("");
-
-		// THEN
-		assertThat(actualValue).isFalse();
+	public void getClassesToDeleteIteratorReturnsEmptyIteratorIfObjectDoesNotImplementCleanableFixture() {
+		assertThat(CleanableFixtureProxy.get(new Fixture() {
+		}).getClassesToDeleteIterator().hasNext()).isFalse();
 	}
+
 }

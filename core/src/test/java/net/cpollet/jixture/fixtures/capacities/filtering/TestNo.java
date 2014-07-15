@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 import org.junit.Test;
 
@@ -23,29 +23,38 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Christophe Pollet
  */
-public class TestOr {
+public class TestNo {
 	@Test
-	public void filter() {
-		assertThat(buildAnd(true, true).filter("")).isTrue();
-		assertThat(buildAnd(true, false).filter("")).isTrue();
-		assertThat(buildAnd(false, true).filter("")).isTrue();
-		assertThat(buildAnd(false, false).filter("")).isFalse();
-	}
+	public void filterReturnsInverseOfInnerFilter() {
+		Not not;
+		boolean actualValue;
 
-	private Or buildAnd(final boolean a, final boolean b) {
-		return Filters.or( //
-				new Filter() {
-					@Override
-					public boolean filter(Object entity) {
-						return a;
-					}
-				}, //
-				new Filter() {
-					@Override
-					public boolean filter(Object entity) {
-						return b;
-					}
-				}
-		);
+		// GIVEN
+		not = Filters.not(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return false;
+			}
+		});
+
+		// WHEN
+		actualValue = not.filter("");
+
+		// THEN
+		assertThat(actualValue).isTrue();
+
+		// GIVEN
+		not = Filters.not(new Filter() {
+			@Override
+			public boolean filter(Object entity) {
+				return true;
+			}
+		});
+
+		// WHEN
+		actualValue = not.filter("");
+
+		// THEN
+		assertThat(actualValue).isFalse();
 	}
 }

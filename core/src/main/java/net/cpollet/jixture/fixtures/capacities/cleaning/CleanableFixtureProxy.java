@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.cleaning;
+package net.cpollet.jixture.fixtures.capacities.cleaning;
 
 import net.cpollet.jixture.fixtures.Fixture;
 

@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.cleaning;
-
-import java.util.Iterator;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
  * @author Christophe Pollet
  */
-public interface CleanableFixture {
-	Iterator<Class> getClassesToDeleteIterator();
+public class And implements Filter {
+
+	private final Filter[] filters;
+
+	And(Filter... filters) {
+		this.filters = filters;
+	}
+
+	@Override
+	public boolean filter(Object Filter) {
+		for (Filter filter : filters) {
+			if (!filter.filter(Filter)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

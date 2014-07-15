@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
+ * The Filter filter interface.
+ *
+ * @see net.cpollet.jixture.fixtures.capacities.filter.FilterableFixture
+ *
  * @author Christophe Pollet
  */
-public class Not implements Filter {
-	private Filter filter;
-
-	public Not(Filter filter) {
-		this.filter = filter;
-	}
-
-	@Override
-	public boolean filter(Object Filter) {
-		return !filter.filter(Filter);
-	}
+public interface Filter {
+	/**
+	 * This method must return {@code true} when the entity must be saved.
+	 *
+	 * @param entity the entity to filter.
+	 * @return {@code true} if the entity must be saved
+	 */
+	boolean filter(Object entity);
 }

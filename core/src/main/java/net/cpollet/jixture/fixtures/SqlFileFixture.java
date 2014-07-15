@@ -17,7 +17,7 @@
 package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
+import net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture;
 import net.cpollet.jixture.io.InputStreamUtils;
 import net.cpollet.jixture.utils.ExceptionUtils;
 
@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Loads data from a SQL file.

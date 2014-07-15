@@ -14,34 +14,21 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
-
-import net.cpollet.jixture.fixtures.Fixture;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
  * @author Christophe Pollet
  */
-public class FilterableFixtureProxy implements FilterableFixture {
-	private Fixture fixture;
-
-	public static FilterableFixtureProxy get(Fixture fixture) {
-		return new FilterableFixtureProxy(fixture);
+public abstract class Filters {
+	public static Not not(Filter filter) {
+		return new Not(filter);
 	}
 
-	public FilterableFixtureProxy(Fixture fixture) {
-		this.fixture = fixture;
+	public static Or or(Filter... filters) {
+		return new Or(filters);
 	}
 
-	@Override
-	public boolean filter(Object entity) {
-		if (fixture instanceof FilterableFixture) {
-			return filterableFixture().filter(entity);
-		}
-
-		return true;
-	}
-
-	private FilterableFixture filterableFixture() {
-		return (FilterableFixture) fixture;
+	public static And and(Filter... filters) {
+		return new And(filters);
 	}
 }

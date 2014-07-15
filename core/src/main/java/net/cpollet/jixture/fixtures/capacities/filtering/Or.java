@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.extraction;
-
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
- * Fixtures that support entities extraction implement this interface.
- *
  * @author Christophe Pollet
  */
-public interface ExtractionCapableFixture<T extends ExtractionCapableFixture> {
-	/**
-	 * Add an extractor matcher.
-	 *
-	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
-	 *
-	 * @param extractorMatcher the extraction matcher to add.
-	 * @return the current instance.
-	 */
-	T addExtractorMatcher(ExtractorMatcher extractorMatcher);
+public class Or implements Filter {
+	private final Filter[] filters;
 
-	/**
-	 * Returns the extraction result.
-	 * @return the extraction result.
-	 */
-	ExtractionResult getExtractionResult();
+	Or(Filter... filters) {
+		this.filters = filters;
+	}
+
+	@Override
+	public boolean filter(Object object) {
+		for (Filter filter : filters) {
+			if (filter.filter(object)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

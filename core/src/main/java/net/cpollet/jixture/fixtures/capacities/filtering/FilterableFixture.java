@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.fixtures.filter;
+package net.cpollet.jixture.fixtures.capacities.filtering;
 
 /**
  * @author Christophe Pollet
  */
-public class Or implements Filter {
-	private final Filter[] filters;
-
-	Or(Filter... filters) {
-		this.filters = filters;
-	}
-
-	@Override
-	public boolean filter(Object object) {
-		for (Filter filter : filters) {
-			if (filter.filter(object)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
+public interface FilterableFixture {
+	boolean filter(Object entity);
 }

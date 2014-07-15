@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
+import net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture;
 
 import java.util.Collections;
 import java.util.Iterator;

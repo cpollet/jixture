@@ -16,13 +16,13 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.cleaning.CleanableFixture;
-import net.cpollet.jixture.fixtures.extraction.ExtractionCapableFixture;
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorDelegate;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
-import net.cpollet.jixture.fixtures.filter.Filter;
-import net.cpollet.jixture.fixtures.filter.FilterableFixture;
+import net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionCapableFixture;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorDelegate;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
+import net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixture;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -93,7 +93,7 @@ public abstract class BaseObjectFixture<T extends BaseObjectFixture> implements 
 	 *
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @return the current instance.
-	 * @see net.cpollet.jixture.fixtures.extraction.ExtractorMatcher
+	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

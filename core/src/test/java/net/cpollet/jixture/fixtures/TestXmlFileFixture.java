@@ -16,8 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.extraction.ExtractionResult;
-import net.cpollet.jixture.fixtures.extraction.ExtractorMatcher;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionResult;
+import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.transformers.FixtureTransformer;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.core.IsAnything;
