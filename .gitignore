@@ -5,3 +5,5 @@ target/
 release.properties
 
 *.exclude
+
+*.releaseBackup
