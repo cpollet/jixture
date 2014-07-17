@@ -16,10 +16,10 @@
 
 package net.cpollet.jixture.fixtures.capacities.extraction;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Holds the results of entities extractions. Extractions are composed of collections in which entities are stored.
@@ -28,10 +28,10 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class ExtractionResult {
-	private Map<String, Map<Class, List<Object>>> entities;
+	Set<Result> results;
 
 	public ExtractionResult() {
-		this.entities = new HashMap<String, Map<Class, List<Object>>>();
+		this.results = new HashSet<Result>();
 	}
 
 	/**
@@ -41,24 +41,8 @@ public class ExtractionResult {
 	 * @param name   the name of the collection where this entity should be put.
 	 */
 	public void add(Object entity, String name) {
-		getEntitiesList(entity.getClass(), getNamesMap(name)).add(entity);
-	}
-
-	private List<Object> getEntitiesList(Class entityClass, Map<Class, List<Object>> namesMap) {
-		if (!namesMap.containsKey(entityClass)) {
-			namesMap.put(entityClass, new LinkedList<Object>());
-		}
-
-		return namesMap.get(entityClass);
-	}
-
-	private Map<Class, List<Object>> getNamesMap(String name) {
-		if (!entities.containsKey(name)) {
-			//noinspection unchecked
-			entities.put(name, (Map) new HashMap<String, List<Object>>());
-		}
-
-		return entities.get(name);
+		Result result = new Result(entity, name);
+		results.add(result);
 	}
 
 	/**
@@ -70,8 +54,10 @@ public class ExtractionResult {
 	public List<Object> getEntities(String name) {
 		List<Object> entitiesList = new LinkedList<Object>();
 
-		for (List<Object> objects : getNamesMap(name).values()) {
-			entitiesList.addAll(objects);
+		for (Result result : results) {
+			if (result.getResultName().equals(name)) {
+				entitiesList.add(result.getObject());
+			}
 		}
 
 		return entitiesList;
@@ -86,8 +72,10 @@ public class ExtractionResult {
 	public List<Object> getEntities(Class entityClass) {
 		List<Object> entitiesList = new LinkedList<Object>();
 
-		for (Map<Class, List<Object>> namesMap : entities.values()) {
-			entitiesList.addAll(getEntitiesList(entityClass, namesMap));
+		for (Result result : results) {
+			if (result.getClazz().equals(entityClass)) {
+				entitiesList.add(result.getObject());
+			}
 		}
 
 		return entitiesList;
@@ -101,29 +89,85 @@ public class ExtractionResult {
 	 * @return all entities of a given type from a particular collection.
 	 */
 	public List<Object> getEntities(String name, Class entityClass) {
-		return getEntitiesList(entityClass, getNamesMap(name));
-	}
-
-	public List<Object> getEntities() {
 		List<Object> entitiesList = new LinkedList<Object>();
 
-		for (Map<Class, List<Object>> namesMap : entities.values()) {
-			for (List<Object> objects : namesMap.values()) {
-				entitiesList.addAll(objects);
+		for (Result result : results) {
+			if (result.getResultName().equals(name) && result.getClazz().equals(entityClass)) {
+				entitiesList.add(result.getObject());
 			}
 		}
 
 		return entitiesList;
 	}
 
-	public void merge(ExtractionResult anotherExtractionResult) {
-		for (Map.Entry<String, Map<Class, List<Object>>> stringMapEntry : anotherExtractionResult.entities.entrySet()) {
+	/**
+	 * Returns all entities.
+	 *
+	 * @return all entities.
+	 */
+	public List<Object> getEntities() {
+		List<Object> entitiesList = new LinkedList<Object>();
 
-			Map<Class, List<Object>> namesMap = getNamesMap(stringMapEntry.getKey());
+		for (Result result : results) {
+			entitiesList.add(result.getObject());
+		}
 
-			for (Map.Entry<Class, List<Object>> classListEntry : stringMapEntry.getValue().entrySet()) {
-				getEntitiesList(classListEntry.getKey(), namesMap).addAll(classListEntry.getValue());
+		return entitiesList;
+	}
+
+	/**
+	 * Merges another {@code ExtractionResult} into this one.
+	 *
+	 * @param extractionResult the other {@code ExtractionResult} to merge.
+	 */
+	public void merge(ExtractionResult extractionResult) {
+		for (Result result : extractionResult.results) {
+			add(result.getObject(), result.getResultName());
+		}
+	}
+
+	private class Result {
+		private Object object;
+		private Class clazz;
+		private String resultName;
+
+		private Result(Object object, String resultName) {
+			this.object = object;
+			this.clazz = object.getClass();
+			this.resultName = resultName;
+		}
+
+		public Object getObject() {
+			return object;
+		}
+
+		public Class getClazz() {
+			return clazz;
+		}
+
+		public String getResultName() {
+			return resultName;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
 			}
+			if (!(o instanceof Result)) {
+				return false;
+			}
+
+			Result result = (Result) o;
+
+			return object == result.object && resultName.equals(result.resultName);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = null != object ? object.hashCode() : 0;
+			result = 31 * result + (null != resultName ? resultName.hashCode() : 0);
+			return result;
 		}
 	}
 }
