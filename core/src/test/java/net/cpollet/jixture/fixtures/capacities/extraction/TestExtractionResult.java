@@ -138,7 +138,7 @@ public class TestExtractionResult {
 		extractionResult.merge(anotherExtractionResult);
 
 		// THEN
-		assertThat(extractionResult.getEntities("name3", User.class)).containsExactly(user1, user3);
+		assertThat(extractionResult.getEntities("name3", User.class)).containsExactly(user3);
 	}
 
 	@Test
