@@ -17,6 +17,8 @@
 package net.cpollet.jixture.fixtures.generator.field;
 
 /**
+ * Generates an unbounded sequence of {@link java.lang.String}.
+ *
  * @author Christophe Pollet
  */
 public class StringIndexSequence extends BaseFieldGenerator<String> {
@@ -24,31 +26,61 @@ public class StringIndexSequence extends BaseFieldGenerator<String> {
 	private final Long start;
 	private Long next;
 
+	/**
+	 * Generates a @{code String} based on a format and a ever growing number.
+	 *
+	 * @param format the format to use. Must be compliant with {@link String#format(String, Object...)}.
+	 */
 	public StringIndexSequence(String format) {
 		this(format, 0L);
 	}
 
+	/**
+	 * Generates a @{code String} based on a format and a ever growing number.
+	 *
+	 * @param format the format to use. Must be compliant with {@link String#format(String, Object...)}.
+	 * @param start  the start index of the sequence
+	 */
 	public StringIndexSequence(String format, Long start) {
 		this.format = format;
 		this.start = start;
 		this.next = start;
 	}
 
+	/**
+	 * Does nothing.
+	 */
 	@Override
 	public void reset() {
 		// nothing
 	}
 
+	/**
+	 * Returns the next sequence value.
+	 *
+	 * @return the next sequence value
+	 */
 	@Override
 	public String current() {
 		return next();
 	}
 
+	/**
+	 * Always returns false. This is mandatory to make sure this generator does not force a generator to generate values
+	 * forever.
+	 *
+	 * @return {@code false}.
+	 */
 	@Override
 	public boolean hasNext() {
 		return false;
 	}
 
+	/**
+	 * Returns the next generated value.
+	 *
+	 * @return the next generated value.
+	 */
 	@Override
 	public String next() {
 		Long current = next;
