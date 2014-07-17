@@ -38,7 +38,7 @@ public class ExtractionResult {
 	 * Add a new entity to an extraction collection.
 	 *
 	 * @param entity the entity to add.
-	 * @param name the name of the collection where this entity should be put.
+	 * @param name   the name of the collection where this entity should be put.
 	 */
 	public void add(Object entity, String name) {
 		getEntitiesList(entity.getClass(), getNamesMap(name)).add(entity);
@@ -95,7 +95,8 @@ public class ExtractionResult {
 
 	/**
 	 * Returns all entities of a given type from a particular collection.
-	 * @param name the collection's name
+	 *
+	 * @param name        the collection's name
 	 * @param entityClass the entities type.
 	 * @return all entities of a given type from a particular collection.
 	 */
@@ -113,5 +114,16 @@ public class ExtractionResult {
 		}
 
 		return entitiesList;
+	}
+
+	public void merge(ExtractionResult anotherExtractionResult) {
+		for (Map.Entry<String, Map<Class, List<Object>>> stringMapEntry : anotherExtractionResult.entities.entrySet()) {
+
+			Map<Class, List<Object>> namesMap = getNamesMap(stringMapEntry.getKey());
+
+			for (Map.Entry<Class, List<Object>> classListEntry : stringMapEntry.getValue().entrySet()) {
+				getEntitiesList(classListEntry.getKey(), namesMap).addAll(classListEntry.getValue());
+			}
+		}
 	}
 }

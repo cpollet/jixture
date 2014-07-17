@@ -96,4 +96,62 @@ public class TestExtractionResult {
 		// THEN
 		assertThat(actualEntities).containsOnly(user1, user2, product1, product2);
 	}
+
+	@Test
+	public void mergeMergesExtractionResultNewObjectTypeExistingName() {
+		// GIVEN
+		// see @Before
+		ExtractionResult anotherExtractionResult = new ExtractionResult();
+		anotherExtractionResult.add("1", "name1");
+
+		// WHEN
+		extractionResult.merge(anotherExtractionResult);
+
+		// THEN
+		assertThat(extractionResult.getEntities("name1", String.class)).containsExactly("1");
+	}
+
+	@Test
+	public void mergeMergesExtractionResultExistingObjectTypeExistingName() {
+		// GIVEN
+		// see @Before
+		User user3 = new User();
+		ExtractionResult anotherExtractionResult = new ExtractionResult();
+		anotherExtractionResult.add(user3, "name1");
+
+		// WHEN
+		extractionResult.merge(anotherExtractionResult);
+
+		// THEN
+		assertThat(extractionResult.getEntities("name1", User.class)).containsExactly(user1, user3);
+	}
+
+	@Test
+	public void mergeMergesExtractionResultExistingObjectTypeNewName() {
+		// GIVEN
+		// see @Before
+		User user3 = new User();
+		ExtractionResult anotherExtractionResult = new ExtractionResult();
+		anotherExtractionResult.add(user3, "name3");
+
+		// WHEN
+		extractionResult.merge(anotherExtractionResult);
+
+		// THEN
+		assertThat(extractionResult.getEntities("name3", User.class)).containsExactly(user1, user3);
+	}
+
+	@Test
+	public void mergeMergesExtractionResultNewObjectTypeNewName() {
+		// GIVEN
+		// see @Before
+		ExtractionResult anotherExtractionResult = new ExtractionResult();
+		anotherExtractionResult.add("3", "name3");
+
+		// WHEN
+		extractionResult.merge(anotherExtractionResult);
+
+		// THEN
+		assertThat(extractionResult.getEntities("name3", String.class)).containsExactly("3");
+	}
 }
