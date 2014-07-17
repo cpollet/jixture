@@ -5,14 +5,14 @@
 
 	<artifactId>jixture-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0.rc1-SNAPSHOT</version>
 	<name>jixture :: core</name>
 	<description>jixture - fixture loader</description>
 
 	<parent>
 		<groupId>net.cpollet.jixture</groupId>
 		<artifactId>jixture-parent-pom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath>../parent-pom</relativePath>
 	</parent>
 
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
 			<artifactId>jixture-test-support</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0.rc1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
