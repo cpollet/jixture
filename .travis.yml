@@ -3,6 +3,9 @@ language: java
 before_install:
   - touch .ojdbc6.exclude
 
+install:
+  - mvn install -U -DskipTests=true
+
 before_script:
   - mysql -uroot -e 'SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED'
   - mysql -e 'show variables;'
