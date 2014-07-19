@@ -4,21 +4,47 @@
 
 jixture is an open source (Apache 2 licensed) spring/hibernate based java fixtures loading framework.
 
-jixture home: http://jixture.cpollet.net
+It can load data from varous sources, such as:
 
-Several custom maven flags are available:
+ * [DbUnit](http://dbunit.sourceforge.net/)-like XML files (but without the DTD);
+ * Plain SQL files;
+ * Entities instances build from code, Spring context or generated automatically.
 
-* `-DskipOracleTests=true` skip tests under `/integration/oracle`
-* `-DskipMysqlTests=true`  skips tests uner `/integration/mysql`
-* `-DskipSampleTests=true` skips tests under `/sample`
-* `-Djixture.sample.database.type=[oracle,mysql]`, defaults to `oracle` determine what database should be used to run tests under `/samples`
+Is is possible to write you own loader as well to load, for instance, CSV or Excel files.
 
-Since the oracle driver is not in Central, it is not included in the dependencies if a file named `.ojdbc6.exclude` exists in `/`.
+**External resources**
+
+ * jixture home: [http://jixture.cpollet.net](http://jixture.cpollet.net)
+ * [javadoc](http://jixture.cpollet.net/jixture-core/apidocs/index.html)
+
+[Maven](maven.md) commands.
+
+# Sample
+
+## Loading XML file
+First, we need to det an instance of a `DatabaseTestSupport`. The following Soring context will do the trick. It only supposes that you have 
+
+```XML
+<!-- import jixture context -->
+<alias name="transactionManager" alias="jixture.core.transactionManager"/>
+<import resource="classpath:/spring/jixture-core-context.xml"/>
+
+<!-- create test support bean -->
+<bean id="commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport" />
+```
+
+This creates an instance of `CommitDatabaseTestSupport` that you can use to load data:
+
+```Java
+commitDatabaseTestSupport
+	.addFixtures(new XmlFileFixture("/path/to/file.xml")) //
+	.loadFixtures();
+```
 
 # Dependencies
 You must provide at least the following dependencies to use jixture-core:
 
-```
+```XML
 <dependency>
 	<groupId>org.springframework</groupId>
 	<artifactId>spring-context</artifactId>
@@ -59,7 +85,7 @@ TemplateGenerator fixture = GeneratedFixture.from(template);
 
 Requies Maven dependencies:
 
-```
+```XML
 <dependency>
 	<groupId>commons-beanutils</groupId>
 	<artifactId>commons-beanutils</artifactId>
@@ -78,7 +104,7 @@ If you want to use a  ```DateSequence``` field generator inside an ```TemplateGe
 
 For instance:
 
-```
+```Java
 DateTime start;
 DateTime stop;
 
@@ -90,7 +116,7 @@ Fixture fixture = GeneratedFixture.from(template)
 
 Requires Maven dependency:
 
-```
+```XML
 <dependency>
 	<groupId>joda-time</groupId>
 	<artifactId>joda-time</artifactId>
@@ -114,7 +140,7 @@ MappingFixture fixture = new MappingFixture(entity1, entity2)
 
 Requires Maven dependency:
 
-```
+```XML
 <dependency>
 	<groupId>org.hamcrest</groupId>
 	<artifactId>hamcrest-core</artifactId>
