@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>net.cpollet.jixture</groupId>
 		<artifactId>jixture-parent-pom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath>parent-pom</relativePath>
 	</parent>
 
