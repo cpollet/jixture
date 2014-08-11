@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.tests.integration;
+package net.cpollet.jixture.tests.integration.hibernate3;
 
-import net.cpollet.jixture.dao.SimpleUnitDao;
-import net.cpollet.jixture.dao.UnitDao;
+import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.support.CommitDatabaseTestSupport;
@@ -49,7 +48,7 @@ import static org.fest.assertions.Assertions.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration("classpath:/spring/integration-context.xml")
+@ContextConfiguration("classpath:/spring/hibernate3-integration-context.xml")
 public abstract class AbstractITestDatabaseTestSupport {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractITestDatabaseTestSupport.class);
 
@@ -62,6 +61,9 @@ public abstract class AbstractITestDatabaseTestSupport {
 	@Autowired
 	private CommitDatabaseTestSupport commitDatabaseTestSupport;
 
+	@Autowired
+	private UnitDaoFactory unitDaoFactory;
+
 	@Before
 	public void setUp() {
 		logger.trace("> setUp()");
@@ -73,10 +75,7 @@ public abstract class AbstractITestDatabaseTestSupport {
 		executeInNewTransaction(new TransactionCallbackWithoutResult() {
 			@Override
 			protected void doInTransactionWithoutResult(TransactionStatus status) {
-				UnitDao unitDao = new SimpleUnitDao();
-				unitDao.setSession(transactionManager.getSessionFactory().getCurrentSession());
-
-				unitDao.deleteAll(User.class);
+				unitDaoFactory.getUnitDao().deleteAll(User.class);
 			}
 		});
 

@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.integration.oracle;
 
-import net.cpollet.jixture.tests.integration.AbstractITestDatabaseTestSupport;
+import net.cpollet.jixture.tests.integration.hibernate3.AbstractITestDatabaseTestSupport;
 
 /**
  * @author Christophe Pollet

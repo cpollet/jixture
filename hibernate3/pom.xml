@@ -18,10 +18,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>jixture-hibernate</artifactId>
+	<artifactId>jixture-hibernate3</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>jixture :: hibernate</name>
+	<name>jixture :: hibernate3</name>
 	<description>jixture - fixture loader</description>
 
 	<parent>

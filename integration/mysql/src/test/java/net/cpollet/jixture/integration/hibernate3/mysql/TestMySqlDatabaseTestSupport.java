@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.integration.mysql;
+package net.cpollet.jixture.integration.hibernate3.mysql;
 
-import net.cpollet.jixture.tests.integration.AbstractITestDatabaseTestSupport;
+import net.cpollet.jixture.tests.integration.hibernate3.AbstractITestDatabaseTestSupport;
 
 /**
  * @author Christophe Pollet
