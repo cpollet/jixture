@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestUnitDaoFactory {
+public class TestHibernate3UnitDaoFactory {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
@@ -51,15 +51,15 @@ public class TestUnitDaoFactory {
 	private Session session2;
 
 	@Mock
-	private UnitDao unitDao;
+	private Hibernate3UnitDao unitDao;
 
-	private UnitDaoFactory unitDaoFactory;
+	private Hibernate3UnitDaoFactory unitDaoFactory;
 
 	@Before
 	public void setUp() {
 		Mockito.when(transactionManager.getSessionFactory()).thenReturn(sessionFactory);
 
-		unitDaoFactory = new UnitDaoFactory();
+		unitDaoFactory = new Hibernate3UnitDaoFactory();
 		unitDaoFactory.setTransactionManager(transactionManager);
 	}
 
@@ -97,7 +97,7 @@ public class TestUnitDaoFactory {
 		UnitDao unitDao = unitDaoFactory.getUnitDao();
 
 		// THEN
-		assertThat(unitDao).isInstanceOf(SimpleUnitDao.class);
+		assertThat(unitDao).isInstanceOf(Hibernate3UnitDao.class);
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class TestUnitDaoFactory {
 		unitDaoFactory.afterPropertiesSet();
 
 		// WHEN
-		UnitDao unitDao = unitDaoFactory.getUnitDao();
+		Hibernate3UnitDao unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
 		assertThat(unitDao.getSession()).isSameAs(session1);
@@ -139,14 +139,14 @@ public class TestUnitDaoFactory {
 		unitDaoFactory.afterPropertiesSet();
 
 		// WHEN
-		UnitDao unitDao = unitDaoFactory.getUnitDao();
+		Hibernate3UnitDao unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
 		assertThat(unitDao.isSessionOpen()).isFalse();
 		assertThat(unitDao.getSession()).isSameAs(session1);
 
 		// WHEN
-		unitDao = unitDaoFactory.getUnitDao();
+		unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
 		assertThat(unitDao.isSessionOpen()).isTrue();

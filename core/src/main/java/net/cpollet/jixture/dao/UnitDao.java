@@ -16,9 +16,6 @@
 
 package net.cpollet.jixture.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -88,36 +85,6 @@ public interface UnitDao {
 	 * @see #clear()
 	 */
 	public void flushAndClear();
-
-	/**
-	 * Sets the session to use.
-	 *
-	 * @param session the session to use.
-	 */
-	public void setSession(Session session);
-
-	/**
-	 * Returns the currently used session.
-	 *
-	 * @return the currently used session.
-	 */
-	public Session getSession();
-
-	/**
-	 * Returns {@code true} if the session is open.
-	 *
-	 * @return {@code true} if the session is open.
-	 */
-	public boolean isSessionOpen();
-
-	/**
-	 * Returns the current session factory
-	 *
-	 * @see org.hibernate.SessionFactory
-	 *
-	 * @return the current session factory
-	 */
-	public SessionFactory getSessionFactory();
 
 	/**
 	 * Gets Hibernate's known mappings.

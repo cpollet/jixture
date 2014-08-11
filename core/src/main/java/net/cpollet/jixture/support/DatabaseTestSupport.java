@@ -19,7 +19,6 @@ package net.cpollet.jixture.support;
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
 
 import java.util.Collection;
 
@@ -94,10 +93,4 @@ public interface DatabaseTestSupport {
 	 * @return an instance of {@link net.cpollet.jixture.dao.UnitDao}.
 	 */
 	UnitDao getUnitDao();
-
-	/**
-	 * Returns the {@link org.springframework.orm.hibernate3.HibernateTransactionManager}.
-	 * @return the {@link org.springframework.orm.hibernate3.HibernateTransactionManager}.
-	 */
-	HibernateTransactionManager getTransactionManager();
 }

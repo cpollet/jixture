@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ import java.util.Set;
  * @author Christophe Pollet
  */
 @Component
-public class MappingDefinitionHolderImpl implements MappingDefinitionHolder, InitializingBean {
+public class Hibernate3MappingDefinitionHolder implements MappingDefinitionHolder, InitializingBean {
 	@Autowired
 	private UnitDaoFactory unitDaoFactory;
 

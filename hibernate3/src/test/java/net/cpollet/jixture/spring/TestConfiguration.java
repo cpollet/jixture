@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ public class TestConfiguration {
 
 	@Test
 	public void springConfigrationIsWorking() {
-		GenericApplicationContext applicationContext = new GenericApplicationContext(new ClassPathXmlApplicationContext("classpath:/spring/mockedTransactionManager-context.xml"));
-
+		GenericApplicationContext applicationContext = new GenericApplicationContext(new ClassPathXmlApplicationContext("classpath:/spring/test-context.xml"));
 
 		for (String beanName : applicationContext.getBeanDefinitionNames()) {
 			if (!applicationContext.getBeanDefinition(beanName).isAbstract()) {

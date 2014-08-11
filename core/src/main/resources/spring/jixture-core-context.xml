@@ -7,18 +7,12 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!--
-	Requires a transaction manager instance named jixture.core.transactionManager
-	-->
-
 	<context:component-scan base-package="net.cpollet.jixture.fixtures.transformers"/>
 	<context:component-scan base-package="net.cpollet.jixture.helper"/>
 
 	<bean id="jixture.transformerFactory" class="net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory"/>
 	<bean id="jixture.fixtureLoader" class="net.cpollet.jixture.fixtures.loaders.SimpleFixtureLoader"/>
 	<bean id="jixture.mappingConversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
-
-	<bean class="net.cpollet.jixture.dao.UnitDaoFactory"/>
 
 	<util:map id="jixture.transactionTemplatesByMode">
 		<entry key="#{T(net.cpollet.jixture.fixtures.loaders.FixtureLoader$Mode).COMMIT}">

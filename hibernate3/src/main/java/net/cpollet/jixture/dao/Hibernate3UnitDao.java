@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Providesa default implementation for {@link UnitDao}.
+ * Provides a default implementation for {@link net.cpollet.jixture.dao.UnitDao} using Hibernate 3.
  *
  * @author Christophe Pollet
  */
-public class SimpleUnitDao implements UnitDao {
-	private static final Logger logger = LoggerFactory.getLogger(SimpleUnitDao.class);
+public class Hibernate3UnitDao implements UnitDao {
+	private static final Logger logger = LoggerFactory.getLogger(Hibernate3UnitDao.class);
 
 	private Session session;
 
@@ -88,23 +88,19 @@ public class SimpleUnitDao implements UnitDao {
 		clear();
 	}
 
-	@Override
-	public void setSession(Session session) {
+	protected void setSession(Session session) {
 		this.session = session;
 	}
 
-	@Override
-	public Session getSession() {
+	protected Session getSession() {
 		return session;
 	}
 
-	@Override
-	public boolean isSessionOpen() {
+	protected boolean isSessionOpen() {
 		return session.isOpen();
 	}
 
-	@Override
-	public SessionFactory getSessionFactory() {
+	protected SessionFactory getSessionFactory() {
 		return getSession().getSessionFactory();
 	}
 

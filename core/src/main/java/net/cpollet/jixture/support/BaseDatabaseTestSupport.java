@@ -24,7 +24,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.util.Assert;
 
 import java.util.Arrays;
@@ -101,12 +100,6 @@ public abstract class BaseDatabaseTestSupport implements DatabaseTestSupport, In
 	public UnitDao getUnitDao() {
 		return unitDaoFactory.getUnitDao();
 	}
-
-	@Override
-	public HibernateTransactionManager getTransactionManager() {
-		return unitDaoFactory.getTransactionManager();
-	}
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {

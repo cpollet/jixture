@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestMappingDefinitionHolderImpl {
-	private MappingDefinitionHolderImpl mappingDefinitionHolder;
+public class TestHibernate3MappingDefinitionHolder {
+	private Hibernate3MappingDefinitionHolder mappingDefinitionHolder;
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -60,7 +60,7 @@ public class TestMappingDefinitionHolderImpl {
 
 	@Before
 	public void setUp() {
-		mappingDefinitionHolder = new MappingDefinitionHolderImpl();
+		mappingDefinitionHolder = new Hibernate3MappingDefinitionHolder();
 
 		Mockito.when(unitDaoFactory.getUnitDao()).thenReturn(unitDao);
 	}
