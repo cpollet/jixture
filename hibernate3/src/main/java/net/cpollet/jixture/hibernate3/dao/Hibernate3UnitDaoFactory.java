@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.dao;
+package net.cpollet.jixture.hibernate3.dao;
 
+import net.cpollet.jixture.dao.UnitDao;
+import net.cpollet.jixture.dao.UnitDaoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

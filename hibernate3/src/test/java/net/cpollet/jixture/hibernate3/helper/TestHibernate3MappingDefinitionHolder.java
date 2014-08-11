@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.helper;
+package net.cpollet.jixture.hibernate3.helper;
 
 
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.helper.MappingField;
+import net.cpollet.jixture.hibernate3.helper.Hibernate3MappingDefinitionHolder;
 import net.cpollet.jixture.tests.mappings.CartEntry;
 import net.cpollet.jixture.tests.mappings.Client;
 import net.cpollet.jixture.tests.mappings.PersistentObject;

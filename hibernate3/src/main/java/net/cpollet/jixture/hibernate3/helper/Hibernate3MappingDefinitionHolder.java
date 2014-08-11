@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.helper;
+package net.cpollet.jixture.hibernate3.helper;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.helper.MappingDefinitionHolder;
+import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.utils.ExceptionUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

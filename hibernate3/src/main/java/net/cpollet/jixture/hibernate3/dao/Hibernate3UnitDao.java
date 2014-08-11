@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.dao;
+package net.cpollet.jixture.hibernate3.dao;
 
+import net.cpollet.jixture.dao.UnitDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;

@@ -8,7 +8,6 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:component-scan base-package="net.cpollet.jixture.fixtures.transformers"/>
-	<context:component-scan base-package="net.cpollet.jixture.helper"/>
 
 	<bean id="jixture.transformerFactory" class="net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory"/>
 	<bean id="jixture.fixtureLoader" class="net.cpollet.jixture.fixtures.loaders.SimpleFixtureLoader"/>

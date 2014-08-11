@@ -16,7 +16,6 @@
 
 package net.cpollet.jixture.tests.integration;
 
-import net.cpollet.jixture.dao.Hibernate3UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
