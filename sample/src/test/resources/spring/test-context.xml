@@ -8,7 +8,7 @@
 
 	<!-- import jixture context -->
 	<alias name="transactionManager" alias="jixture.core.transactionManager"/>
-	<import resource="classpath:/spring/jixture-core-context.xml"/>
+	<import resource="classpath:/spring/jixture-hibernate3-context.xml"/>
 
 	<!-- create test support bean -->
 	<bean id="commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport" />

@@ -20,11 +20,11 @@
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
-		<!--  tests -->
+		<!-- tests -->
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
-			<artifactId>jixture-core</artifactId>
-			<version>1.0.0.rc2-SNAPSHOT</version>
+			<artifactId>jixture-hibernate3</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
