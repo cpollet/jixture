@@ -21,6 +21,8 @@ Is is possible to write you own loader as well to load, for instance, CSV or Exc
 
 # Sample
 
+A full sample using `jixture-hibernate3` is available under `sample/hibernate3`.
+
 ## Loading XML file
 First, we need to det an instance of a `DatabaseTestSupport`. The following Soring context will do the trick. It only supposes that you have 
 
@@ -42,7 +44,7 @@ commitDatabaseTestSupport
 ```
 
 # Dependencies
-You must provide at least the following dependencies to use jixture-core:
+You must provide at least the following dependencies to use `jixture-core`:
 
 ```XML
 <dependency>
@@ -55,6 +57,11 @@ You must provide at least the following dependencies to use jixture-core:
 	<artifactId>spring-orm</artifactId>
 	<version>3.0.0.RELEASE</version>
 </dependency>
+```
+
+If you plan using `jixture-hibernate3` (which brings `jixture-core`), you have to provide the following dependencies as well:
+
+```XML
 <dependency>
 	<groupId>org.hibernate</groupId>
 	<artifactId>hibernate-core</artifactId>
@@ -66,7 +73,6 @@ You must provide at least the following dependencies to use jixture-core:
 	<version>1.0.0.Final</version>
 </dependency>
 ```
-
 
 Some other dependencies are optional. Keep reading to know when they are needed.
 
