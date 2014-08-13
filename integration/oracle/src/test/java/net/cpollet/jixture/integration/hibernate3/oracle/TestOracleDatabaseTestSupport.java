@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.integration.oracle;
+package net.cpollet.jixture.integration.hibernate3.oracle;
 
-import net.cpollet.jixture.tests.integration.hibernate3.AbstractITestDatabaseTestSupport;
+import net.cpollet.jixture.tests.integration.hibernate3.BaseTestDatabaseTestSupport;
 
 /**
  * @author Christophe Pollet
  */
-public class TestOracleDatabaseTestSupport extends AbstractITestDatabaseTestSupport {
+public class TestOracleDatabaseTestSupport extends BaseTestDatabaseTestSupport {
 }

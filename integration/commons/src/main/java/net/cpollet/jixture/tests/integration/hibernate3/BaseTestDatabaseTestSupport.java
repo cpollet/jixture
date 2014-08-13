@@ -49,8 +49,8 @@ import static org.fest.assertions.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration("classpath:/spring/hibernate3-integration-context.xml")
-public abstract class AbstractITestDatabaseTestSupport {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractITestDatabaseTestSupport.class);
+public abstract class BaseTestDatabaseTestSupport {
+	private static final Logger logger = LoggerFactory.getLogger(BaseTestDatabaseTestSupport.class);
 
 	@Autowired
 	private HibernateTransactionManager transactionManager;

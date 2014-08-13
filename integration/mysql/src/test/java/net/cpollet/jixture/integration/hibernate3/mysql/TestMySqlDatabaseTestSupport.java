@@ -16,10 +16,10 @@
 
 package net.cpollet.jixture.integration.hibernate3.mysql;
 
-import net.cpollet.jixture.tests.integration.hibernate3.AbstractITestDatabaseTestSupport;
+import net.cpollet.jixture.tests.integration.hibernate3.BaseTestDatabaseTestSupport;
 
 /**
  * @author Christophe Pollet
  */
-public class TestMySqlDatabaseTestSupport extends AbstractITestDatabaseTestSupport {
+public class TestMySqlDatabaseTestSupport extends BaseTestDatabaseTestSupport {
 }
