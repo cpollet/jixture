@@ -74,12 +74,12 @@
 	<profiles>
 		<profile>
 			<!--
-			we don't want this dependency when oracle tests are not executed, see ../integration/oracle/README.md
+			we don't want this dependency when oracle tests are not executed, see ../../integration/oracle/README.md
 			-->
 			<id>oracleDependency</id>
 			<activation>
 				<file>
-					<missing>../.ojdbc6.exclude</missing>
+					<missing>../../.ojdbc6.exclude</missing>
 				</file>
 			</activation>
 			<dependencies>
