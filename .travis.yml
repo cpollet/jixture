@@ -13,7 +13,7 @@ before_script:
   - ls -a .*.exclude
 
 script:
-  - mvn clean test -Djixture.sample.database.type=mysql
+  - mvn clean test -Djixture.sample.database.type=mysql -PskipOracleTests
 
 branches:
   only:
