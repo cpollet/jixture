@@ -3,6 +3,9 @@
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 	<body>
+		<release version="1.0.0.rc2">
+			<action dev="cpollet" type="update">Extracted Hibernate related code to a separate module</action>
+		</release>
 		<release version="1.0.0.rc1">
 			<action dev="cpollet" type="add">First version</action>
 		</release>

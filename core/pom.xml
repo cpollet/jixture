@@ -70,7 +70,7 @@
 			<optional>true</optional>
 			<exclusions>
 				<exclusion>
-					<!-- commons-logging goes through slf4j -->
+					<!-- commons-logging comes through slf4j -->
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
