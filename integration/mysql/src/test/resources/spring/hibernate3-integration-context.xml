@@ -33,5 +33,4 @@
 	<alias name="transactionManager" alias="jixture.core.transactionManager"/>
 
 	<import resource="classpath:/spring/jixture-hibernate3-context.xml"/>
-	<import resource="classpath:/spring/databaseTestSupport-context.xml"/>
 </beans>

@@ -47,11 +47,7 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({//
-		"classpath:/spring/h2TransactionManager-context.xml",//
-		"classpath:/spring/databaseTestSupport-context.xml",//
-		"classpath:/spring/jixture-hibernate3-context.xml"//
-})
+@ContextConfiguration({"classpath:/spring/hibernate3-unit-test-context.xml"})
 @Transactional
 public class ITestDatabaseTestSupport {
 	private static final Logger logger = LoggerFactory.getLogger(ITestDatabaseTestSupport.class);

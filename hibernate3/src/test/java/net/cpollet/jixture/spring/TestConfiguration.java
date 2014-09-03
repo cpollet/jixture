@@ -29,8 +29,9 @@ public class TestConfiguration {
 	private final static Logger logger = LoggerFactory.getLogger(TestConfiguration.class);
 
 	@Test
-	public void springConfigrationIsWorking() {
-		GenericApplicationContext applicationContext = new GenericApplicationContext(new ClassPathXmlApplicationContext("classpath:/spring/test-context.xml"));
+	public void springConfigurationIsWorking() {
+		GenericApplicationContext applicationContext = new GenericApplicationContext( //
+				new ClassPathXmlApplicationContext("classpath:/spring/hibernate3-unit-test-context.xml"));
 
 		for (String beanName : applicationContext.getBeanDefinitionNames()) {
 			if (!applicationContext.getBeanDefinition(beanName).isAbstract()) {
