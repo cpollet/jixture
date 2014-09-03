@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
 			<artifactId>jixture-test-support</artifactId>
-			<version>1.0.0.rc1</version>
+			<version>1.0.0.rc2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
