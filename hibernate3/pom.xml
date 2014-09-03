@@ -4,7 +4,7 @@
 
 	<artifactId>jixture-hibernate3</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0.rc1</version>
+	<version>1.0.0.rc2-SNAPSHOT</version>
 	<name>jixture :: hibernate3</name>
 	<description>jixture - fixture loader</description>
 
