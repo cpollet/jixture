@@ -4,7 +4,7 @@
 
 	<artifactId>jixture-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0.rc2</version>
+	<version>1.0.0.rc3-SNAPSHOT</version>
 	<name>jixture :: core</name>
 	<description>jixture - fixture loader</description>
 
