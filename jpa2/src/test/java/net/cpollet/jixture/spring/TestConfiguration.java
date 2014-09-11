@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Christophe Pollet
@@ -29,8 +30,9 @@ public class TestConfiguration {
 	private final static Logger logger = LoggerFactory.getLogger(TestConfiguration.class);
 
 	@Test
-	public void springConfigrationIsWorking() {
-		GenericApplicationContext applicationContext = new GenericApplicationContext(new ClassPathXmlApplicationContext("classpath:/spring/test-context.xml"));
+	public void springConfigurationIsWorking() {
+		GenericApplicationContext applicationContext = new GenericApplicationContext( //
+				new ClassPathXmlApplicationContext("classpath:/spring/jpa2-unit-test-context.xml"));
 
 		for (String beanName : applicationContext.getBeanDefinitionNames()) {
 			if (!applicationContext.getBeanDefinition(beanName).isAbstract()) {
