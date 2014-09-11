@@ -40,4 +40,16 @@ public class TestCleaningFixture {
 				.hasSize(2) //
 				.containsExactly(String.class, Integer.class);
 	}
+
+	@Test
+	public void addClassesToDeleteImplementsFluentInterface() {
+		// GIVEN
+		CleaningFixture fixture = new CleaningFixture();
+
+		// WHEN
+		Fixture actualValue = fixture.addClassesToDelete();
+
+		// THEN
+		assertThat(actualValue).isSameAs(fixture);
+	}
 }
