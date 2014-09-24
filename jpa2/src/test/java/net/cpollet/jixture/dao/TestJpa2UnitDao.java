@@ -22,15 +22,12 @@ import net.cpollet.jixture.tests.mappings.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -42,8 +39,8 @@ import static org.fest.assertions.Assertions.assertThat;
 @ContextConfiguration({"classpath:/spring/jpa2-unit-test-context.xml"})
 @Transactional
 public class TestJpa2UnitDao {
-	@Autowired
-	private EntityManagerFactory entityManagerFactory;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	private Jpa2UnitDao unitDao;
 
@@ -54,7 +51,7 @@ public class TestJpa2UnitDao {
 	@Before
 	public void setUp() {
 		unitDao = new Jpa2UnitDao();
-		unitDao.setEntityManager(entityManagerFactory.createEntityManager());
+		unitDao.setEntityManager(entityManager);
 
 		user1 = new User();
 		user1.setUsername("user1");
@@ -67,9 +64,9 @@ public class TestJpa2UnitDao {
 		product.setId("id");
 		product.setName("oldName");
 
-		entityManagerFactory.createEntityManager().persist(user1);
-		entityManagerFactory.createEntityManager().persist(user2);
-		entityManagerFactory.createEntityManager().persist(product);
+		entityManager.persist(user1);
+		entityManager.persist(user2);
+		entityManager.persist(product);
 		unitDao.flushAndClear();
 	}
 
@@ -109,7 +106,7 @@ public class TestJpa2UnitDao {
 		unitDao.save(user);
 
 		// THEN
-		User actualUser = (User) entityManagerFactory.createEntityManager().find(User.class, "user3");
+		User actualUser = entityManager.find(User.class, "user3");
 		assertThat(actualUser).isSameAs(user);
 	}
 
@@ -151,7 +148,7 @@ public class TestJpa2UnitDao {
 		unitDao.execute("update products set name='newName' where id='id'");
 
 		// THEN
-		Product product = (Product) entityManagerFactory.createEntityManager().find(Product.class, "id");
+		Product product = entityManager.find(Product.class, "id");
 		assertThat(product.getName()).isEqualTo("newName");
 	}
 

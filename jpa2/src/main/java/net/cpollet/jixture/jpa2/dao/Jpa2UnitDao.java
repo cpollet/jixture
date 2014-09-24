@@ -21,8 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -37,8 +39,12 @@ public class Jpa2UnitDao implements UnitDao {
 
 	@Override
 	public <T> List<T> getAll(Class<T> clazz) {
-		CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(clazz);
-		TypedQuery<T> allQuery = entityManager.createQuery(cq);
+		CriteriaQuery<T> query = entityManager.getCriteriaBuilder().createQuery(clazz);
+
+		Root<T> variableRoot = query.from(clazz);
+		query.select(variableRoot);
+
+		TypedQuery<T> allQuery = entityManager.createQuery(query);
 		return allQuery.getResultList();
 	}
 
@@ -54,12 +60,15 @@ public class Jpa2UnitDao implements UnitDao {
 
 	@Override
 	public void delete(Object object) {
-		entityManager.remove(object);
+		Object mergedObject = entityManager.merge(object);
+		entityManager.remove(mergedObject);
 	}
 
 	@Override
 	public void deleteAll(Class clazz) {
-
+		for (Object entity : getAll(clazz)) {
+			delete(entity);
+		}
 	}
 
 	@Override
@@ -85,7 +94,8 @@ public class Jpa2UnitDao implements UnitDao {
 
 	@Override
 	public void execute(String sqlQuery) {
-
+		Query query = entityManager.createNativeQuery(sqlQuery);
+		query.executeUpdate();
 	}
 
 	public EntityManager getEntityManager() {
