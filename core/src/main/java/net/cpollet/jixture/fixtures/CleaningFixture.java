@@ -42,14 +42,12 @@ public class CleaningFixture implements Fixture, CleanableFixture {
 
 	/**
 	 * Add Hibernate mappings to the list of mappings representing the tables to truncate.
-	 * @param classesToDelete the mappings to add.
 	 *
+	 * @param classesToDelete the mappings to add.
 	 * @return the current fixture instance.
 	 */
 	public Fixture addClassesToDelete(Class... classesToDelete) {
-		if (0 < classesToDelete.length) {
-			Collections.addAll(classes, classesToDelete);
-		}
+		Collections.addAll(classes, classesToDelete);
 
 		return this;
 	}
