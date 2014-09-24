@@ -110,7 +110,7 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsAtLeast(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Missing several elements [{username=username 2, password=null}]");
+			assertThat(e.getMessage()).isEqualTo("Expected but missing elements [{username=username 2, password=null}]");
 			return;
 		}
 
@@ -154,7 +154,7 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsAtMost(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Too many elements [{username=username 2, password=null}]");
+			assertThat(e.getMessage()).isEqualTo("Unexpected but present elements [{username=username 2, password=null}]");
 			return;
 		}
 
@@ -198,7 +198,7 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsExactly(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Too many elements [{username=username 2, password=null}]");
+			assertThat(e.getMessage()).isEqualTo("Unexpected but present elements [{username=username 2, password=null}]");
 			return;
 		}
 
@@ -223,7 +223,7 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsExactly(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Missing several elements [{username=username 2, password=null}]");
+			assertThat(e.getMessage()).isEqualTo("Expected but missing elements [{username=username 2, password=null}]");
 			return;
 		}
 
@@ -438,9 +438,11 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsExactly(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Missing several elements [{username=username, password=password 2}]");
+			assertThat(e.getMessage()).isEqualTo("Expected but missing elements [{username=username, password=password 2}],Unexpected but present elements [{username=username, password=password 1}]");
 			return;
 		}
+
+		Assert.fail("AssertionError expected but not thrown");
 	}
 
 	@Test

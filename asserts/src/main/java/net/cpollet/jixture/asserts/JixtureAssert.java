@@ -27,6 +27,7 @@ import net.cpollet.jixture.helper.MappingField;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -75,19 +76,19 @@ public class JixtureAssert<T> {
 		return this;
 	}
 
-	public JixtureAssert usingTransactionTemplate(TransactionTemplate transactonTemplate) {
-		this.transactionTemplate = transactonTemplate;
+	public JixtureAssert usingTransactionTemplate(TransactionTemplate transactionTemplate) {
+		this.transactionTemplate = transactionTemplate;
 
 		return this;
 	}
 
-	public JixtureAssert containsAtLeast(Fixture transformableFixture) {
-		List<Map<String, ?>> expectedMaps = getExpectedMaps(transformableFixture);
+	public JixtureAssert containsAtLeast(Fixture fixture) {
+		List<Map<String, ?>> expectedMaps = getExpectedMaps(fixture);
 		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		if (!actualMaps.containsAll(expectedMaps)) {
 			expectedMaps.removeAll(actualMaps);
-			throw new AssertionError("Missing several elements " + expectedMaps.toString());
+			throw new AssertionError("Expected but missing elements " + expectedMaps.toString());
 		}
 
 		return this;
@@ -119,14 +120,14 @@ public class JixtureAssert<T> {
 		}
 	}
 
-	private List<Map<String, ?>> getExpectedMaps(Fixture transformableFixture) {
+	private List<Map<String, ?>> getExpectedMaps(Fixture fixture) {
 		Collection<MappingField> fields = mappingDefinitionHolder.getFieldsByMappingClass(mapping);
 
-		ObjectFixture fixture = transform(transformableFixture);
+		ObjectFixture objectFixture = transform(fixture);
 
 		List<Map<String, ?>> expectedMaps = new ArrayList<Map<String, ?>>();
 
-		for (Object object : fixture.getObjects()) {
+		for (Object object : objectFixture.getObjects()) {
 			if (object.getClass().equals(mapping)) {
 				expectedMaps.add(MappingUtils.toMap(object, fields));
 			}
@@ -182,22 +183,40 @@ public class JixtureAssert<T> {
 		return unitDaoFactory.getUnitDao().getAll(mapping);
 	}
 
-	public JixtureAssert containsAtMost(Fixture transformableFixture) {
-		List<Map<String, ?>> expectedMaps = getExpectedMaps(transformableFixture);
+	public JixtureAssert containsAtMost(Fixture fixture) {
+		List<Map<String, ?>> expectedMaps = getExpectedMaps(fixture);
 		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		actualMaps.removeAll(expectedMaps);
 
 		if (0 < actualMaps.size()) {
-			throw new AssertionError("Too many elements " + actualMaps.toString());
+			throw new AssertionError("Unexpected but present elements " + actualMaps.toString());
 		}
 
 		return this;
 	}
 
 	public JixtureAssert containsExactly(Fixture fixture) {
-		containsAtLeast(fixture);
-		containsAtMost(fixture);
+		List<String> errors = new ArrayList<String>(2);
+
+		try {
+			containsAtLeast(fixture);
+		}
+		catch (AssertionError assertionError) {
+			errors.add(assertionError.getMessage());
+		}
+
+		try {
+			containsAtMost(fixture);
+		}
+		catch (AssertionError assertionError) {
+			errors.add(assertionError.getMessage());
+		}
+
+		if (0 < errors.size()) {
+			throw new AssertionError(StringUtils.collectionToCommaDelimitedString(errors));
+		}
+
 		return this;
 	}
 
