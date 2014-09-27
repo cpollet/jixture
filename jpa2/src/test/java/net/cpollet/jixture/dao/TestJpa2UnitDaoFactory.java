@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.hibernate3.dao;
+package net.cpollet.jixture.dao;
 
-import net.cpollet.jixture.dao.UnitDao;
-import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
+import net.cpollet.jixture.jpa2.dao.Jpa2UnitDao;
+import net.cpollet.jixture.jpa2.dao.Jpa2UnitDaoFactory;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +26,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -35,32 +37,32 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestHibernate3UnitDaoFactory {
+public class TestJpa2UnitDaoFactory {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
 	@Mock
-	private HibernateTransactionManager transactionManager;
+	private JpaTransactionManager transactionManager;
 
 	@Mock
-	private SessionFactory sessionFactory;
+	private EntityManagerFactory entityManagerFactory;
 
 	@Mock
-	private Session session1;
+	private EntityManager entityManager1;
 
 	@Mock
-	private Session session2;
+	private EntityManager entityManager2;
 
 	@Mock
-	private Hibernate3UnitDao unitDao;
+	private Jpa2UnitDao unitDao;
 
-	private Hibernate3UnitDaoFactory unitDaoFactory;
+	private Jpa2UnitDaoFactory unitDaoFactory;
 
 	@Before
 	public void setUp() {
-		Mockito.when(transactionManager.getSessionFactory()).thenReturn(sessionFactory);
+		Mockito.when(transactionManager.getEntityManagerFactory()).thenReturn(entityManagerFactory);
 
-		unitDaoFactory = new Hibernate3UnitDaoFactory();
+		unitDaoFactory = new Jpa2UnitDaoFactory();
 		unitDaoFactory.setTransactionManager(transactionManager);
 	}
 
@@ -82,7 +84,7 @@ public class TestHibernate3UnitDaoFactory {
 		// GIVEN
 
 		// WHEN
-		HibernateTransactionManager actualTransactionManager = unitDaoFactory.getTransactionManager();
+		JpaTransactionManager actualTransactionManager = unitDaoFactory.getTransactionManager();
 
 		// THEN
 		assertThat(actualTransactionManager).isSameAs(transactionManager);
@@ -98,7 +100,7 @@ public class TestHibernate3UnitDaoFactory {
 		UnitDao unitDao = unitDaoFactory.getUnitDao();
 
 		// THEN
-		assertThat(unitDao).isInstanceOf(Hibernate3UnitDao.class);
+		assertThat(unitDao).isInstanceOf(Jpa2UnitDao.class);
 	}
 
 	@Test
@@ -115,42 +117,42 @@ public class TestHibernate3UnitDaoFactory {
 	}
 
 	@Test
-	public void getUnitDaoReturnsAUnitDaoContainingASession() throws Exception {
+	public void getUnitDaoReturnsAUnitDaoContainingAnEntityManager() throws Exception {
 		// GIVEN
-		Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session1);
+		Mockito.when(entityManagerFactory.createEntityManager()).thenReturn(entityManager1);
 		unitDaoFactory.afterPropertiesSet();
 
 		// WHEN
-		Hibernate3UnitDao unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
+		Jpa2UnitDao unitDao = (Jpa2UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
-		assertThat(unitDao.getSession()).isSameAs(session1);
+		assertThat(unitDao.getEntityManager()).isSameAs(entityManager1);
 	}
 
 	@Test
 	public void getUnitDaoReturnsAUnitDaoContainingAnOpen() throws Exception {
 		// GIVEN
-		Mockito.when(sessionFactory.getCurrentSession())//
-				.thenReturn(session1)//
-				.thenReturn(session2);
+		Mockito.when(entityManagerFactory.createEntityManager())//
+				.thenReturn(entityManager1)//
+				.thenReturn(entityManager2);
 
-		Mockito.when(session1.isOpen()).thenReturn(false);
-		Mockito.when(session2.isOpen()).thenReturn(true);
+		Mockito.when(entityManager1.isOpen()).thenReturn(false);
+		Mockito.when(entityManager2.isOpen()).thenReturn(true);
 
 		unitDaoFactory.afterPropertiesSet();
 
 		// WHEN
-		Hibernate3UnitDao unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
+		Jpa2UnitDao unitDao = (Jpa2UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
-		assertThat(unitDao.isSessionOpen()).isFalse();
-		assertThat(unitDao.getSession()).isSameAs(session1);
+		assertThat(unitDao.isEntityManagerOpen()).isFalse();
+		assertThat(unitDao.getEntityManager()).isSameAs(entityManager1);
 
 		// WHEN
-		unitDao = (Hibernate3UnitDao) unitDaoFactory.getUnitDao();
+		unitDao = (Jpa2UnitDao) unitDaoFactory.getUnitDao();
 
 		// THEN
-		assertThat(unitDao.isSessionOpen()).isTrue();
-		assertThat(unitDao.getSession()).isSameAs(session2);
+		assertThat(unitDao.isEntityManagerOpen()).isTrue();
+		assertThat(unitDao.getEntityManager()).isSameAs(entityManager2);
 	}
 }

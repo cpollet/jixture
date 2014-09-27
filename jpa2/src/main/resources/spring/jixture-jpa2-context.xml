@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--
+	Requires a JpaTransactionManager instance named jixture.core.transactionManager
+	-->
+
+	<bean class="net.cpollet.jixture.jpa2.dao.Jpa2UnitDaoFactory"/>
+	<bean class="net.cpollet.jixture.jpa2.helper.Jpa2MappingDefinitionHolder"/>
+
+	<import resource="classpath:/spring/jixture-core-context.xml"/>
+</beans>

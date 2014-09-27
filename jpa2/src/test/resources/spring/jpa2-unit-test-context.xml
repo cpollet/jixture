@@ -5,25 +5,27 @@
 
 	<import resource="classpath:/spring/h2-data-source.xml"/>
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-
-		<property name="packagesToScan" value="net.cpollet.jixture.tests.mappings"/>
-		<property name="schemaUpdate" value="true"/>
-
-		<property name="hibernateProperties">
+		<property name="persistenceUnitName" value="jpaData"/>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+		</property>
+		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"/>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
 	<alias name="transactionManager" alias="jixture.core.transactionManager"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<import resource="classpath:/spring/jixture-hibernate3-context.xml"/>
+	<import resource="classpath:/spring/jixture-jpa2-context.xml"/>
 </beans>
