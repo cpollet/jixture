@@ -140,13 +140,11 @@ If you want to load fixtures from Excel files, you have to add the following Mav
 	<groupId>org.apache.poi</groupId>
 	<artifactId>poi</artifactId>
 	<version>3.9</version>
-	<optional>true</optional>
 </dependency>
 <dependency>
 	<groupId>org.apache.poi</groupId>
 	<artifactId>poi-ooxml</artifactId>
 	<version>3.9</version>
-	<optional>true</optional>
 </dependency>
 ```
 
