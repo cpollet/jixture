@@ -67,7 +67,7 @@ public class TestXmlFileFixture {
 		int actualByte = actual.read();
 		int expectedByte = expected.read();
 
-		while (actualByte != -1 || expectedByte != -1) {
+		while (-1 != actualByte || -1 != expectedByte) {
 			assertThat(actualByte).isEqualTo(expectedByte);
 			actualByte = actual.read();
 			expectedByte = expected.read();

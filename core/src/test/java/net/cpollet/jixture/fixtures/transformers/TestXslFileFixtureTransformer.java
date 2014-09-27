@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,16 @@ package net.cpollet.jixture.fixtures.transformers;
 
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
+import net.cpollet.jixture.fixtures.XlsFileFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
 import net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixtureProxy;
+import net.cpollet.jixture.helper.MappingBuilder;
+import net.cpollet.jixture.helper.MappingBuilderFactory;
 import net.cpollet.jixture.helper.MappingDefinitionHolder;
 import net.cpollet.jixture.helper.MappingField;
 import net.cpollet.jixture.tests.mappings.CartEntry;
-import net.cpollet.jixture.tests.mappings.PersistentObject;
-import net.cpollet.jixture.tests.mappings.Product;
 import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,23 +47,27 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestXmlFileToMappingFixtureTransformer {
+public class TestXslFileFixtureTransformer {
 	@Mock
 	private ConversionServiceFactoryBean conversionServiceFactoryBean;
 
 	@Mock
 	private MappingDefinitionHolder mappingDefinitionHolder;
 
+	@Mock
+	private MappingBuilderFactory mappingBuilderFactory;
+
 	@InjectMocks
-	private XmlFileFixtureTransformer xmlFileFixtureTransformer;
+	private XlsFileFixtureTransformer xlsFileFixtureTransformer;
 
 	@Before
 	public void setUp() {
 		GenericConversionService genericConversionService = new GenericConversionService();
 
 		genericConversionService.addConverter(new Converter<String, Integer>() {
+			@Override
 			public Integer convert(String source) {
-				if (source.length() == 0) {
+				if (0 == source.length()) {
 					return null;
 				}
 				return NumberUtils.parseNumber(source, Integer.class);
@@ -73,22 +78,22 @@ public class TestXmlFileToMappingFixtureTransformer {
 	}
 
 	@Test
-	public void getFromTypeReturnXmlFileFixture() {
+	public void getFromTypeReturnXlsFileFixture() {
 		// GIVEN
 
 		// WHEN
-		Class fromType = xmlFileFixtureTransformer.getFromType();
+		Class fromType = xlsFileFixtureTransformer.getFromType();
 
 		// THEN
-		assertThat(fromType).isEqualTo(XmlFileFixture.class);
+		assertThat(fromType).isEqualTo(XlsFileFixture.class);
 	}
 
 	@Test
 	public void testTransform() throws NoSuchFieldException {
 		// GIVEN
-		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml");
-		xmlFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
-		xmlFileFixture.setFilter(new Filter() {
+		XlsFileFixture xlsFileFixture = new XlsFileFixture("classpath:tests/fixtures/xls-fixture.xls");
+		xlsFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		xlsFileFixture.setFilter(new Filter() {
 			@Override
 			public boolean filter(Object entity) {
 				return false;
@@ -104,8 +109,13 @@ public class TestXmlFileToMappingFixtureTransformer {
 		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "count"))//
 				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("count")));
 
+		MappingBuilder cartEntryMappingBuilder = MappingBuilder.createMapping("CART_ENTRY", mappingDefinitionHolder, conversionServiceFactoryBean.getObject());
+
+		Mockito.when(mappingBuilderFactory.create("CART_ENTRY"))//
+				.thenReturn(cartEntryMappingBuilder);
+
 		// WHEN
-		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
+		ObjectFixture transformedFixture = xlsFileFixtureTransformer.transform(xlsFileFixture);
 
 		// THEN
 		assertThat(transformedFixture).isInstanceOf(Fixture.class);
@@ -123,35 +133,7 @@ public class TestXmlFileToMappingFixtureTransformer {
 
 		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
 
-		assertThat(xmlFileFixture.getExtractionResult().getEntities()).hasSize(1);
+		assertThat(xlsFileFixture.getExtractionResult().getEntities()).hasSize(1);
 		assertThat(FilterableFixtureProxy.get(transformedFixture).filter("")).isFalse();
-	}
-
-	@Test
-	public void transformHandlesMappingInheritance() throws NoSuchFieldException {
-		// GIVEN
-		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture-with-inheritance.xml");
-
-		// WHEN
-		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("product")).thenReturn(Product.class);
-
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "id"))//
-				.thenReturn(new MappingField(PersistentObject.class.getDeclaredField("id")));
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "name"))//
-				.thenReturn(new MappingField(Product.class.getDeclaredField("name")));
-
-		// WHEN
-		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
-
-		// THEN
-		assertThat(transformedFixture).isInstanceOf(Fixture.class);
-
-		assertThat(transformedFixture.getObjects()).hasSize(1);
-		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(Product.class);
-
-		Product actualProduct = (Product) transformedFixture.getObjects().get(0);
-
-		assertThat(actualProduct.getId()).isEqualTo("id");
-		assertThat(actualProduct.getName()).isEqualTo("name");
 	}
 }

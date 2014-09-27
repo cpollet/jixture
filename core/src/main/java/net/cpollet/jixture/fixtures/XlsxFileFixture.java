@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,10 @@
 package net.cpollet.jixture.fixtures;
 
 /**
- * Loads fixture from <a href="http://dbunit.sourceforge.net/">DbUnit</a>-like XML files. This fixture is transformed
- * into an {@link net.cpollet.jixture.fixtures.ObjectFixture} using
- * {@link net.cpollet.jixture.fixtures.transformers.XmlFileFixtureTransformer}.
- *
- * @see net.cpollet.jixture.fixtures.ObjectFixture
- * @see net.cpollet.jixture.fixtures.transformers.XmlFileFixtureTransformer
- *
  * @author Christophe Pollet
  */
-public class XmlFileFixture extends BaseFileFixture {
-	public XmlFileFixture(String filePath) {
+public class XlsxFileFixture extends BaseFileFixture {
+	public XlsxFileFixture(String filePath) {
 		super(filePath);
 	}
 }

@@ -12,6 +12,7 @@
 	<bean id="jixture.transformerFactory" class="net.cpollet.jixture.fixtures.transformers.FixtureTransformerFactory"/>
 	<bean id="jixture.fixtureLoader" class="net.cpollet.jixture.fixtures.loaders.SimpleFixtureLoader"/>
 	<bean id="jixture.mappingConversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
+	<bean id="jixture.mappingBuilderFactory" class="net.cpollet.jixture.helper.MappingBuilderFactory"/>
 
 	<util:map id="jixture.transactionTemplatesByMode">
 		<entry key="#{T(net.cpollet.jixture.fixtures.loaders.FixtureLoader$Mode).COMMIT}">

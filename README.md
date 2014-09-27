@@ -9,8 +9,9 @@ It can load data from varous sources, such as:
  * [DbUnit](http://dbunit.sourceforge.net/)-like XML files (but without the DTD);
  * Plain SQL files;
  * Entities instances build from code, Spring context or generated automatically.
+ * Excel files (both XLS and XLSX)
 
-Is is possible to write you own loader as well to load, for instance, CSV or Excel files.
+Is is possible to write you own loader as well to load, for instance, CSV or other formats.
 
 **External resources**
 
@@ -129,6 +130,26 @@ Requires Maven dependency:
 	<version>2.3</version>
 </dependency>
 ```
+
+## ```XlsFileFixture``` and ```XlsxFileFixture```
+
+If you want to load fixtures from Excel files, you have to add the following Maven dependencies:
+
+```XML
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi</artifactId>
+	<version>3.9</version>
+	<optional>true</optional>
+</dependency>
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi-ooxml</artifactId>
+	<version>3.9</version>
+	<optional>true</optional>
+</dependency>
+```
+
 
 ## ```ExtractorMatcher```
 If you want to be able to extract entities from fixtures implenting ```ExtractionCapableFixture``` (such as ```GeneratedFixture``` or ```MappingFixture```), you have to include [hamcrest](https://code.google.com/p/hamcrest/) in your dependencies.
