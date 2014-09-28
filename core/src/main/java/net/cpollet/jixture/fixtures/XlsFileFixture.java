@@ -16,10 +16,16 @@
 
 package net.cpollet.jixture.fixtures;
 
+import net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer;
+
 /**
  * @author Christophe Pollet
  */
-public class XlsFileFixture extends FileFixture {
+public class XlsFileFixture extends ExcelFileFixture {
+	public XlsFileFixture(String filePath, ExcelFileFixtureTransformer.Mode mode) {
+		super(filePath, mode);
+	}
+
 	public XlsFileFixture(String filePath) {
 		super(filePath);
 	}

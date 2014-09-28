@@ -36,13 +36,16 @@ import java.util.List;
  */
 @Component
 public class XmlFileFixtureTransformer extends FileFixtureTransformer<XmlFileFixture> { //implements FixtureTransformer<XmlFileFixture, ObjectFixture> {
+
 	@Override
 	public Class getFromType() {
 		return XmlFileFixture.class;
 	}
 
 	@Override
-	protected List<Object> parse(InputStream inputStream) {
+	protected List<Object> parse(XmlFileFixture fixture) {
+		InputStream inputStream = fixture.getInputStream();
+
 		XmlFileToMappingsFixtureTransformerSAXHandler handler = createSaxHandler();
 		SAXParser parser = createSaxParser();
 

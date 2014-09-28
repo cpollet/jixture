@@ -21,12 +21,19 @@ import net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer;
 /**
  * @author Christophe Pollet
  */
-public class XlsxFileFixture extends ExcelFileFixture {
-	public XlsxFileFixture(String filePath, ExcelFileFixtureTransformer.Mode mode) {
-		super(filePath, mode);
+public abstract class ExcelFileFixture extends FileFixture {
+	private ExcelFileFixtureTransformer.Mode mode;
+
+	public ExcelFileFixture(String filePath, ExcelFileFixtureTransformer.Mode mode) {
+		super(filePath);
+		this.mode = mode;
 	}
 
-	public XlsxFileFixture(String filePath) {
-		super(filePath);
+	public ExcelFileFixture(String filePath) {
+		this(filePath, ExcelFileFixtureTransformer.Mode.IN);
+	}
+
+	public ExcelFileFixtureTransformer.Mode getMode() {
+		return mode;
 	}
 }

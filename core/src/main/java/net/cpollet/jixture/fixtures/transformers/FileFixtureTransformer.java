@@ -34,7 +34,7 @@ public abstract class FileFixtureTransformer<From extends FileFixture> implement
 
 	@Override
 	public ObjectFixture transform(From fixture) {
-		List<Object> objects = parse(fixture.getInputStream());
+		List<Object> objects = parse(fixture);
 
 		MappingFixture mappingFixture = new MappingFixture(objects.toArray());
 
@@ -44,5 +44,5 @@ public abstract class FileFixtureTransformer<From extends FileFixture> implement
 		return mappingFixture;
 	}
 
-	protected abstract List<Object> parse(InputStream inputStream);
+	protected abstract List<Object> parse(From fixture);
 }
