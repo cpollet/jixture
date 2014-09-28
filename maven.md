@@ -8,6 +8,10 @@ Several custom maven flags are available:
 
 Since the oracle driver is not in Central, it is not included in the dependencies if a file named `.ojdbc6.exclude` exists in `jixture/`.
 
+# PIT
+
+Use goal `org.pitest:pitest-maven:mutationCoverage` to run PIT
+
 # Release
  * Release to sonatype: `mvn clean deploy -DperformRelease=true -Psonatype-oss-release`
  * Deploy site: `mvn clean site site:deploy -Dsite`
