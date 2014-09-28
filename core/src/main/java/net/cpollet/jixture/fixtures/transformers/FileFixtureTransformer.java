@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.BaseFileFixture;
+import net.cpollet.jixture.fixtures.FileFixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.helper.MappingBuilderFactory;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public abstract class BaseFileFixtureTransformer<From extends BaseFileFixture> implements FixtureTransformer<From, ObjectFixture> {
+public abstract class FileFixtureTransformer<From extends FileFixture> implements FixtureTransformer<From, ObjectFixture> {
 	@Autowired
 	protected MappingBuilderFactory mappingBuilderFactory;
 

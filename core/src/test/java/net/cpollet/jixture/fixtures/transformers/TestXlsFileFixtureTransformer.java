@@ -16,46 +16,40 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
-import net.cpollet.jixture.fixtures.XlsxFileFixture;
+import net.cpollet.jixture.fixtures.XlsFileFixture;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
-import net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixtureProxy;
-import net.cpollet.jixture.helper.MappingBuilder;
-import net.cpollet.jixture.helper.MappingField;
-import net.cpollet.jixture.tests.mappings.CartEntry;
 import org.hamcrest.core.IsAnything;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Christophe Pollet
  */
-public class TestXlsxFileFixtureTransformer extends TestFileFixtureTransformer {
+public class TestXlsFileFixtureTransformer extends TestFileFixtureTransformer {
 	@InjectMocks
-	private XlsxFileFixtureTransformer xlsxFileFixtureTransformer;
+	private XlsFileFixtureTransformer xlsFileFixtureTransformer;
 
 	@Test
-	public void getFromTypeReturnXlsxFileFixture() {
+	public void getFromTypeReturnXmlFileFixture() {
 		// GIVEN
 
 		// WHEN
-		Class fromType = xlsxFileFixtureTransformer.getFromType();
+		Class fromType = xlsFileFixtureTransformer.getFromType();
 
 		// THEN
-		assertThat(fromType).isEqualTo(XlsxFileFixture.class);
+		assertThat(fromType).isEqualTo(XlsFileFixture.class);
 	}
 
 	@Test
 	public void testTransform() throws NoSuchFieldException {
 		// GIVEN
-		XlsxFileFixture xlsxFileFixture = new XlsxFileFixture("classpath:tests/fixtures/xlsx-fixture.xlsx");
-		xlsxFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
-		xlsxFileFixture.setFilter(new Filter() {
+		XlsFileFixture xlsFileFixture = new XlsFileFixture("classpath:tests/fixtures/xls-fixture.xls");
+		xlsFileFixture.addExtractorMatcher(ExtractorMatcher.create(new IsAnything()));
+		xlsFileFixture.setFilter(new Filter() {
 			@Override
 			public boolean filter(Object entity) {
 				return false;
@@ -63,9 +57,9 @@ public class TestXlsxFileFixtureTransformer extends TestFileFixtureTransformer {
 		});
 
 		// WHEN
-		ObjectFixture transformedFixture = xlsxFileFixtureTransformer.transform(xlsxFileFixture);
+		ObjectFixture transformedFixture = xlsFileFixtureTransformer.transform(xlsFileFixture);
 
 		// THEN
-		assertCorrectCartEntry(xlsxFileFixture, transformedFixture);
+		assertCorrectCartEntry(xlsFileFixture, transformedFixture);
 	}
 }

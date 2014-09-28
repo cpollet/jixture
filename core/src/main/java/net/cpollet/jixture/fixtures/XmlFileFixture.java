@@ -19,14 +19,14 @@ package net.cpollet.jixture.fixtures;
 /**
  * Loads fixture from <a href="http://dbunit.sourceforge.net/">DbUnit</a>-like XML files. This fixture is transformed
  * into an {@link net.cpollet.jixture.fixtures.ObjectFixture} using
- * {@link net.cpollet.jixture.fixtures.transformers.XmlFileFixtureTransformer}.
+ * {@link net.cpollet.jixture.fixtures.transformers.FileFixtureTransformer}.
  *
  * @see net.cpollet.jixture.fixtures.ObjectFixture
- * @see net.cpollet.jixture.fixtures.transformers.XmlFileFixtureTransformer
+ * @see net.cpollet.jixture.fixtures.transformers.FileFixtureTransformer
  *
  * @author Christophe Pollet
  */
-public class XmlFileFixture extends BaseFileFixture {
+public class XmlFileFixture extends FileFixture {
 	public XmlFileFixture(String filePath) {
 		super(filePath);
 	}

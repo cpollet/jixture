@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.BaseFileFixture;
+import net.cpollet.jixture.fixtures.FileFixture;
 import net.cpollet.jixture.helper.MappingBuilder;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public abstract class ExcelFileFixtureTransformer<From extends BaseFileFixture> extends BaseFileFixtureTransformer<From> {
+public abstract class ExcelFileFixtureTransformer<From extends FileFixture> extends FileFixtureTransformer<From> {
 	@Override
 	protected List<Object> parse(InputStream inputStream) {
 		Workbook workbook = createWorkbook(inputStream);

@@ -19,9 +19,9 @@ package net.cpollet.jixture.fixtures;
 /**
  * @author Christophe Pollet
  */
-public class TestXmlFileFixture extends TestFileFixture {
+public class TestXlsxFileFixture extends TestFileFixture {
 	@Override
 	protected FileFixture buildFixture(String filePath) {
-		return new XmlFileFixture(filePath);
+		return new XlsxFileFixture(filePath);
 	}
 }

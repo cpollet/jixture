@@ -19,7 +19,7 @@ package net.cpollet.jixture.fixtures;
 /**
  * @author Christophe Pollet
  */
-public class XlsxFileFixture extends BaseFileFixture {
+public class XlsxFileFixture extends FileFixture {
 	public XlsxFileFixture(String filePath) {
 		super(filePath);
 	}

@@ -47,36 +47,9 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Christophe Pollet
  */
-@RunWith(MockitoJUnitRunner.class)
-public class TestXmlFileFixtureTransformer {
-	@Mock
-	private ConversionServiceFactoryBean conversionServiceFactoryBean;
-
-	@Mock
-	private MappingDefinitionHolder mappingDefinitionHolder;
-
-	@Mock
-	private MappingBuilderFactory mappingBuilderFactory;
-
+public class TestXmlFileFixtureTransformer extends TestFileFixtureTransformer {
 	@InjectMocks
 	private XmlFileFixtureTransformer xmlFileFixtureTransformer;
-
-	@Before
-	public void setUp() {
-		GenericConversionService genericConversionService = new GenericConversionService();
-
-		genericConversionService.addConverter(new Converter<String, Integer>() {
-			@Override
-			public Integer convert(String source) {
-				if (0 == source.length()) {
-					return null;
-				}
-				return NumberUtils.parseNumber(source, Integer.class);
-			}
-		});
-
-		Mockito.when(conversionServiceFactoryBean.getObject()).thenReturn(genericConversionService);
-	}
 
 	@Test
 	public void getFromTypeReturnXmlFileFixture() {
@@ -101,42 +74,14 @@ public class TestXmlFileFixtureTransformer {
 			}
 		});
 
-		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("cart_entry")).thenReturn(CartEntry.class);
-
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "client_id"))//
-				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("pk"), CartEntry.CartEntryPk.class.getDeclaredField("clientId")));
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "product_id"))//
-				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("pk"), CartEntry.CartEntryPk.class.getDeclaredField("productId")));
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("cart_entry", "count"))//
-				.thenReturn(new MappingField(CartEntry.class.getDeclaredField("count")));
-
-		MappingBuilder cartEntryMappingBuilder = MappingBuilder.createMapping("CART_ENTRY", mappingDefinitionHolder, conversionServiceFactoryBean.getObject());
-
-		Mockito.when(mappingBuilderFactory.create("CART_ENTRY"))//
-				.thenReturn(cartEntryMappingBuilder);
-
 		// WHEN
 		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);
 
 		// THEN
-		assertThat(transformedFixture).isInstanceOf(Fixture.class);
-
-		assertThat(transformedFixture.getObjects()).hasSize(1);
-		assertThat(transformedFixture.getObjects().get(0)).isInstanceOf(CartEntry.class);
-
-		CartEntry actualCartEntry = (CartEntry) transformedFixture.getObjects().get(0);
-
-		CartEntry expectedCartEntry = new CartEntry();
-		expectedCartEntry.setPk(new CartEntry.CartEntryPk());
-		expectedCartEntry.getPk().setClientId(1);
-		expectedCartEntry.getPk().setProductId(2);
-		expectedCartEntry.setCount(10);
-
-		assertThat(actualCartEntry).isEqualTo(expectedCartEntry);
-
-		assertThat(xmlFileFixture.getExtractionResult().getEntities()).hasSize(1);
-		assertThat(FilterableFixtureProxy.get(transformedFixture).filter("")).isFalse();
+		assertCorrectCartEntry(xmlFileFixture, transformedFixture);
 	}
+
+
 
 	@Test
 	public void transformHandlesMappingInheritance() throws NoSuchFieldException {
@@ -144,17 +89,6 @@ public class TestXmlFileFixtureTransformer {
 		XmlFileFixture xmlFileFixture = new XmlFileFixture("classpath:tests/fixtures/xml-fixture-with-inheritance.xml");
 
 		// WHEN
-		Mockito.when(mappingDefinitionHolder.getMappingClassByTableName("product")).thenReturn(Product.class);
-
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "id"))//
-				.thenReturn(new MappingField(PersistentObject.class.getDeclaredField("id")));
-		Mockito.when(mappingDefinitionHolder.getMappingFieldByTableAndColumnNames("product", "name"))//
-				.thenReturn(new MappingField(Product.class.getDeclaredField("name")));
-
-		MappingBuilder productMappingBuilder = MappingBuilder.createMapping("product", mappingDefinitionHolder, conversionServiceFactoryBean.getObject());
-
-		Mockito.when(mappingBuilderFactory.create("product"))//
-				.thenReturn(productMappingBuilder);
 
 		// WHEN
 		ObjectFixture transformedFixture = xmlFileFixtureTransformer.transform(xmlFileFixture);

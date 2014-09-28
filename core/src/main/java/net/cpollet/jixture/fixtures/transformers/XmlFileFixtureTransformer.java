@@ -16,13 +16,10 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.MappingFixture;
-import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.helper.MappingBuilder;
 import net.cpollet.jixture.helper.MappingBuilderFactory;
 import net.cpollet.jixture.utils.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -38,7 +35,7 @@ import java.util.List;
  * @author Christophe Pollet
  */
 @Component
-public class XmlFileFixtureTransformer extends BaseFileFixtureTransformer<XmlFileFixture> { //implements FixtureTransformer<XmlFileFixture, ObjectFixture> {
+public class XmlFileFixtureTransformer extends FileFixtureTransformer<XmlFileFixture> { //implements FixtureTransformer<XmlFileFixture, ObjectFixture> {
 	@Override
 	public Class getFromType() {
 		return XmlFileFixture.class;

@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * @author Christophe Pollet
  */
-public abstract class BaseFileFixture implements TransformableFixture, ExtractionCapableFixture {
+public abstract class FileFixture implements TransformableFixture, ExtractionCapableFixture {
 
 	private InputStream fileInputStream;
 
@@ -37,7 +37,7 @@ public abstract class BaseFileFixture implements TransformableFixture, Extractio
 
 	private Filter filter;
 
-	public BaseFileFixture(String filePath) {
+	public FileFixture(String filePath) {
 		fileInputStream = InputStreamUtils.getInputStream(filePath);
 		extractorDelegate = new ExtractorDelegate();
 	}
@@ -53,7 +53,7 @@ public abstract class BaseFileFixture implements TransformableFixture, Extractio
 	 * @return the current instance.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
-	public BaseFileFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+	public FileFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;
 	}
