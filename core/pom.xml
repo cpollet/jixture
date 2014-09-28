@@ -102,8 +102,6 @@
 			<optional>true</optional>
 		</dependency>
 
-
-
 		<!--  tests -->
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
