@@ -133,17 +133,22 @@ Requires Maven dependency:
 
 ## ```XlsFileFixture``` and ```XlsxFileFixture```
 
-If you want to load fixtures from Excel files, you have to add the following Maven dependencies:
+If you want to load fixtures from Excel files, you have to include [Apache POI](http://poi.apache.org/) in your dependencies.
 
+For XLSX, you need:
+```XML
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi-ooxml</artifactId>
+	<version>3.9</version>
+</dependency>
+```
+
+For XLS, you need:
 ```XML
 <dependency>
 	<groupId>org.apache.poi</groupId>
 	<artifactId>poi</artifactId>
-	<version>3.9</version>
-</dependency>
-<dependency>
-	<groupId>org.apache.poi</groupId>
-	<artifactId>poi-ooxml</artifactId>
 	<version>3.9</version>
 </dependency>
 ```

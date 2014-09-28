@@ -65,15 +65,15 @@ public abstract class ExcelFileFixtureTransformer<From extends FileFixture> exte
 		Iterator<Row> rowIterator = sheet.iterator();
 
 		if (rowIterator.hasNext()) {
-			Row columnNames = rowIterator.next();
+			Row rowColumnNames = rowIterator.next();
 
 			while (rowIterator.hasNext()) {
 				MappingBuilder mappingBuilder = mappingBuilderFactory.create(tableName);
 
-				Row columnValues = rowIterator.next();
+				Row rowColumnValues = rowIterator.next();
 
-				Iterator<Cell> valuesIterator = columnValues.cellIterator();
-				Iterator<Cell> columnsIterator = columnNames.cellIterator();
+				Iterator<Cell> valuesIterator = rowColumnValues.cellIterator();
+				Iterator<Cell> columnsIterator = rowColumnNames.cellIterator();
 
 				while (valuesIterator.hasNext() && columnsIterator.hasNext()) {
 					Cell columnNameCell = columnsIterator.next();
