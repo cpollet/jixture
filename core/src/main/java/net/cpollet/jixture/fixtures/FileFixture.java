@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
+ * Provides base methods for file based fixtures.
+ *
  * @author Christophe Pollet
  */
 public abstract class FileFixture implements TransformableFixture, ExtractionCapableFixture {

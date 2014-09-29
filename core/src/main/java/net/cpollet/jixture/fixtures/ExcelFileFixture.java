@@ -16,24 +16,46 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer;
+import java.util.Arrays;
+import java.util.List;
 
 /**
+ * Base Excel fixture.
+ *
+ * @see net.cpollet.jixture.fixtures.XlsFileFixture
+ * @see net.cpollet.jixture.fixtures.XlsxFileFixture
+ *
  * @author Christophe Pollet
  */
 public abstract class ExcelFileFixture extends FileFixture {
-	private ExcelFileFixtureTransformer.Mode mode;
+	public enum Mode {
+		IN("in", "all"),//
+		OUT("out", "all"),//
+		ALL("all", "in", "out");
 
-	public ExcelFileFixture(String filePath, ExcelFileFixtureTransformer.Mode mode) {
+		private List<String> markers;
+
+		private Mode(String... markers) {
+			this.markers = Arrays.asList(markers);
+		}
+
+		public List<String> getMarkers() {
+			return markers;
+		}
+	}
+
+	private Mode mode;
+
+	public ExcelFileFixture(String filePath, Mode mode) {
 		super(filePath);
 		this.mode = mode;
 	}
 
 	public ExcelFileFixture(String filePath) {
-		this(filePath, ExcelFileFixtureTransformer.Mode.IN);
+		this(filePath, Mode.IN);
 	}
 
-	public ExcelFileFixtureTransformer.Mode getMode() {
+	public Mode getMode() {
 		return mode;
 	}
 }

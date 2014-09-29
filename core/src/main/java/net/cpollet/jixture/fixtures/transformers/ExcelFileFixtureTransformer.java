@@ -26,13 +26,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Transforms Excel fixtures into Object fixtures.
+ *
+ * @see net.cpollet.jixture.fixtures.ExcelFileFixture
+ * @see net.cpollet.jixture.fixtures.ObjectFixture
+ *
  * @author Christophe Pollet
  */
 public abstract class ExcelFileFixtureTransformer<From extends ExcelFileFixture> extends FileFixtureTransformer<From> {
@@ -42,22 +46,6 @@ public abstract class ExcelFileFixtureTransformer<From extends ExcelFileFixture>
 
 	private String modeColumnName = DEFAULT_MODE_COLUMN_NAME;
 	private String escapeChar = DEFAULT_ESCAPE_CHAR;
-
-	public enum Mode {
-		IN("in", "all"),//
-		OUT("out", "all"),//
-		ALL("all", "in", "out");
-
-		private List<String> markers;
-
-		private Mode(String... markers) {
-			this.markers = Arrays.asList(markers);
-		}
-
-		public List<String> getMarkers() {
-			return markers;
-		}
-	}
 
 	public void setModeColumnName(String modeColumnName) {
 		this.modeColumnName = modeColumnName;
@@ -156,6 +144,6 @@ public abstract class ExcelFileFixtureTransformer<From extends ExcelFileFixture>
 
 	private class Parameters {
 		String tableName;
-		Mode mode;
+		ExcelFileFixture.Mode mode;
 	}
 }

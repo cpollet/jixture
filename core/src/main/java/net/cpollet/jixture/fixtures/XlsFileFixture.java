@@ -19,6 +19,13 @@ package net.cpollet.jixture.fixtures;
 import net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer;
 
 /**
+ * Loads fixture from an Excel XLS file. This fixture is transformed into an
+ * {@link net.cpollet.jixture.fixtures.ObjectFixture} using
+ * {@link net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer}.
+ *
+ * @see net.cpollet.jixture.fixtures.ObjectFixture
+ * @see net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer
+ *
  * @author Christophe Pollet
  */
 public class XlsFileFixture extends ExcelFileFixture {
