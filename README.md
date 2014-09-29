@@ -8,8 +8,8 @@ It can load data from varous sources, such as:
 
  * [DbUnit](http://dbunit.sourceforge.net/)-like XML files (but without the DTD);
  * Plain SQL files;
- * Entities instances build from code, Spring context or generated automatically.
- * Excel files (both XLS and XLSX)
+ * Entities instances build from code, Spring context or generated automatically;
+ * Excel files (both XLS and XLSX).
 
 Is is possible to write you own loader as well to load, for instance, CSV or other formats.
 

@@ -17,12 +17,14 @@
 package net.cpollet.jixture.fixtures.capacities.extraction;
 
 
+import net.cpollet.jixture.fixtures.Fixture;
+
 /**
  * Fixtures that support entities extraction implement this interface.
  *
  * @author Christophe Pollet
  */
-public interface ExtractionCapableFixture {
+public interface ExtractionCapableFixture extends Fixture {
 	/**
 	 * Returns the extraction result.
 	 *
