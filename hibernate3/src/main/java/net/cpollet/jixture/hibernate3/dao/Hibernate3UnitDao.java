@@ -105,6 +105,7 @@ public class Hibernate3UnitDao implements UnitDao {
 		return getSession().getSessionFactory();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<String> getKnownMappings() {
 		return getSessionFactory().getAllClassMetadata().keySet();

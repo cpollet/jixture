@@ -46,5 +46,5 @@ public class TestAbstractTestSupport {
 		protected FixtureLoader.Mode getCommitMode() {
 			return null;
 		}
-	};
+	}
 }

@@ -93,6 +93,7 @@ public abstract class TestFileFixture {
 		compareInputStreams(actualInputStream, expectedInputStream);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void getTransformedFixtureReturnsTransformedFixture() {
 		// GIVEN

@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Christophe Pollet
  */
 public class CleaningFixture implements Fixture, CleanableFixture {
-	Set<Class> classes;
+	private Set<Class> classes;
 
 	/**
 	 * @param classesToDelete a list of the Hibernate mappings representing the tables to truncate.

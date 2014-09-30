@@ -42,7 +42,7 @@ public class TestMappingUtils {
 		fields.add(new MappingField(User.class.getDeclaredField("password")));
 
 		// WHEN
-		Map<String, ? extends Object> userMap = MappingUtils.toMap(user, fields);
+		Map<String, ?> userMap = MappingUtils.toMap(user, fields);
 
 		//THEN
 		assertThat(userMap.get("username")).isEqualTo("username");
@@ -65,7 +65,7 @@ public class TestMappingUtils {
 		fields.add(new MappingField(CartEntry.class.getDeclaredField("pk"), CartEntry.CartEntryPk.class.getDeclaredField("productId")));
 
 		// WHEN
-		Map<String, ? extends Object> cartEntryMap = MappingUtils.toMap(cartEntry, fields);
+		Map<String, ?> cartEntryMap = MappingUtils.toMap(cartEntry, fields);
 
 		//THEN
 		assertThat(cartEntryMap.get("count")).isEqualTo(1);

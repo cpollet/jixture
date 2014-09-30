@@ -50,7 +50,7 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 	@Autowired
 	protected UnitDaoFactory unitDaoFactory;
 
-	protected Set<Class> cleanedEntities;
+	private Set<Class> cleanedEntities;
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	@Resource(name = "jixture.transactionTemplatesByMode")

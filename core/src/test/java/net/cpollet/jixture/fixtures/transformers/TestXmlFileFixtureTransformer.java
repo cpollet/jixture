@@ -21,26 +21,10 @@ import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
-import net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixtureProxy;
-import net.cpollet.jixture.helper.MappingBuilder;
-import net.cpollet.jixture.helper.MappingBuilderFactory;
-import net.cpollet.jixture.helper.MappingDefinitionHolder;
-import net.cpollet.jixture.helper.MappingField;
-import net.cpollet.jixture.tests.mappings.CartEntry;
-import net.cpollet.jixture.tests.mappings.PersistentObject;
 import net.cpollet.jixture.tests.mappings.Product;
 import org.hamcrest.core.IsAnything;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.context.support.ConversionServiceFactoryBean;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.util.NumberUtils;
 
 import static org.fest.assertions.Assertions.assertThat;
 

@@ -28,7 +28,7 @@ import java.util.Set;
  * @author Christophe Pollet
  */
 public class ExtractionResult {
-	Set<Result> results;
+	private Set<Result> results;
 
 	public ExtractionResult() {
 		this.results = new HashSet<Result>();

@@ -109,6 +109,7 @@ public abstract class BaseTestDatabaseTestSupport {
 		assertThat(users.size()).isEqualTo(1);
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<User> getUsers() {
 		return transactionManager.getSessionFactory().getCurrentSession().createCriteria(User.class).list();
 	}

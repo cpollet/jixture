@@ -22,7 +22,6 @@ import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.helper.MappingBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**

@@ -66,15 +66,11 @@ public interface UnitDao {
 
 	/**
 	 * Flushes the session, ie. synchronize the underlying database with persistable state held in memory.
-	 *
-	 * @see org.hibernate.Session#clear()
 	 */
 	public void flush();
 
 	/**
 	 * Clears the session, ie. remove all entities from memory cache.
-	 *
-	 * @see org.hibernate.Session#flush()
 	 */
 	public void clear();
 

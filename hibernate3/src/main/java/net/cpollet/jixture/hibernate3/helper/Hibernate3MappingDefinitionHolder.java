@@ -49,7 +49,7 @@ public class Hibernate3MappingDefinitionHolder implements MappingDefinitionHolde
 	@Autowired
 	private UnitDaoFactory unitDaoFactory;
 
-	public Collection<Class> annotatedClasses;
+	private Collection<Class> annotatedClasses;
 	private Map<String, Class> classByTableName;
 	private Map<String, Map<String, MappingField>> fieldsByTableAndColumnName;
 
@@ -124,8 +124,7 @@ public class Hibernate3MappingDefinitionHolder implements MappingDefinitionHolde
 		}
 	}
 
-	public static Iterable<Field> getFieldsUpToObject(Class<?> startClass) {
-
+	private static Iterable<Field> getFieldsUpToObject(Class<?> startClass) {
 		List<Field> currentClassFields = new ArrayList<Field>();
 		currentClassFields.addAll(Arrays.asList(startClass.getDeclaredFields()));
 		Class<?> parentClass = startClass.getSuperclass();

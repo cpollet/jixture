@@ -41,7 +41,7 @@ public class CleanableFixtureProxy implements CleanableFixture {
 		return new CleanableFixtureProxy(fixture);
 	}
 
-	public CleanableFixtureProxy(Fixture fixture) {
+	private CleanableFixtureProxy(Fixture fixture) {
 		this.fixture = fixture;
 	}
 

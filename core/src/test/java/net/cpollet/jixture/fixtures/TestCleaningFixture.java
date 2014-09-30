@@ -19,8 +19,6 @@ package net.cpollet.jixture.fixtures;
 import org.apache.commons.collections.IteratorUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;

@@ -16,19 +16,13 @@
 
 package net.cpollet.jixture.fixtures.transformers;
 
-import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.ObjectFixture;
 import net.cpollet.jixture.fixtures.XlsxFileFixture;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
-import net.cpollet.jixture.fixtures.capacities.filtering.FilterableFixtureProxy;
-import net.cpollet.jixture.helper.MappingBuilder;
-import net.cpollet.jixture.helper.MappingField;
-import net.cpollet.jixture.tests.mappings.CartEntry;
 import org.hamcrest.core.IsAnything;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 
 import static org.fest.assertions.Assertions.assertThat;
 

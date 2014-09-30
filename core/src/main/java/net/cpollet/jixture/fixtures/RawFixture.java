@@ -16,9 +16,8 @@
 
 package net.cpollet.jixture.fixtures;
 
-import net.cpollet.jixture.dao.UnitDaoFactory;
 
-import java.util.LinkedList;
+import net.cpollet.jixture.dao.UnitDaoFactory;
 
 /**
  * A fixture that is loaded via a file containing raw database statements.

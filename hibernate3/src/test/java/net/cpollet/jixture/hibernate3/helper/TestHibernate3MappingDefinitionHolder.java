@@ -298,10 +298,10 @@ public class TestHibernate3MappingDefinitionHolder {
 	}
 
 	private boolean equals(Field field1, Field field2) {
-		if (field1 == null && field2 == null) {
+		if (null == field1 && null == field2) {
 			return true;
 		}
 
-		return field1 != null && field1.equals(field2);
+		return null != field1 && field1.equals(field2);
 	}
 }

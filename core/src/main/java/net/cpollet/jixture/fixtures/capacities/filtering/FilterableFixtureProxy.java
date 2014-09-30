@@ -38,7 +38,7 @@ public class FilterableFixtureProxy implements FilterableFixture {
 		return new FilterableFixtureProxy(fixture);
 	}
 
-	public FilterableFixtureProxy(Fixture fixture) {
+	private FilterableFixtureProxy(Fixture fixture) {
 		this.fixture = fixture;
 	}
 
