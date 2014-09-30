@@ -31,6 +31,6 @@
 		</entry>
 	</util:map>
 
-	<bean class="net.cpollet.jixture.support.NoCommitDatabaseTestSupport"/>
-	<bean class="net.cpollet.jixture.support.CommitDatabaseTestSupport"/>
+	<bean id="jixture.noCommitDatabaseTestSupport" class="net.cpollet.jixture.support.NoCommitDatabaseTestSupport"/>
+	<bean id="jixture.commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport"/>
 </beans>

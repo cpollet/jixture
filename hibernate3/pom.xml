@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
 			<artifactId>jixture-core</artifactId>
-			<version>1.0.0.rc2</version>
+			<version>1.0.0.rc3-SNAPSHOT</version>
 		</dependency>
 
 		<!-- required provided dependencies -->

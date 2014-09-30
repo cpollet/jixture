@@ -44,11 +44,9 @@ public class TestSimpleUserDao {
 	@Autowired
 	private SimpleUserDao simpleUserDao;
 
-	private User user;
-
 	@Before
 	public void setUp() {
-		user  = new User();
+		User user = new User();
 		user.setId(1L);
 		user.setCount(0);
 		user.setName("name");
