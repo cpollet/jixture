@@ -29,7 +29,7 @@ import net.cpollet.jixture.fixtures.transformers.ExcelFileFixtureTransformer;
  * @author Christophe Pollet
  */
 public class XlsxFileFixture extends ExcelFileFixture {
-	public XlsxFileFixture(String filePath, ExcelFileFixtureTransformer.Mode mode) {
+	public XlsxFileFixture(String filePath, Mode mode) {
 		super(filePath, mode);
 	}
 
