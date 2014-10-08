@@ -13,17 +13,17 @@ It can load data from varous sources, such as:
 
 Is is possible to write you own loader as well to load, for instance, CSV or other formats.
 
-**External resources**
+**Resources**
 
  * jixture home: [http://jixture.cpollet.net](http://jixture.cpollet.net)
  * [javadoc](http://jixture.cpollet.net/jixture-core/apidocs/index.html)
+ * [presentation](http://cpollet.github.io/jixture) is also available
 
 [Maven](maven.md) commands.
 
 # Sample
 
 A full sample using `jixture-hibernate3` is available under `sample/hibernate3`.
-A [presentation](http://cpollet.github.io/jixture) is also available
 
 ## Loading XML file
 First, we need to det an instance of a `DatabaseTestSupport`. The following Soring context will do the trick. It only supposes that you have 
