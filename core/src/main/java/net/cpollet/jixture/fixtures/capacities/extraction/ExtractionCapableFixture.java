@@ -31,4 +31,6 @@ public interface ExtractionCapableFixture extends Fixture {
 	 * @return the extraction result.
 	 */
 	ExtractionResult getExtractionResult();
+
+	<T> T addExtractorMatcher(ExtractorMatcher extractorMatcher);
 }

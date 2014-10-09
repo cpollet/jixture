@@ -189,6 +189,7 @@ public class GeneratedFixture implements ScrollableFixture,
 	 * @return the current instance.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
+	@Override
 	public GeneratedFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;

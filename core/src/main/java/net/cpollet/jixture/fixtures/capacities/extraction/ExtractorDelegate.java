@@ -52,8 +52,10 @@ public class ExtractorDelegate implements ExtractionCapableFixture {
 	 * @param extractorMatcher the extraction matcher to add.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
-	public void addExtractorMatcher(ExtractorMatcher extractorMatcher) {
+	@Override
+	public Void addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		this.extractorMatchers.add(extractorMatcher);
+		return null;
 	}
 
 	/**

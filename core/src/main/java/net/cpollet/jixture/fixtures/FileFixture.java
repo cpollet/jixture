@@ -55,6 +55,7 @@ public abstract class FileFixture implements TransformableFixture, ExtractionCap
 	 * @return the current instance.
 	 * @see net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher
 	 */
+	@Override
 	public FileFixture addExtractorMatcher(ExtractorMatcher extractorMatcher) {
 		extractorDelegate.addExtractorMatcher(extractorMatcher);
 		return this;
