@@ -176,7 +176,6 @@ Requires Maven dependency:
 	<groupId>org.hamcrest</groupId>
 	<artifactId>hamcrest-core</artifactId>
 	<version>1.3</version>
-	<optional>true</optional>
 </dependency>
 ```
 
