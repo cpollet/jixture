@@ -16,7 +16,7 @@
 
 package net.cpollet.jixture.fixtures.generator.field;
 
-import org.springframework.util.Assert;
+import net.cpollet.jixture.utils.AssertionUtils;
 
 import java.util.NoSuchElementException;
 
@@ -49,8 +49,8 @@ public class LongSequence extends BaseFieldGenerator<Long> {
 	 * @throws java.lang.IllegalArgumentException if start is less than stop or if increment is less than or equal to 0.
 	 */
 	public LongSequence(long start, long stop, long increment) {
-		Assert.isTrue(stop >= start, "stop must be >= start");
-		Assert.isTrue(0 < increment, "increment must be > 0");
+		AssertionUtils.assertTrue(stop >= start, "stop must be >= start");
+		AssertionUtils.assertTrue(0 < increment, "increment must be > 0");
 
 		this.start = start;
 		this.increment = increment;

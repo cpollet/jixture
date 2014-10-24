@@ -16,12 +16,12 @@
 
 package net.cpollet.jixture.fixtures.generator.field;
 
+import net.cpollet.jixture.utils.AssertionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.joda.time.ReadableDuration;
 import org.joda.time.ReadablePeriod;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -83,8 +83,8 @@ public class DateSequence extends BaseFieldGenerator<Date> {
 	 * 0ms.
 	 */
 	public DateSequence(DateTime start, DateTime stop, ReadableDuration duration) {
-		Assert.isTrue(duration.isLongerThan(Duration.ZERO), "duration must be > 0ms");
-		Assert.isTrue(!stop.isBefore(start), "stop must be >= start");
+		AssertionUtils.assertTrue(duration.isLongerThan(Duration.ZERO), "duration must be > 0ms");
+		AssertionUtils.assertTrue(!stop.isBefore(start), "stop must be >= start");
 
 		this.stop = stop;
 		this.start = start;
@@ -119,8 +119,8 @@ public class DateSequence extends BaseFieldGenerator<Date> {
 	 * 0ms.
 	 */
 	public DateSequence(DateTime start, DateTime stop, ReadablePeriod period) {
-		Assert.isTrue(period.toPeriod().toStandardDuration().isLongerThan(Duration.ZERO), "period must be > 0ms");
-		Assert.isTrue(!stop.isBefore(start), "stop must be >= start");
+		AssertionUtils.assertTrue(period.toPeriod().toStandardDuration().isLongerThan(Duration.ZERO), "period must be > 0ms");
+		AssertionUtils.assertTrue(!stop.isBefore(start), "stop must be >= start");
 
 		this.start = start;
 		this.stop = stop;
