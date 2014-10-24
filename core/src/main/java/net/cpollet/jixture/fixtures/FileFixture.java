@@ -21,7 +21,7 @@ import net.cpollet.jixture.fixtures.capacities.extraction.ExtractionResult;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorDelegate;
 import net.cpollet.jixture.fixtures.capacities.extraction.ExtractorMatcher;
 import net.cpollet.jixture.fixtures.capacities.filtering.Filter;
-import net.cpollet.jixture.io.InputStreamUtils;
+import net.cpollet.jixture.utils.InputStreamUtils;
 
 import java.io.InputStream;
 import java.util.List;

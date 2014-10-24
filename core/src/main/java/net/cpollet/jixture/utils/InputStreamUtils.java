@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.io;
-
-import net.cpollet.jixture.utils.ExceptionUtils;
+package net.cpollet.jixture.utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

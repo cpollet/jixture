@@ -18,7 +18,7 @@ package net.cpollet.jixture.fixtures;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.capacities.cleaning.CleanableFixture;
-import net.cpollet.jixture.io.InputStreamUtils;
+import net.cpollet.jixture.utils.InputStreamUtils;
 import net.cpollet.jixture.utils.ExceptionUtils;
 
 import java.io.BufferedReader;
