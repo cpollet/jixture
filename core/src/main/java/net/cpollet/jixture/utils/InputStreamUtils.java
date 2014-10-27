@@ -44,13 +44,24 @@ public class InputStreamUtils {
 	}
 
 	private static InputStream openFileFromClasspath(String classpath) {
-		InputStream fileInputStream = InputStreamUtils.class.getClassLoader().getResourceAsStream(removeClasspathMarker(classpath));
+		String path = removeClasspathMarker(classpath);
+		path = removeLeadingSlash(path);
+
+		InputStream fileInputStream = InputStreamUtils.class.getClassLoader().getResourceAsStream(path);
 
 		if (null == fileInputStream) {
 			throw new RuntimeException("Unable to load file " + classpath);
 		}
 
 		return fileInputStream;
+	}
+
+	private static String removeLeadingSlash(String path) {
+		if (path.startsWith("/")) {
+			return path.substring(1);
+		}
+
+		return path;
 	}
 
 	private static String removeClasspathMarker(String classpath) {
