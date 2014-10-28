@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.support.hook;
 
+import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.fixtures.SqlFileFixture;
@@ -30,6 +31,7 @@ import org.springframework.test.context.TestExecutionListener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +140,13 @@ public class JixtureTestExecutionListener implements TestExecutionListener {
 				}
 
 				return fixtures;
+			}
+		}),//
+		CLEANING("cleaning", new FixtureBuilderBuilder() {
+			@Override
+			public List<? extends Fixture> build() {
+				Class[] classes = (Class[]) object;
+				return Arrays.asList(new CleaningFixture(classes));
 			}
 		});
 

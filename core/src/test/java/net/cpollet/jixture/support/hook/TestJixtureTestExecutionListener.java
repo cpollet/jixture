@@ -16,6 +16,7 @@
 
 package net.cpollet.jixture.support.hook;
 
+import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.SpringFixture;
 import net.cpollet.jixture.fixtures.SqlFileFixture;
@@ -119,6 +120,14 @@ public class TestJixtureTestExecutionListener {
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(XlsxFileFixture.class);
+	}
+
+	@Test
+	public void beforeTestMethodLoadsCleaningFixtures() throws Exception {
+		List<Fixture> fixtures = load(TestClassForCleaning.class);
+		assertThat(fixtures.size()).isEqualTo(1);
+		assertThat(fixtures.get(0)).isNotNull();
+		assertThat(fixtures.get(0)).isInstanceOf(CleaningFixture.class);
 	}
 
 	@Test
@@ -254,5 +263,10 @@ public class TestJixtureTestExecutionListener {
 			xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"},//
 			xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})
 	private class TestClassForXmlAndXlsxFilePathsButNotXlsFilePath {
+	}
+
+	@SuppressWarnings("EmptyClass")
+	@PrepareData(cleaning = {Object.class})
+	private class TestClassForCleaning {
 	}
 }

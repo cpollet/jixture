@@ -17,10 +17,8 @@
 package net.cpollet.jixture.tests.integration.hibernate3;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
-import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
-import net.cpollet.jixture.fixtures.SqlFixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import net.cpollet.jixture.support.hook.FixtureBuilder;
 import net.cpollet.jixture.support.hook.JixtureTestExecutionListener;

@@ -35,6 +35,7 @@ public @interface PrepareData {
 
 	String[] order() default {//
 			"builders",//
+			"cleaning",//
 			"springContextPaths",//
 			"sqlFilePaths",//
 			"sqlQueries",//
@@ -56,4 +57,6 @@ public @interface PrepareData {
 	String[] xlsxFilePaths() default {};
 
 	Class<? extends FixtureBuilder>[] builders() default {};
+
+	Class[] cleaning() default {};
 }
