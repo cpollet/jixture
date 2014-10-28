@@ -17,6 +17,7 @@
 package net.cpollet.jixture.fixtures.loaders;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.RawFixture;
 import net.cpollet.jixture.fixtures.ScrollableFixture;
@@ -67,6 +68,9 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 		else if (fixture instanceof RawFixture) {
 			load((RawFixture) fixture, mode);
 		}
+		else if (fixture instanceof CleaningFixture) {
+			load((CleaningFixture) fixture, mode);
+		}
 		else {
 			throw new IllegalArgumentException(fixture.getClass().getName() + " is not supported");
 		}
@@ -98,6 +102,15 @@ public class SimpleFixtureLoader implements FixtureLoader, InitializingBean {
 			public void execute() {
 				deleteEntitiesOfClass(CleanableFixtureProxy.get(fixture).getClassesToDeleteIterator());
 				fixture.load(unitDaoFactory);
+			}
+		});
+	}
+
+	private void load(final CleaningFixture fixture, Mode mode) {
+		execute(mode, new Executable() {
+			@Override
+			public void execute() {
+				deleteEntitiesOfClass(fixture.getClassesToDeleteIterator());
 			}
 		});
 	}

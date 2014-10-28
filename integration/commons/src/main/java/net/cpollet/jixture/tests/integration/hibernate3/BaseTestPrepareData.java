@@ -17,6 +17,7 @@
 package net.cpollet.jixture.tests.integration.hibernate3;
 
 import net.cpollet.jixture.dao.UnitDaoFactory;
+import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.SqlFixture;
@@ -73,7 +74,6 @@ public abstract class BaseTestPrepareData {
 		@Override
 		public List<? extends Fixture> build() {
 			return Arrays.asList(//
-					// new SqlFixture(new String[]{"delete from users"}),//
 					new MappingFixture(createUser())//
 			);
 		}

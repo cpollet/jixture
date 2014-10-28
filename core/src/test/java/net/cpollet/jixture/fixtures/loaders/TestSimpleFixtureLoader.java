@@ -19,6 +19,7 @@ package net.cpollet.jixture.fixtures.loaders;
 import net.cpollet.jixture.dao.UnitDao;
 import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.BaseObjectFixture;
+import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.GeneratedFixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
@@ -243,6 +244,18 @@ public class TestSimpleFixtureLoader {
 
 		// THEN
 		Mockito.verify(unitDao).save(expectedFixture.getObjects().get(0));
+	}
+
+	@Test
+	public void loadCleaningFixtureCleansDatabase() {
+		// GIVEN
+		Fixture fixture = new CleaningFixture(Object.class);
+
+		// WHEN
+		simpleFixtureLoader.load(fixture, FixtureLoader.Mode.COMMIT);
+
+		// THEN
+		Mockito.verify(unitDao).deleteAll(Object.class);
 	}
 
 	private TransformableFixture getLoadableTranfrormableFixture() {
