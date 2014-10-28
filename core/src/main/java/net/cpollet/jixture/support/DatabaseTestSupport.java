@@ -25,17 +25,15 @@ import java.util.Collection;
 /**
  * Provides a set of method that can be useful in the context of unit/integration testing.
  *
+ * @author Christophe Pollet
  * @see net.cpollet.jixture.support.CommitDatabaseTestSupport
  * @see net.cpollet.jixture.support.NoCommitDatabaseTestSupport
- *
- * @author Christophe Pollet
  */
 public interface DatabaseTestSupport {
 	/**
 	 * Adds fixtures to the fixtures to be loaded.
 	 *
 	 * @param fixtures the fixtures to add.
-	 *
 	 * @return the current instance.
 	 */
 	DatabaseTestSupport addFixtures(Fixture... fixtures);
@@ -44,17 +42,15 @@ public interface DatabaseTestSupport {
 	 * Adds a collection fixtures to the fixtures to be loaded.
 	 *
 	 * @param fixtures the fixtures to add.
-	 *
 	 * @return the current instance.
 	 */
-	DatabaseTestSupport addFixtures(Collection<Fixture> fixtures);
+	DatabaseTestSupport addFixtures(Collection<? extends Fixture> fixtures);
 
 	/**
 	 * Adds fixtures to the fixtures to be loaded. This methods expects paths to a Spring XML context containing
 	 * fixtures beans.
 	 *
 	 * @param contexts the fixtures to add.
-	 *
 	 * @return the current instance.
 	 */
 	DatabaseTestSupport addFixtures(String... contexts);
@@ -70,7 +66,6 @@ public interface DatabaseTestSupport {
 	 * Sets the fixture loader.
 	 *
 	 * @param fixtureLoaderChain the fixture loader
-	 *
 	 * @return the current instance.
 	 */
 	DatabaseTestSupport setFixtureLoader(FixtureLoader fixtureLoaderChain);

@@ -21,5 +21,6 @@ import net.cpollet.jixture.tests.integration.hibernate3.BaseTestDatabaseTestSupp
 /**
  * @author Christophe Pollet
  */
+@SuppressWarnings("EmptyClass")
 public class TestOracleDatabaseTestSupport extends BaseTestDatabaseTestSupport {
 }

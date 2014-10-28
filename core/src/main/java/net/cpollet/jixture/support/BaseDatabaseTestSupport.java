@@ -70,7 +70,7 @@ public abstract class BaseDatabaseTestSupport implements DatabaseTestSupport, In
 	}
 
 	@Override
-	public DatabaseTestSupport addFixtures(Collection<Fixture> fixtures) {
+	public DatabaseTestSupport addFixtures(Collection<? extends Fixture> fixtures) {
 		this.fixtures.addAll(fixtures);
 		return this;
 	}

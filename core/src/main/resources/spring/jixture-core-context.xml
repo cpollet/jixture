@@ -33,4 +33,9 @@
 
 	<bean id="jixture.noCommitDatabaseTestSupport" class="net.cpollet.jixture.support.NoCommitDatabaseTestSupport"/>
 	<bean id="jixture.commitDatabaseTestSupport" class="net.cpollet.jixture.support.CommitDatabaseTestSupport"/>
+
+	<util:map id="jixture.databaseTestSupportByMode">
+		<entry key="#{T(net.cpollet.jixture.fixtures.loaders.FixtureLoader$Mode).COMMIT}" value-ref="jixture.commitDatabaseTestSupport"/>
+		<entry key="#{T(net.cpollet.jixture.fixtures.loaders.FixtureLoader$Mode).NO_COMMIT}" value-ref="jixture.noCommitDatabaseTestSupport"/>
+	</util:map>
 </beans>

@@ -17,7 +17,8 @@
 		<dependency>
 			<groupId>net.cpollet.jixture</groupId>
 			<artifactId>jixture-core</artifactId>
-			<version>1.0.0.rc2</version>
+			<version>1.0.0.rc4-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

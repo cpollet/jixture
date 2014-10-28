@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Christophe Pollet
+ * Copyright 2014 Christophe Pollet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.integration.hibernate3.mysql;
+package net.cpollet.jixture.support.hook;
 
-import net.cpollet.jixture.tests.integration.hibernate3.BaseTestDatabaseTestSupport;
+import net.cpollet.jixture.fixtures.Fixture;
+
+import java.util.List;
 
 /**
  * @author Christophe Pollet
  */
-@SuppressWarnings("EmptyClass")
-public class TestMySqlDatabaseTestSupport extends BaseTestDatabaseTestSupport {
+public interface FixtureBuilder {
+	List<? extends Fixture> build();
 }
