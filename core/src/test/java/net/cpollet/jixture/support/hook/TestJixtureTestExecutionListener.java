@@ -38,7 +38,6 @@ import org.springframework.test.context.JixtureTestContext;
 import org.springframework.test.context.TestContext;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,40 +58,44 @@ public class TestJixtureTestExecutionListener {
 	@Mock
 	private DatabaseTestSupport noCommitDatabaseTestSupport;
 
+	@Mock
+	private DatabaseTestSupport commitDatabaseTestSupport;
+
 	@Before
 	public void setUp() {
 		listener = new JixtureTestExecutionListener();
 
 		Map<FixtureLoader.Mode, DatabaseTestSupport> databaseTestSupportMap = new HashMap<FixtureLoader.Mode, DatabaseTestSupport>();
 		databaseTestSupportMap.put(FixtureLoader.Mode.NO_COMMIT, noCommitDatabaseTestSupport);
+		databaseTestSupportMap.put(FixtureLoader.Mode.COMMIT, commitDatabaseTestSupport);
 
 		Mockito.when(applicationContext.getBean("jixture.databaseTestSupportByMode")).thenReturn(databaseTestSupportMap);
 	}
 
 	@Test
 	public void beforeTestMethodLoadsBuilderFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForBuilders.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForBuilders.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isInstanceOf(XmlFileFixture.class);
 	}
 
 	@Test
 	public void beforeTestMethodLoadsSpringContextFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForSpringContextPaths.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForSpringContextPaths.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isInstanceOf(SpringFixture.class);
 	}
 
 	@Test
 	public void beforeTestMethodLoadsXmlFileFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForXmlFilePaths.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForXmlFilePaths.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isInstanceOf(XmlFileFixture.class);
 	}
 
 	@Test
 	public void beforeTestMethodLoadsSqlFileFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForSqlFilePaths.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForSqlFilePaths.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(SqlFileFixture.class);
@@ -100,7 +103,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodLoadsSqlQueriesFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForSqlQueries.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForSqlQueries.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(SqlFixture.class);
@@ -108,7 +111,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodLoadsXlsFileFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForXlsFilePaths.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForXlsFilePaths.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(XlsFileFixture.class);
@@ -116,7 +119,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodLoadsXlsxFileFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForXlsxFilePaths.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForXlsxFilePaths.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(XlsxFileFixture.class);
@@ -124,7 +127,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodLoadsCleaningFixtures() throws Exception {
-		List<Fixture> fixtures = load(TestClassForCleaning.class);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForCleaning.class);
 		assertThat(fixtures.size()).isEqualTo(1);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(CleaningFixture.class);
@@ -132,7 +135,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodLoadsFixturesInOrder() throws Exception {
-		List<Fixture> fixtures = load(TestClassForXmlAndXlsxFilePaths.class, 2);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForXmlAndXlsxFilePaths.class, 2);
 		assertThat(fixtures.size()).isEqualTo(2);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(XmlFileFixture.class);
@@ -142,7 +145,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	public void beforeTestMethodDoesNotLoadFixturesNotSpecified() throws Exception {
-		List<Fixture> fixtures = load(TestClassForXmlAndXlsxFilePathsButNotXlsFilePath.class, 2);
+		List<Fixture> fixtures = load(TestClassHolder.TestClassForXmlAndXlsxFilePathsButNotXlsFilePath.class, 2);
 		assertThat(fixtures.size()).isEqualTo(2);
 		assertThat(fixtures.get(0)).isNotNull();
 		assertThat(fixtures.get(0)).isInstanceOf(XmlFileFixture.class);
@@ -154,7 +157,7 @@ public class TestJixtureTestExecutionListener {
 	@Test
 	public void beforeTestMethodLoadsFixturesOnMethods() throws Exception {
 		// GIVEN
-		Method method = getClass().getMethod("annotatedMethod");
+		Method method = TestClassHolder.class.getMethod("annotatedMethod");
 		TestContext testContext = new JixtureTestContext(getClass(), method, applicationContext);
 
 		// WHEN
@@ -172,6 +175,36 @@ public class TestJixtureTestExecutionListener {
 		assertThat(fixtures.get(0)).isInstanceOf(XlsxFileFixture.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Test
+	public void defaultJixtureAnnotationValueIsSetupAndLoadsInOrderAndRespectsMode() throws Exception {
+		// GIVEN
+		TestContext testContext = buildDefaultTestContext(TestClassHolder.TestClassForDefaultXmlAndXlsxFilePaths.class);
+
+		// WHEN
+		listener.beforeTestMethod(testContext);
+
+		// THEN
+		ArgumentCaptor<List> argumentCaptorForCommit = ArgumentCaptor.forClass(List.class);
+		Mockito.verify(commitDatabaseTestSupport).addFixtures(argumentCaptorForCommit.capture());
+		Mockito.verify(commitDatabaseTestSupport).loadFixtures();
+
+		ArgumentCaptor<List> argumentCaptorForNoCommit = ArgumentCaptor.forClass(List.class);
+		Mockito.verify(noCommitDatabaseTestSupport).addFixtures(argumentCaptorForNoCommit.capture());
+		Mockito.verify(noCommitDatabaseTestSupport).loadFixtures();
+
+		List<Fixture> committedFixtures = flatten(argumentCaptorForCommit.getAllValues());
+		List<Fixture> nonCommittedFixtures = flatten(argumentCaptorForNoCommit.getAllValues());
+
+		assertThat(committedFixtures.size()).isEqualTo(1);
+		assertThat(committedFixtures.get(0)).isNotNull();
+		assertThat(committedFixtures.get(0)).isInstanceOf(XmlFileFixture.class);
+
+		assertThat(nonCommittedFixtures.size()).isEqualTo(1);
+		assertThat(nonCommittedFixtures.get(0)).isNotNull();
+		assertThat(nonCommittedFixtures.get(0)).isInstanceOf(XlsxFileFixture.class);
+	}
+
 	private List<Fixture> load(Class clazz) throws Exception {
 		return load(clazz, 1);
 	}
@@ -179,7 +212,7 @@ public class TestJixtureTestExecutionListener {
 	@SuppressWarnings("unchecked")
 	private List<Fixture> load(Class clazz, int fixturesCount) throws Exception {
 		// GIVEN
-		TestContext testContext = new JixtureTestContext(clazz, applicationContext);
+		TestContext testContext = buildDefaultTestContext(clazz);
 
 		// WHEN
 		listener.beforeTestMethod(testContext);
@@ -192,6 +225,10 @@ public class TestJixtureTestExecutionListener {
 		return flatten(argumentCaptor.getAllValues());
 	}
 
+	private JixtureTestContext buildDefaultTestContext(Class clazz) throws NoSuchMethodException {
+		return new JixtureTestContext(clazz, Object.class.getMethod("toString"), applicationContext);
+	}
+
 	@SuppressWarnings("unchecked")
 	private List flatten(List<List> listOfLists) {
 		List flattenedList = new LinkedList();
@@ -201,72 +238,5 @@ public class TestJixtureTestExecutionListener {
 		}
 
 		return flattenedList;
-	}
-
-	@PrepareData(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})
-	public void annotatedMethod() {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(builders = {TestClassForBuilders.MyBuilder.class})
-	public static class TestClassForBuilders {
-		public static class MyBuilder implements FixtureBuilder {
-			@Override
-			public List<Fixture> build() {
-				return Arrays.<Fixture>asList(new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml"));
-			}
-		}
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(springContextPaths = {"classpath:tests/fixtures/spring-fixture.xml"})
-	private class TestClassForSpringContextPaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"})
-	private class TestClassForXmlFilePaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(sqlFilePaths = {"classpath:tests/fixtures/sql-fixture.sql"})
-	private class TestClassForSqlFilePaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(sqlQueries = {"query"})
-	private class TestClassForSqlQueries {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(xlsFilePaths = {"classpath:tests/fixtures/xls-fixture.xls"})
-	private class TestClassForXlsFilePaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})
-	private class TestClassForXlsxFilePaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(//
-			order = {"xmlFilePaths", "xlsxFilePaths"},//
-			xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"},//
-			xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})
-	private class TestClassForXmlAndXlsxFilePaths {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(//
-			order = {"xmlFilePaths", "xlsxFilePaths"},//
-			xlsFilePaths = {"classpath:tests/fixtures/xls-fixture.xls"},//
-			xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"},//
-			xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})
-	private class TestClassForXmlAndXlsxFilePathsButNotXlsFilePath {
-	}
-
-	@SuppressWarnings("EmptyClass")
-	@PrepareData(cleaning = {Object.class})
-	private class TestClassForCleaning {
 	}
 }

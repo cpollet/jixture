@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Inherited
-public @interface PrepareData {
+public @interface DataSource {
 	FixtureLoader.Mode mode() default FixtureLoader.Mode.NO_COMMIT;
 
 	String[] order() default {//

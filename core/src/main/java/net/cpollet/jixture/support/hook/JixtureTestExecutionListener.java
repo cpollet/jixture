@@ -185,26 +185,34 @@ public class JixtureTestExecutionListener implements TestExecutionListener {
 
 	@Override
 	public void beforeTestMethod(TestContext testContext) throws Exception {
-		PrepareData classAnnotation = testContext.getTestClass().getAnnotation(PrepareData.class);
-		processPrepareData(testContext, classAnnotation);
+		List<DataSource> dataSources = new LinkedList<DataSource>();
 
-		if (null != testContext.getTestMethod()) {
-			PrepareData methodAnnotation = testContext.getTestMethod().getAnnotation(PrepareData.class);
-			processPrepareData(testContext, methodAnnotation);
+		parseJixtureAnnotationForSetup(dataSources, testContext.getTestClass().getAnnotation(Jixture.class));
+		parseJixtureAnnotationForSetup(dataSources, testContext.getTestMethod().getAnnotation(Jixture.class));
+
+		for (DataSource dataSource : dataSources) {
+			processPrepareData(testContext, dataSource);
 		}
 	}
 
-	private void processPrepareData(TestContext testContext, PrepareData classAnnotation) throws Exception {
-		if (null == classAnnotation) {
+	private void parseJixtureAnnotationForSetup(List<DataSource> dataSources, Jixture jixtureAnnotation) {
+		if (null != jixtureAnnotation) {
+			dataSources.addAll(Arrays.asList(jixtureAnnotation.value()));
+			dataSources.addAll(Arrays.asList(jixtureAnnotation.setup()));
+		}
+	}
+
+	private void processPrepareData(TestContext testContext, DataSource dataSource) throws Exception {
+		if (null == dataSource) {
 			return;
 		}
 
-		DatabaseTestSupport databaseTestSupport = getDatabaseTestSupport(testContext, classAnnotation.mode());
+		DatabaseTestSupport databaseTestSupport = getDatabaseTestSupport(testContext, dataSource.mode());
 
-		for (String fixtureType : classAnnotation.order()) {
-			Method method = classAnnotation.getClass().getMethod(fixtureType);
+		for (String fixtureType : dataSource.order()) {
+			Method method = dataSource.getClass().getMethod(fixtureType);
 
-			Object[] parameters = (Object[]) method.invoke(classAnnotation);
+			Object[] parameters = (Object[]) method.invoke(dataSource);
 			if (0 < parameters.length) {
 				List<? extends Fixture> fixtures = FixtureType.getByName(fixtureType)//
 						.getFixtureBuilderBuilder()//
