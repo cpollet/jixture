@@ -191,7 +191,7 @@ public class JixtureTestExecutionListener implements TestExecutionListener {
 		parseJixtureAnnotationForSetup(dataSources, testContext.getTestMethod().getAnnotation(Jixture.class));
 
 		for (DataSource dataSource : dataSources) {
-			processPrepareData(testContext, dataSource);
+			setupData(testContext, dataSource);
 		}
 	}
 
@@ -202,7 +202,7 @@ public class JixtureTestExecutionListener implements TestExecutionListener {
 		}
 	}
 
-	private void processPrepareData(TestContext testContext, DataSource dataSource) throws Exception {
+	private void setupData(TestContext testContext, DataSource dataSource) throws Exception {
 		if (null == dataSource) {
 			return;
 		}

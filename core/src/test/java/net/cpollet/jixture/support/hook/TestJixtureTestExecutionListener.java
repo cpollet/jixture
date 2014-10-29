@@ -153,8 +153,8 @@ public class TestJixtureTestExecutionListener {
 		assertThat(fixtures.get(1)).isInstanceOf(XlsxFileFixture.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
+	@SuppressWarnings("unchecked")
 	public void beforeTestMethodLoadsFixturesOnMethods() throws Exception {
 		// GIVEN
 		Method method = TestClassHolder.class.getMethod("annotatedMethod");
@@ -175,8 +175,8 @@ public class TestJixtureTestExecutionListener {
 		assertThat(fixtures.get(0)).isInstanceOf(XlsxFileFixture.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
+	@SuppressWarnings("unchecked")
 	public void defaultJixtureAnnotationValueIsSetupAndLoadsInOrderAndRespectsMode() throws Exception {
 		// GIVEN
 		TestContext testContext = buildDefaultTestContext(TestClassHolder.TestClassForDefaultXmlAndXlsxFilePaths.class);
@@ -225,8 +225,13 @@ public class TestJixtureTestExecutionListener {
 		return flatten(argumentCaptor.getAllValues());
 	}
 
-	private JixtureTestContext buildDefaultTestContext(Class clazz) throws NoSuchMethodException {
-		return new JixtureTestContext(clazz, Object.class.getMethod("toString"), applicationContext);
+	private JixtureTestContext buildDefaultTestContext(Class clazz) {
+		try {
+			return new JixtureTestContext(clazz, Object.class.getMethod("toString"), applicationContext);
+		}
+		catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
