@@ -18,7 +18,6 @@
 		<module>core</module>
 		<module>hibernate3</module>
 		<module>jpa2</module>
-		<module>asserts</module>
 	</modules>
 
 	<profiles>
