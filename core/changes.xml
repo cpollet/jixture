@@ -3,6 +3,12 @@
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 	<body>
+		<release version="1.0.0.rc4">
+			<action dev="cpollet" type="add">Implemented @Fixture annotation and Spring test listeners</action>
+			<action dev="cpollet" type="add">Merged jixture-asserts into jixture-core</action>
+			<action dev="cpollet" type="update">Allow leading "/" is "classpath:" paths</action>
+			<action dev="cpollet" type="update">CleanableFixture is now loadable</action>
+		</release>
 		<release version="1.0.0.rc3">
 			<action dev="cpollet" type="update">Updated parent pom to use PIT</action>
 			<action dev="cpollet" type="add">Added Excel files support</action>
