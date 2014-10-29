@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.support.hook;
+package net.cpollet.jixture.support.spring.hook;
 
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
+import net.cpollet.jixture.support.spring.DataSource;
+import net.cpollet.jixture.support.spring.FixtureBuilder;
+import net.cpollet.jixture.support.spring.Jixture;
 
 import java.util.Arrays;
 import java.util.List;

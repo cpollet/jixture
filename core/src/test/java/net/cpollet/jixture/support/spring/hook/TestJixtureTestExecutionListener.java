@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.support.hook;
+package net.cpollet.jixture.support.spring.hook;
 
 import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
@@ -26,6 +26,7 @@ import net.cpollet.jixture.fixtures.XlsxFileFixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
 import net.cpollet.jixture.support.DatabaseTestSupport;
+import net.cpollet.jixture.support.spring.JixtureTestExecutionListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

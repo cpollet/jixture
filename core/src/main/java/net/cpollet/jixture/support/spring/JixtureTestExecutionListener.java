@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.support.hook;
+package net.cpollet.jixture.support.spring;
 
 import net.cpollet.jixture.fixtures.CleaningFixture;
 import net.cpollet.jixture.fixtures.Fixture;
