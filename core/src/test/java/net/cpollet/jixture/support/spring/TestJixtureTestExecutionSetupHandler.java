@@ -49,8 +49,8 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Christophe Pollet
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestJixtureTestExecutionListener {
-	private JixtureTestExecutionListener listener;
+public class TestJixtureTestExecutionSetupHandler {
+	private JixtureTestExecutionListenerSetupHandler handler;
 
 	@Mock
 	private ApplicationContext applicationContext;
@@ -63,7 +63,7 @@ public class TestJixtureTestExecutionListener {
 
 	@Before
 	public void setUp() {
-		listener = new JixtureTestExecutionListener();
+		handler = new JixtureTestExecutionListenerSetupHandler();
 
 		Map<FixtureLoader.Mode, DatabaseTestSupport> databaseTestSupportMap = new HashMap<FixtureLoader.Mode, DatabaseTestSupport>();
 		databaseTestSupportMap.put(FixtureLoader.Mode.NO_COMMIT, noCommitDatabaseTestSupport);
@@ -161,7 +161,7 @@ public class TestJixtureTestExecutionListener {
 		TestContext testContext = new JixtureTestContext(getClass(), method, applicationContext);
 
 		// WHEN
-		listener.beforeTestMethod(testContext);
+		handler.handle(testContext);
 
 		// THEN
 		ArgumentCaptor<List> argumentCaptor = ArgumentCaptor.forClass(List.class);
@@ -177,12 +177,12 @@ public class TestJixtureTestExecutionListener {
 
 	@Test
 	@SuppressWarnings("unchecked")
-	public void defaultJixtureAnnotationValueIsSetupAndLoadsInOrderAndRespectsMode() throws Exception {
+	public void jixtureLoadsInOrderAndRespectsMode() throws Exception {
 		// GIVEN
 		TestContext testContext = buildDefaultTestContext(TestClassHolder.TestClassForDefaultXmlAndXlsxFilePaths.class);
 
 		// WHEN
-		listener.beforeTestMethod(testContext);
+		handler.handle(testContext);
 
 		// THEN
 		ArgumentCaptor<List> argumentCaptorForCommit = ArgumentCaptor.forClass(List.class);
@@ -215,7 +215,7 @@ public class TestJixtureTestExecutionListener {
 		TestContext testContext = buildDefaultTestContext(clazz);
 
 		// WHEN
-		listener.beforeTestMethod(testContext);
+		handler.handle(testContext);
 
 		// THEN
 		ArgumentCaptor<List> argumentCaptor = ArgumentCaptor.forClass(List.class);

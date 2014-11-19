@@ -74,6 +74,7 @@ public class TestSimpleFixtureLoader {
 	@InjectMocks
 	private SimpleFixtureLoader simpleFixtureLoader;
 
+	@SuppressWarnings("SuspiciousMethodCalls")
 	@Before
 	public void setUp() throws Exception {
 		Mockito.when(unitDaoFactory.getUnitDao()).thenReturn(unitDao);
@@ -240,7 +241,7 @@ public class TestSimpleFixtureLoader {
 		Mockito.when(fixtureTransformerFactory.getFixtureTransformer(Mockito.any(TransformableFixture.class))).thenReturn(fixtureTransformer);
 
 		// WHEN
-		simpleFixtureLoader.load(getLoadableTranfrormableFixture(), FixtureLoader.Mode.COMMIT);
+		simpleFixtureLoader.load(getLoadableTransformableFixture(), FixtureLoader.Mode.COMMIT);
 
 		// THEN
 		Mockito.verify(unitDao).save(expectedFixture.getObjects().get(0));
@@ -258,7 +259,8 @@ public class TestSimpleFixtureLoader {
 		Mockito.verify(unitDao).deleteAll(Object.class);
 	}
 
-	private TransformableFixture getLoadableTranfrormableFixture() {
+	@SuppressWarnings("EmptyClass")
+	private TransformableFixture getLoadableTransformableFixture() {
 		return new TransformableFixture() {
 		};
 	}

@@ -16,36 +16,14 @@
 
 package net.cpollet.jixture.support.spring;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * @author Christophe Pollet
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Inherited
-public @interface Jixture {
-	/**
-	 * Same as setup
-	 */
-	DataSource[] value() default {};
+* @author Christophe Pollet
+*/
+abstract class FixtureBuilderBuilder implements FixtureBuilder {
+	Object object;
 
-	/**
-	 * Executed before test method
-	 */
-	DataSource[] setup() default {};
-
-	/**
-	 * Executed after test method
-	 */
-	DataSource[] teardown() default {};
-
-	/**
-	 * Expected data after test
-	 */
-	DataSource[] expected() default {};
+	public FixtureBuilder setUp(Object object) {
+		this.object = object;
+		return this;
+	}
 }

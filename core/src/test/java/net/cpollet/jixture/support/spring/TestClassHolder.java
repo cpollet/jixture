@@ -16,12 +16,11 @@
 
 package net.cpollet.jixture.support.spring;
 
-import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.XmlFileFixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
-import net.cpollet.jixture.support.spring.DataSource;
-import net.cpollet.jixture.support.spring.FixtureBuilder;
-import net.cpollet.jixture.support.spring.Jixture;
+import net.cpollet.jixture.support.spring.annotation.Expected;
+import net.cpollet.jixture.support.spring.annotation.FixtureDef;
+import net.cpollet.jixture.support.spring.annotation.Jixture;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,61 +31,61 @@ import java.util.List;
 @SuppressWarnings({"NoopMethodInAbstractClass", "EmptyClass"})
 public abstract class TestClassHolder {
 	@Jixture(//
-			setup = @DataSource(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
+			setup = @FixtureDef(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
 	)
 	public void annotatedMethod() {
 	}
 
 	@Jixture(//
-			setup = @DataSource(builders = {TestClassForBuilders.MyBuilder.class})//
+			setup = @FixtureDef(builders = {TestClassForBuilders.MyBuilder.class})//
 	)
 	public static class TestClassForBuilders {
 		public static class MyBuilder implements FixtureBuilder {
 			@Override
-			public List<Fixture> build() {
-				return Arrays.<Fixture>asList(new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml"));
+			public List<net.cpollet.jixture.fixtures.Fixture> build() {
+				return Arrays.<net.cpollet.jixture.fixtures.Fixture>asList(new XmlFileFixture("classpath:tests/fixtures/xml-fixture.xml"));
 			}
 		}
 	}
 
 	@Jixture(//
-			setup = @DataSource(springContextPaths = {"classpath:tests/fixtures/spring-fixture.xml"})//
+			setup = @FixtureDef(springContextPaths = {"classpath:tests/fixtures/spring-fixture.xml"})//
 	)
 	public static class TestClassForSpringContextPaths {
 	}
 
 	@Jixture(//
-			setup = @DataSource(xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"})//
+			setup = @FixtureDef(xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"})//
 	)
 	public static class TestClassForXmlFilePaths {
 	}
 
 	@Jixture(//
-			setup = @DataSource(sqlFilePaths = {"classpath:tests/fixtures/sql-fixture.sql"})//
+			setup = @FixtureDef(sqlFilePaths = {"classpath:tests/fixtures/sql-fixture.sql"})//
 	)
 	public static class TestClassForSqlFilePaths {
 	}
 
 	@Jixture(//
-			setup = @DataSource(sqlQueries = {"query"})//
+			setup = @FixtureDef(sqlQueries = {"query"})//
 	)
 	public static class TestClassForSqlQueries {
 	}
 
 	@Jixture(//
-			setup = @DataSource(xlsFilePaths = {"classpath:tests/fixtures/xls-fixture.xls"})//
+			setup = @FixtureDef(xlsFilePaths = {"classpath:tests/fixtures/xls-fixture.xls"})//
 	)
 	public static class TestClassForXlsFilePaths {
 	}
 
 	@Jixture(//
-			setup = @DataSource(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
+			setup = @FixtureDef(xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
 	)
 	public static class TestClassForXlsxFilePaths {
 	}
 
 	@Jixture(//
-			setup = @DataSource(//
+			setup = @FixtureDef(//
 					order = {"xmlFilePaths", "xlsxFilePaths"},//
 					xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"},//
 					xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
@@ -94,26 +93,31 @@ public abstract class TestClassHolder {
 	public static class TestClassForXmlAndXlsxFilePaths {
 	}
 
-	@Jixture({//
-			@DataSource(mode = FixtureLoader.Mode.COMMIT, xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"}),//
-			@DataSource(mode = FixtureLoader.Mode.NO_COMMIT, xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
-	})
-	public static class TestClassForDefaultXmlAndXlsxFilePaths/**/ {
+	@Jixture(//
+			setup = @FixtureDef(cleaning = {Object.class})//
+	)
+	public static class TestClassForCleaning {
 	}
 
 	@Jixture(//
-			setup = @DataSource(//
+			setup = {//
+					@FixtureDef(mode = FixtureLoader.Mode.COMMIT, xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"}),//
+					@FixtureDef(mode = FixtureLoader.Mode.NO_COMMIT, xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
+			},
+			cleanup = {//
+					@FixtureDef(mode = FixtureLoader.Mode.COMMIT, xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"}),//
+					@FixtureDef(mode = FixtureLoader.Mode.NO_COMMIT, xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
+			})
+	public static class TestClassForDefaultXmlAndXlsxFilePaths {
+	}
+
+	@Jixture(//
+			setup = @FixtureDef(//
 					order = {"xmlFilePaths", "xlsxFilePaths"},//
 					xlsFilePaths = {"classpath:tests/fixtures/xls-fixture.xls"},//
 					xmlFilePaths = {"classpath:tests/fixtures/xml-fixture.xml"},//
 					xlsxFilePaths = {"classpath:tests/fixtures/xlsx-fixture.xlsx"})//
 	)
 	public static class TestClassForXmlAndXlsxFilePathsButNotXlsFilePath {
-	}
-
-	@Jixture(//
-			setup = @DataSource(cleaning = {Object.class})//
-	)
-	public static class TestClassForCleaning {
 	}
 }

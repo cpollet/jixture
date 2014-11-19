@@ -20,10 +20,10 @@ import net.cpollet.jixture.dao.UnitDaoFactory;
 import net.cpollet.jixture.fixtures.Fixture;
 import net.cpollet.jixture.fixtures.MappingFixture;
 import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
-import net.cpollet.jixture.support.spring.DataSource;
 import net.cpollet.jixture.support.spring.FixtureBuilder;
-import net.cpollet.jixture.support.spring.Jixture;
 import net.cpollet.jixture.support.spring.JixtureTestExecutionListener;
+import net.cpollet.jixture.support.spring.annotation.FixtureDef;
+import net.cpollet.jixture.support.spring.annotation.Jixture;
 import net.cpollet.jixture.tests.mappings.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,7 @@ import static org.fest.assertions.Assertions.assertThat;
 		JixtureTestExecutionListener.class})
 
 @Jixture(
-		@DataSource(//
+		setup = @FixtureDef(//
 				mode = FixtureLoader.Mode.NO_COMMIT,//
 				builders = BaseTestPrepareData.MyBuilder.class//
 		)//
@@ -65,7 +65,7 @@ public abstract class BaseTestPrepareData {
 
 	@Test
 	public void dataLoadedThroughAnnotation() {
-		// GIVEN see @DataSource
+		// GIVEN see @Jixture
 
 		// WHEN
 		List<User> users = unitDaoFactory.getUnitDao().getAll(User.class);

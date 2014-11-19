@@ -30,7 +30,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +85,16 @@ public class JixtureAssert<T> {
 	}
 
 	public JixtureAssert containsAtLeast(Fixture fixture) {
-		List<Map<String, ?>> expectedMaps = getExpectedMaps(fixture);
+		return containsAtLeast(Arrays.asList(fixture));
+	}
+
+	public JixtureAssert containsAtLeast(List<Fixture> fixtures) {
+		List<Map<String, ?>> expectedMaps = new LinkedList<Map<String, ?>>();
+
+		for (Fixture fixture : fixtures) {
+			expectedMaps.addAll(getExpectedMaps(fixture));
+		}
+
 		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		if (!actualMaps.containsAll(expectedMaps)) {
@@ -184,12 +195,21 @@ public class JixtureAssert<T> {
 	}
 
 	public JixtureAssert containsAtMost(Fixture fixture) {
-		List<Map<String, ?>> expectedMaps = getExpectedMaps(fixture);
+		return containsAtMost(Arrays.asList(fixture));
+	}
+
+	public JixtureAssert containsAtMost(List<Fixture> fixtures) {
+		List<Map<String, ?>> expectedMaps = new LinkedList<Map<String, ?>>();
+
+		for (Fixture fixture : fixtures) {
+			expectedMaps.addAll(getExpectedMaps(fixture));
+		}
+
 		List<Map<String, ?>> actualMaps = getActualMaps();
 
 		actualMaps.removeAll(expectedMaps);
 
-		if (0 < actualMaps.size()) {
+		if (0 != actualMaps.size()) {
 			throw new AssertionError("Unexpected but present elements " + actualMaps.toString());
 		}
 
@@ -197,17 +217,21 @@ public class JixtureAssert<T> {
 	}
 
 	public JixtureAssert containsExactly(Fixture fixture) {
+		return containsExactly(Arrays.asList(fixture));
+	}
+
+	public JixtureAssert containsExactly(List<Fixture> fixtures) {
 		List<String> errors = new ArrayList<String>(2);
 
 		try {
-			containsAtLeast(fixture);
+			containsAtLeast(fixtures);
 		}
 		catch (AssertionError assertionError) {
 			errors.add(assertionError.getMessage());
 		}
 
 		try {
-			containsAtMost(fixture);
+			containsAtMost(fixtures);
 		}
 		catch (AssertionError assertionError) {
 			errors.add(assertionError.getMessage());

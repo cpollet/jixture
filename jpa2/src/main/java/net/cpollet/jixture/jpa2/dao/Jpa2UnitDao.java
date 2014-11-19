@@ -17,8 +17,6 @@
 package net.cpollet.jixture.jpa2.dao;
 
 import net.cpollet.jixture.dao.UnitDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -33,8 +31,6 @@ import java.util.Set;
  * @author Christophe Pollet
  */
 public class Jpa2UnitDao implements UnitDao {
-	private static final Logger logger = LoggerFactory.getLogger(Jpa2UnitDao.class);
-
 	private EntityManager entityManager;
 
 	@Override

@@ -35,6 +35,4 @@
 			</list>
 		</constructor-arg>
 	</bean>
-
-
 </beans>

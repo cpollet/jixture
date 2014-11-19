@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package net.cpollet.jixture.support.spring;
-
-import net.cpollet.jixture.fixtures.loaders.FixtureLoader;
+package net.cpollet.jixture.support.spring.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -30,33 +28,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Inherited
-public @interface DataSource {
-	FixtureLoader.Mode mode() default FixtureLoader.Mode.NO_COMMIT;
+public @interface Jixture {
+	/**
+	 * Executed before test method
+	 */
+	FixtureDef[] setup() default {};
 
-	String[] order() default {//
-			"builders",//
-			"cleaning",//
-			"springContextPaths",//
-			"sqlFilePaths",//
-			"sqlQueries",//
-			"xlsFilePaths",//
-			"xlsxFilePaths",//
-			"xmlFilePaths"//
-	};
-
-	String[] sqlQueries() default {};
-
-	String[] sqlFilePaths() default {};
-
-	String[] springContextPaths() default {};
-
-	String[] xmlFilePaths() default {};
-
-	String[] xlsFilePaths() default {};
-
-	String[] xlsxFilePaths() default {};
-
-	Class<? extends FixtureBuilder>[] builders() default {};
-
-	Class[] cleaning() default {};
+	/**
+	 * Executed after test method
+	 */
+	FixtureDef[] cleanup() default {};
 }
