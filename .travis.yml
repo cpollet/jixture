@@ -15,6 +15,10 @@ before_script:
 script:
   - mvn clean test -Djixture.sample.database.type=mysql -PskipOracleTests
 
+after_success:
+  - cd core
+  - mvn clean cobertura:cobertura coveralls:report
+
 branches:
   only:
     - master
