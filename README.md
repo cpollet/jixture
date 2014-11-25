@@ -1,6 +1,8 @@
 # jixture
 
 [![Build Status](https://travis-ci.org/cpollet/jixture.svg?branch=master)](https://travis-ci.org/cpollet/jixture)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.cpollet.jixture/jixture-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.cpollet.jixture/jixture-core/)
+[![Coverage Status](https://img.shields.io/coveralls/cpollet/jixture.svg)](https://coveralls.io/r/cpollet/jixture)
 
 jixture is an open source (Apache 2 licensed) spring/hibernate based java fixtures loading framework.
 
