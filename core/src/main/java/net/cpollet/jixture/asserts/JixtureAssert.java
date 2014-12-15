@@ -32,6 +32,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,20 +41,27 @@ import java.util.Map;
  * @author Christophe Pollet
  */
 public class JixtureAssert<T> {
+	private static final String DEFAULT_UNIT_DAO_FACTORY = "DEFAULT";
+
 	private Class mapping;
 	private String[] columnsToIgnore;
 	private TransactionTemplate transactionTemplate;
+	private UnitDaoFactory unitDaoFactory;
 
 	private List<T> entities;
 
-	private static UnitDaoFactory unitDaoFactory;
+	private static Map<String, UnitDaoFactory> unitDaoFactories = new HashMap<String, UnitDaoFactory>();
 
 	private static FixtureTransformerFactory fixtureTransformerFactory;
 
 	private static MappingDefinitionHolder mappingDefinitionHolder;
 
 	public static void setUnitDaoFactory(UnitDaoFactory unitDaoFactory) {
-		JixtureAssert.unitDaoFactory = unitDaoFactory;
+		addUnitDaoFactory(unitDaoFactory, DEFAULT_UNIT_DAO_FACTORY);
+	}
+
+	public static void addUnitDaoFactory(UnitDaoFactory unitDaoFactory, String key) {
+		JixtureAssert.unitDaoFactories.put(key, unitDaoFactory);
 	}
 
 	public static void setFixtureTransformerFactory(FixtureTransformerFactory fixtureTransformerFactory) {
@@ -64,12 +72,19 @@ public class JixtureAssert<T> {
 		JixtureAssert.mappingDefinitionHolder = mappingDefinitionHolder;
 	}
 
-	private JixtureAssert(Class mapping) {
+	private JixtureAssert(Class mapping, UnitDaoFactory unitDaoFactory) {
 		this.mapping = mapping;
+		this.unitDaoFactory = unitDaoFactory;
 	}
 
 	public static JixtureAssert assertThat(Class mapping) {
-		return new JixtureAssert(mapping);
+		return new JixtureAssert(mapping, unitDaoFactories.get(DEFAULT_UNIT_DAO_FACTORY));
+	}
+
+	public JixtureAssert using(String unitDaoFactory) {
+		this.unitDaoFactory = unitDaoFactories.get(unitDaoFactory);
+
+		return this;
 	}
 
 	public JixtureAssert withoutConsideringColumns(String... columns) {

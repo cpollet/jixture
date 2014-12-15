@@ -55,7 +55,13 @@ public class TestJixtureAssert {
 	private UnitDaoFactory unitDaoFactory;
 
 	@Mock
+	private UnitDaoFactory alternateUnitDaoFactory;
+
+	@Mock
 	private UnitDao unitDao;
+
+	@Mock
+	private UnitDao alternateUnitDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -71,6 +77,7 @@ public class TestJixtureAssert {
 				new MappingField(User.class.getDeclaredField("password"))));
 
 		Mockito.when(unitDaoFactory.getUnitDao()).thenReturn(unitDao);
+		Mockito.when(alternateUnitDaoFactory.getUnitDao()).thenReturn(alternateUnitDao);
 	}
 
 	@Test
@@ -438,7 +445,8 @@ public class TestJixtureAssert {
 			JixtureAssert.assertThat(User.class).containsExactly(mappingFixture);
 		}
 		catch (AssertionError e) {
-			assertThat(e.getMessage()).isEqualTo("Expected but missing elements [{username=username, password=password 2}],Unexpected but present elements [{username=username, password=password 1}]");
+			assertThat(e.getMessage()).isEqualTo("Expected but missing elements [{username=username, password=password 2}]," + //
+					"Unexpected but present elements [{username=username, password=password 1}]");
 			return;
 		}
 
@@ -471,11 +479,11 @@ public class TestJixtureAssert {
 		// GIVEN
 		Mockito.when(unitDao.getAll(User.class)).thenReturn(Collections.<User>emptyList());
 
-		final boolean[] transactionTemplatedUsed = {false};
+		final boolean[] transactionTemplateUsed = {false};
 		TransactionTemplate transactionTemplate = new TransactionTemplate() {
 			@Override
 			public <T> T execute(TransactionCallback<T> action) throws TransactionException {
-				transactionTemplatedUsed[0] = true;
+				transactionTemplateUsed[0] = true;
 				return action.doInTransaction(null);
 			}
 		};
@@ -484,6 +492,31 @@ public class TestJixtureAssert {
 		JixtureAssert.assertThat(User.class).usingTransactionTemplate(transactionTemplate).isEmpty();
 
 		// THEN
-		assertThat(transactionTemplatedUsed[0]).isTrue();
+		assertThat(transactionTemplateUsed[0]).isTrue();
+	}
+
+	@Test
+	public void usingChangesUnitDaoFactory() {
+		// GIVEN
+		JixtureAssert.addUnitDaoFactory(alternateUnitDaoFactory, "ALT");
+
+		User user1 = new User();
+		user1.setUsername("username 1");
+
+		Mockito.when(alternateUnitDao.getAll(User.class)).thenReturn(Arrays.asList(user1));
+
+		JixtureAssert<?> jixtureAssert;
+
+		// WHEN
+		jixtureAssert = JixtureAssert.assertThat(User.class);
+
+		// THEN
+		jixtureAssert.isEmpty();
+
+		// WHEN
+		jixtureAssert = JixtureAssert.assertThat(User.class).using("ALT");
+
+		// THEN
+		jixtureAssert.isNotEmpty();
 	}
 }
